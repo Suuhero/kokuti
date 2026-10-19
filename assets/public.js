@@ -57,7 +57,7 @@ async function run() {
     .filter(([k, v]) => !["heading", "headingEn"].includes(k) && v)
     .map(
       ([k, v]) =>
-        `<li><a class="sns" aria-label="${e(k)}" href="${e(safeLink(v))}" target="_blank" rel="noopener noreferrer"><span class="sns-label">${e(k === "x" ? "X" : k)}</span></a></li>`,
+        `<li><a class="sns" aria-label="${e(k)}" href="${e(safeLink(v))}" target="_blank" rel="noopener noreferrer"><i aria-hidden="true" class="fa-brands fa-${k === "x" ? "x-twitter" : k}"></i></a></li>`,
     )
     .join("");
   const free = d.freeAreas.map((a, n) =>
@@ -74,6 +74,7 @@ async function run() {
           ? [[a.title || `フリーエリア${n + 1}`, `#freearea0${n + 1}`]]
           : [],
       ),
+    [d.newsSettings.title, "#news"],
     [i.title, "#clinicinfo"],
     ["アクセス", "#access"],
     [g.title, "#doctor"],
@@ -88,6 +89,8 @@ async function run() {
   const nav = links
     .map(([label, href]) => `<li><a href="${href}">${e(label)}</a></li>`)
     .join("");
+  const footerNav = links.filter(([,href])=>href!=="#"&&href!=="#access")
+    .map(([label,href])=>`<li><a href="${href}">${e(label)}</a></li>`).join("");
   document.body.className = `home page-template page-template-front-page page-template-front-page-php page site site--pattern1${d.design === "pattern1" ? "" : " site--" + d.design}`;
   const vars = {
     main: c.main,
@@ -159,7 +162,7 @@ async function run() {
  <section id="doctor" class="sec_top_doctor"><div class="contents">${title(g)}${doctors}</div></section>
  <section id="medical" class="sec_top_medical"><div class="contents">${title(d.services)}<ul class="top_medical_list">${d.services.items.map((t) => `<li class="top_medical_item"><div class="medical_inner"><h3 class="medical_item_title">${e(t.title)}</h3></div>${t.desc ? `<div class="top_medical_text"><p>${e(t.desc)}</p></div>` : ""}</li>`).join("")}</ul></div></section>
  <section id="feature" class="sec_top_feature"><div class="contents">${title(d.background)}<div class="top_feature_list">${d.background.items.map((t, n) => `<div class="top_feature_item clearfix${t.imageUpload ? " float_wrap" : ""}"><div class="featutr_item_title"><span class="feature_item_num">POINT.${n + 1}</span><h3>${e(t.title)}</h3></div>${t.imageUpload ? `<div class="top_feature_img img_fl">${img(t.imageUpload, t.title, 'width="650" height="450"')}</div>` : ""}${t.body ? `<div class="top_feature_text text">${rich(t.body)}</div>` : ""}</div>`).join("")}</div></div></section>${free[2]}</main>
- <footer><div class="contents"><div class="footer_logo" id="flogo"><a href="#">${logo}</a></div><div class="footer_info"><p class="footer_add">${e(postal)}　<br class="sp_inline">${e(street)}</p><p>${e(departments)}</p></div></div><div class="footer_navi"><div class="inner"><ul>${nav}</ul></div></div><p class="copy"><small>©${e(s.clinicName)}</small></p><div class="pagetop" role="button" tabindex="0" aria-label="ページ上部へ"></div></footer>
+ <footer><div class="contents"><div class="footer_logo" id="flogo"><a href="#">${logo}</a></div><div class="footer_info"><p class="footer_add">${e(postal)}　<br class="sp_inline">${e(street)}</p><p>${e(departments)}</p></div></div><div class="footer_navi"><div class="inner"><ul>${footerNav}</ul></div></div><p class="copy"><small>©${e(s.clinicName)}</small></p><div class="pagetop" role="button" tabindex="0" aria-label="ページ上部へ"></div></footer>
  <aside class="demo-tools" aria-label="デモの操作"><strong>架空の医院・デモ表示</strong><a href="${asset("admin/")}">管理画面を開く</a></aside>`;
   document.querySelectorAll("img").forEach((im) =>
     im.addEventListener("error", () => {
