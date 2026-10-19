@@ -6,6 +6,7 @@ import {
   set,
   clone,
   palettes,
+  adjust,
   designs,
   jsonFile,
   download,
@@ -13,6 +14,7 @@ import {
   validate,
 } from "./shared.js";
 const store = new BrowserStore();
+let presetSources = [];
 let data,
   schema,
   images = new Map(),
@@ -138,11 +140,22 @@ function field(path, label, type = "text", hint = "") {
     input = `<textarea ${attrs} rows="4">${e(value)}</textarea>`;
   else if (type === "checkbox")
     input = `<label class="checkline"><input ${attrs} type="checkbox" ${value ? "checked" : ""}>別タブで開く</label>`;
-  else if (type === "preset")
-    input = `<select ${attrs}>${[1, 2, 3].map((n) => `<option value="preset-mv-${n}.svg" ${value === `preset-mv-${n}.svg` ? "selected" : ""}>プリセット ${n}</option>`).join("")}</select>`;
+
   else
     input = `<input ${attrs} type="text" value="${e(value)}" maxlength="20000" ${/tel$/.test(path) ? 'inputmode="tel"' : ""}>`;
   return `<div class="field"><label for="${id(path)}">${e(label)}</label><div class="control">${input}${hint ? `<p class="hint">${e(hint)}</p>` : ""}</div></div>`;
+}
+function presetField(path) {
+  const colors = {MAIN:data.colors.main, MAIN_DARK:adjust(data.colors.main,-0.18), SUB:data.colors.sub, SUB_LIGHT:adjust(data.colors.sub,0.28)};
+  return '<fieldset class="preset-field"><legend>プリセットを画像で選ぶ</legend><div class="preset-grid">' + [1,2,3].map((n) => {
+    const value = 'preset-mv-'+n+'.svg';
+    const svg = presetSources[n-1].replace(/\{\{(\w+)\}\}/g, (_,key) => colors[key]);
+    const url = URL.createObjectURL(new Blob([svg],{type:'image/svg+xml'})); imageURLs.push(url);
+    return '<label class="preset-choice"><input type="radio" name="'+path+'" data-path="'+path+'" value="'+value+'" '+(get(data,path)===value?'checked':'')+'><img src="'+url+'" alt="プリセット '+n+'"><span>プリセット '+n+'</span></label>';
+  }).join('') + '</div><p class="hint">選択中のカラーで表示しています。アップロード画像を使っている場合は、画像を解除するとプリセットが表示されます。</p></fieldset>';
+}
+function designSample(key) {
+  return '<span class="design-sample sample-'+key+'" style="--sample-main:'+e(data.colors.main)+';--sample-sub:'+e(data.colors.sub)+'"><span class="sample-en">MEDICAL</span><span class="sample-title">診療のご案内</span><span class="sample-card"><span class="sample-card-title">内科・小児科</span><span class="sample-copy">いつもの安心を、<br>地域の皆さまへ。</span></span></span>';
 }
 function imageField(path, label) {
   const value = get(data, path);
@@ -218,8 +231,8 @@ function view() {
     return (
       panel(
         "デザインパターン",
-        `<div class="designs">${designs.map(([key, name, desc]) => `<label class="design-choice"><input type="radio" name="design" data-path="design" value="${key}" ${data.design === key ? "checked" : ""}><img src="${asset(`assets/${key}.png`)}" alt="${e(name)}の元デザイン"><strong>${name}</strong><small>${desc}</small></label>`).join("")}</div>`,
-        "元のレイアウトを保ち、フォント・余白・装飾を切り替えます。",
+        `<div class="designs">${designs.map(([key, name, desc]) => `<label class="design-choice"><input type="radio" name="design" data-path="design" value="${key}" ${data.design === key ? "checked" : ""}>${designSample(key)}<strong>${name}</strong><small>${desc}</small></label>`).join("")}</div>`,
+        "見出し・本文の書体とカードの角を拡大した比較見本です。公開サイトのレイアウトはそのままです。",
       ) +
       panel(
         "カラーパレット",
@@ -240,7 +253,7 @@ function view() {
           "mv.images",
           "MV画像",
           (p) =>
-            field(p + ".preset", "プリセット", "preset") +
+            presetField(p + ".preset") +
             imageField(p + ".upload", "アップロード画像"),
           3,
         ),
@@ -579,6 +592,7 @@ document.querySelector("#editor").addEventListener("change", async (ev) => {
       );
       data.colors = { preset: key, main, sub, text: "#333333" };
       mark();
+      render();
     }
     if (el.dataset.image) await upload(el);
     if (el.id === "import-json" && el.files[0]) {
@@ -718,6 +732,11 @@ async function init() {
       jsonFile("data/schema.json"),
       store.images(),
     ]);
+    presetSources = await Promise.all([1,2,3].map(async n => {
+      const response = await fetch(asset('assets/preset-mv-'+n+'.svg'));
+      if (!response.ok) throw Error('MVプレビューを読み込めませんでした。再読み込みしてください。');
+      return response.text();
+    }));
     data = saved.data;
     revision = saved.revision;
     updatedAt = saved.updatedAt;
