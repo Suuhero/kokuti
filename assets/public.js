@@ -17,7 +17,11 @@ const external = (b) =>
   b.external ? ' target="_blank" rel="noopener noreferrer"' : "";
 async function run() {
   let record, images;
-  try {
+  const embedded = document.getElementById("kokuti-site-data");
+  if (embedded) {
+    record = { data: JSON.parse(embedded.textContent) };
+    images = new Map();
+  } else try {
     record = await store.load();
     images = await store.images();
   } catch {

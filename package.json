@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "node scripts/build.mjs",
+    "build:ftp": "node scripts/build-ftp.mjs",
     "test": "node --test tests/data.test.mjs"
   },
   "engines": {

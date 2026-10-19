@@ -217,7 +217,8 @@ function view() {
             "text",
             "ブラウザのタブとH1に使います。",
           ) +
-          field("site.description", "サイトの説明", "textarea"),
+          field("site.description", "サイトの説明", "textarea") +
+          field("site.analyticsCode", "アナリティクスコード", "textarea", "<script>タグを含む計測コードを貼り付けてください。FTP用PHPでは公開ページの<head>に出力します。GitHub Pagesデモでは保存・JSON出力のみで、計測は実行しません。"),
       ) +
       panel(
         "開院のお知らせ",
@@ -436,15 +437,6 @@ function view() {
       panel(
         "JSONを試す",
         `<div class="tools"><p>AIで作ったJSONを読み込み、保存する前に内容を確認できます。読み込み時に現在の入力内容を置き換えます。</p><label for="import-json">site.jsonを選択</label><p><input id="import-json" type="file" accept=".json,application/json"></p><p>画像ファイルは「ロゴ・メイン画像」「医師紹介」等から設定してください。</p></div>`,
-      ) +
-      panel(
-        "計測コード",
-        field(
-          "site.analyticsCode",
-          "アナリティクス",
-          "textarea",
-          "デモではコードを実行しません。入力内容の保存・JSON出力のみ対応します。",
-        ),
       ) +
       panel(
         "デモを初期化",
