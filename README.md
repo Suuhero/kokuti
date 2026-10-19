@@ -2,9 +2,9 @@
 
 医院告知サイトのテンプレートと、WordPress風管理画面の操作デモです。
 
-公開サイト（公開予定先）: https://suuhero.github.io/kokuti/
+公開サイト: https://suuhero.github.io/kokuti/
 
-管理画面（公開予定先）: https://suuhero.github.io/kokuti/admin/
+管理画面: https://suuhero.github.io/kokuti/admin/
 
 方針: 最初の「告知サイト.zip」の編集機能と3デザインを継承。PHP + JSON、データベース不要。AI生成JSONと配布用テンプレートをFTP設置し、以後は管理画面から同じJSONを編集する。
 

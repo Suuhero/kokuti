@@ -172,6 +172,11 @@ async function run() {
   const script = document.createElement("script");
   script.src = asset("assets/original.js");
   document.body.append(script);
+  // Rendering is asynchronous, so restore direct section links after insertion.
+  if (location.hash) {
+    const target = document.getElementById(location.hash.slice(1));
+    if (target) requestAnimationFrame(() => target.scrollIntoView());
+  }
 }
 run().catch((err) => {
   document.querySelector("#app").innerHTML =
