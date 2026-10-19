@@ -3,8 +3,8 @@
   "design": "pattern1",
   "colors": {
     "preset": "light-blue",
-    "main": "#2eb8f8",
-    "sub": "#f3fbff",
+    "main": "#4cb5df",
+    "sub": "#eff9fd",
     "text": "#333333"
   },
   "site": {
