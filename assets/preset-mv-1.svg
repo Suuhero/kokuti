@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
+  <defs>
+    <radialGradient id="g1" cx="0.3" cy="0.3" r="0.9">
+      <stop offset="0" stop-color="{{SUB_LIGHT}}"/>
+      <stop offset="1" stop-color="{{MAIN_DARK}}"/>
+    </radialGradient>
+    <pattern id="dots" width="60" height="60" patternUnits="userSpaceOnUse">
+      <circle cx="10" cy="10" r="4" fill="#ffffff" opacity="0.18"/>
+    </pattern>
+  </defs>
+  <rect width="1600" height="900" fill="url(#g1)"/>
+  <rect width="1600" height="900" fill="url(#dots)"/>
+</svg>

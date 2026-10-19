@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
+  <defs>
+    <linearGradient id="g3-sky" x1="0" y1="0" x2="0.15" y2="1">
+      <stop offset="0" stop-color="{{SUB_LIGHT}}"/>
+      <stop offset="0.55" stop-color="{{SUB}}"/>
+      <stop offset="1" stop-color="{{MAIN}}"/>
+    </linearGradient>
+    <linearGradient id="g3-wave-a" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.42"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0.06"/>
+    </linearGradient>
+    <linearGradient id="g3-wave-b" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.3"/>
+      <stop offset="1" stop-color="{{SUB_LIGHT}}" stop-opacity="0.1"/>
+    </linearGradient>
+    <linearGradient id="g3-wave-c" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="{{MAIN}}" stop-opacity="0.2"/>
+    </linearGradient>
+    <linearGradient id="g3-wave-d" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="{{MAIN}}" stop-opacity="0.12"/>
+      <stop offset="1" stop-color="{{MAIN_DARK}}" stop-opacity="0.38"/>
+    </linearGradient>
+    <linearGradient id="g3-shine" x1="0" y1="0" x2="1" y2="0.4">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0"/>
+      <stop offset="0.42" stop-color="#ffffff" stop-opacity="0.07"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#g3-sky)"/>
+  <ellipse cx="820" cy="100" rx="760" ry="210" fill="#ffffff" opacity="0.07"/>
+  <path d="M0 520 C 220 478 420 508 640 482 C 860 456 1060 498 1280 472 C 1460 452 1540 468 1600 458 L 1600 900 L 0 900 Z" fill="url(#g3-wave-a)"/>
+  <path d="M0 595 C 260 548 480 588 720 558 C 960 528 1180 578 1420 548 C 1520 536 1570 552 1600 544 L 1600 900 L 0 900 Z" fill="url(#g3-wave-b)"/>
+  <path d="M0 675 C 300 628 540 668 820 638 C 1100 608 1320 658 1600 628 L 1600 900 L 0 900 Z" fill="url(#g3-wave-c)"/>
+  <path d="M0 755 C 380 708 660 748 980 718 C 1260 692 1460 738 1600 712 L 1600 900 L 0 900 Z" fill="url(#g3-wave-d)"/>
+  <path d="M0 530 C 220 488 420 518 640 492 C 860 466 1060 508 1280 482 C 1460 462 1540 478 1600 468" fill="none" stroke="#ffffff" stroke-opacity="0.12" stroke-width="2"/>
+  <rect width="1600" height="900" fill="url(#g3-shine)"/>
+</svg>

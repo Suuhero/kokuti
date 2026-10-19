@@ -1,0 +1,7 @@
+dist/
+node_modules/
+.DS_Store
+media/
+data/site.json
+data/auth.json
+*.log

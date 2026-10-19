@@ -1,0 +1,1209 @@
+/* ============================================================
+ * 告知サイト スタイル
+ *   1. 共通スタイル
+ *   2. パターン1（中央寄せ）
+ *   3. パターン2（左寄せ・交互背景）
+ *   4. パターン3（分割MV・カード）
+ * 各パターンは body.site--patternN でスコープされます。
+ * ============================================================ */
+
+/* ===== 1. 共通スタイル ===== */
+:root {
+    --main: #3aa9a0;
+    --main-dark: #2e8a82;
+    --sub: #d8ece8;
+    --sub-light: #e8f4f1;
+    --text: #333333;
+}
+
+/* ============================================================
+ * パターン2・3：パターン1と同一レイアウトのテーマ差分
+ * ============================================================ */
+.site--pattern1.site--pattern2 {
+    font-family: "M PLUS Rounded 1c", "Hiragino Maru Gothic ProN", sans-serif;
+    background: #fffdf9;
+    letter-spacing: .045em;
+    --p2-radius: 24px;
+    --p2-radius-sm: 16px;
+    --p2-shadow: 0 4px 18px rgba(75, 87, 70, .04);
+}
+.site--pattern1.site--pattern2 header.fixed {
+    background: rgba(255, 253, 249, .96);
+    box-shadow: var(--p2-shadow);
+}
+.site--pattern1.site--pattern2 header.fixed .header_btn_box a,
+.site--pattern1.site--pattern2 header.fixed .nav_btn_area a,
+.site--pattern1.site--pattern2 .btn01 a,
+.site--pattern1.site--pattern2 .kokuchi_box {
+    border-radius: 999px;
+}
+.site--pattern1.site--pattern2 .nav_toggle {
+    border-radius: 50%;
+}
+.site--pattern1.site--pattern2 .top_title p {
+    color: var(--main);
+    font-weight: 700;
+}
+.site--pattern1.site--pattern2 .top_title h2 {
+    color: var(--main-dark);
+    font-weight: 700;
+}
+.site--pattern1.site--pattern2 .top_news_item,
+.site--pattern1.site--pattern2 .top_medical_item,
+.site--pattern1.site--pattern2 .top_feature_item,
+.site--pattern1.site--pattern2 .profile_box,
+.site--pattern1.site--pattern2 .clinicinfo_left,
+.site--pattern1.site--pattern2 .clinicinfo_right,
+.site--pattern1.site--pattern2 .sec_top_news_list_wrap,
+.site--pattern1.site--pattern2 .schedule_title,
+.site--pattern1.site--pattern2 .clinicinfo_access_detail {
+    border-radius: var(--p2-radius);
+}
+.site--pattern1.site--pattern2 .schedule_title,
+.site--pattern1.site--pattern2 .clinicinfo_access_detail {
+    border-radius: var(--p2-radius-sm);
+}
+.site--pattern1.site--pattern2 .sec_top_news_list_wrap,
+.site--pattern1.site--pattern2 .top_news_item,
+.site--pattern1.site--pattern2 .top_medical_item,
+.site--pattern1.site--pattern2 .top_feature_item,
+.site--pattern1.site--pattern2 .profile_box,
+.site--pattern1.site--pattern2 .clinicinfo_left,
+.site--pattern1.site--pattern2 .clinicinfo_right,
+.site--pattern1.site--pattern2 .schedule_title,
+.site--pattern1.site--pattern2 .clinicinfo_access_detail {
+    background: #fff;
+    box-shadow: var(--p2-shadow);
+}
+.site--pattern1.site--pattern2 .sec_top_news_list_wrap,
+.site--pattern1.site--pattern2 .clinicinfo_access_detail {
+    overflow: hidden;
+}
+.site--pattern1.site--pattern2 .sec_top_news_list_wrap {
+    padding: clamp(20px, 3vw, 32px);
+}
+.site--pattern1.site--pattern2 .sec_top_news_list_wrap .sec_top_news_list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.site--pattern1.site--pattern2 .sec_top_news_list_wrap > p {
+    margin: 0;
+}
+.site--pattern1.site--pattern2 .clinicinfo_left,
+.site--pattern1.site--pattern2 .clinicinfo_right {
+    padding: clamp(22px, 3vw, 36px);
+}
+.site--pattern1.site--pattern2 .clinicinfo_access_detail {
+    margin-top: 16px;
+    padding: 16px 20px;
+}
+.site--pattern1.site--pattern2 .sec_top_news_list_wrap .top_news_item {
+    border-radius: var(--p2-radius-sm);
+    background: color-mix(in srgb, var(--sub-light) 72%, #fff);
+    box-shadow: none;
+}
+.site--pattern1.site--pattern2 .top_greeting_img,
+.site--pattern1.site--pattern2 .top_feature_img,
+.site--pattern1.site--pattern2 .googlemap {
+    overflow: hidden;
+    border-radius: 28px;
+    box-shadow: var(--p2-shadow);
+}
+.site--pattern1.site--pattern2 .top_greeting_img img,
+.site--pattern1.site--pattern2 .top_feature_img img {
+    border-radius: 28px;
+}
+.site--pattern1.site--pattern2 .feature_item_num,
+.site--pattern1.site--pattern2 .top_news_cate em {
+    border-radius: 999px;
+}
+.site--pattern1.site--pattern2 .tb02 {
+    overflow: hidden;
+    border-radius: var(--p2-radius-sm);
+}
+
+.site--pattern1.site--pattern3 {
+    --luxury-bg: color-mix(in srgb, var(--sub) 46%, #fff);
+    font-family: "Noto Serif JP", "Yu Mincho", YuMincho, "Hiragino Mincho ProN", serif;
+    background: var(--luxury-bg);
+    letter-spacing: .12em;
+}
+.site--pattern1.site--pattern3 header.fixed {
+    border-bottom: 1px solid color-mix(in srgb, var(--main) 45%, transparent);
+    background: rgba(255, 255, 255, .96);
+    box-shadow: none;
+}
+.site--pattern1.site--pattern3 header.fixed .header_btn_box a,
+.site--pattern1.site--pattern3 header.fixed .nav_btn_area a,
+.site--pattern1.site--pattern3 .btn01 a {
+    border: 1px solid var(--main);
+    border-radius: 0;
+    background: transparent;
+    color: var(--main-dark);
+}
+.site--pattern1.site--pattern3 .nav_toggle {
+    border-left: 1px solid rgba(255, 255, 255, .35);
+    border-radius: 0;
+}
+.site--pattern1.site--pattern3 .top_title p {
+    color: var(--main);
+    font-family: Georgia, "Times New Roman", serif;
+    letter-spacing: .22em;
+}
+.site--pattern1.site--pattern3 .top_title h2 {
+    color: var(--main-dark);
+    font-weight: 500;
+    letter-spacing: .18em;
+}
+.site--pattern1.site--pattern3 .top_news_item,
+.site--pattern1.site--pattern3 .top_medical_item,
+.site--pattern1.site--pattern3 .top_feature_item,
+.site--pattern1.site--pattern3 .profile_box {
+    border: 1px solid color-mix(in srgb, var(--main) 28%, transparent);
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+}
+.site--pattern1.site--pattern3 .top_news_cate em,
+.site--pattern1.site--pattern3 .feature_item_num {
+    border-radius: 0;
+    background: var(--main);
+    color: #fff;
+}
+.site--pattern1.site--pattern3 .top_greeting_img,
+.site--pattern1.site--pattern3 .top_feature_img,
+.site--pattern1.site--pattern3 .googlemap {
+    padding: 8px;
+    border: 1px solid color-mix(in srgb, var(--main) 55%, transparent);
+    border-radius: 0;
+}
+.site--pattern1.site--pattern3 .top_greeting_img img,
+.site--pattern1.site--pattern3 .top_feature_img img {
+    border-radius: 0;
+    filter: saturate(.72) sepia(.06);
+}
+.site--pattern1.site--pattern3 .tb02 th,
+.site--pattern1.site--pattern3 .tb02 td {
+    border-color: color-mix(in srgb, var(--main) 24%, transparent);
+}
+.site--pattern1.site--pattern3 footer {
+    border-top: 1px solid color-mix(in srgb, var(--main) 35%, transparent);
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+    margin: 0;
+    font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, system-ui, sans-serif;
+    color: var(--text);
+    line-height: 1.8;
+    background: #fff;
+    -webkit-font-smoothing: antialiased;
+}
+img { max-width: 100%; height: auto; display: block; }
+a { color: var(--main-dark); }
+.site-h1 {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.container { width: 100%; max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+
+/* ヘッダー */
+.header {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(6px);
+    border-bottom: 1px solid var(--sub);
+}
+.header__inner { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+.header__logo { font-size: 1.1rem; font-weight: 700; color: var(--main-dark); text-decoration: none; line-height: 1.3; }
+.header__logo small { display: block; font-size: 0.7rem; font-weight: 400; color: var(--text); opacity: 0.7; }
+.header__actions { display: flex; align-items: center; gap: 10px; }
+.header__cta {
+    display: inline-block; padding: 10px 22px; background: var(--main); color: #fff;
+    text-decoration: none; border-radius: 999px; font-size: 0.85rem; font-weight: 700; transition: background 0.2s;
+}
+.header__cta:hover { background: var(--main-dark); }
+
+/* MV */
+.mv {
+    position: relative; min-height: 70vh;
+    display: flex; align-items: center; justify-content: center;
+    text-align: center; color: #fff; overflow: hidden;
+}
+.mv__bg { position: absolute; inset: 0; background-size: cover; background-position: center; z-index: 0; }
+.mv-fade-item { opacity: 0; transition: opacity 1.4s ease; pointer-events: none; }
+.mv-fade-item.is-active { opacity: 1; }
+.mv__overlay { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0.15), rgba(0,0,0,0.35)); z-index: 1; }
+.mv__inner { position: relative; z-index: 2; padding: 40px 24px; }
+.mv__title { font-size: clamp(1.8rem, 5vw, 3.2rem); margin: 0 0 16px; text-shadow: 0 2px 12px rgba(0,0,0,0.4); letter-spacing: 0.05em; }
+.mv__subtitle { font-size: clamp(0.95rem, 2.4vw, 1.3rem); margin: 0; text-shadow: 0 2px 8px rgba(0,0,0,0.4); }
+.mv__badge { display: inline-block; margin-bottom: 20px; padding: 6px 18px; background: var(--main); border-radius: 999px; font-size: 0.85rem; font-weight: 700; }
+
+/* セクション共通 */
+.section { padding: 72px 0; }
+.section__title { text-align: center; font-size: clamp(1.4rem, 3.5vw, 2rem); margin: 0 0 40px; color: var(--main-dark); }
+.section__title-en { display: block; font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--main); opacity: 0.7; margin-top: 6px; font-weight: 400; }
+
+/* お知らせ */
+.news__list { list-style: none; margin: 0; padding: 0; }
+.news__item { display: flex; gap: 20px; padding: 20px 0; border-bottom: 1px solid var(--sub); }
+.news__meta { flex: 0 0 auto; display: flex; align-items: center; gap: 10px; min-width: 200px; }
+.news__date { color: var(--text); opacity: 0.7; font-size: 0.9rem; }
+.news__category { background: var(--sub); color: var(--main-dark); padding: 2px 12px; border-radius: 4px; font-size: 0.75rem; font-weight: 700; }
+.news__heading { font-weight: 700; margin: 0 0 6px; }
+.news__text { margin: 0; font-size: 0.92rem; }
+.news__empty { text-align: center; opacity: 0.7; }
+
+/* 医院案内 */
+.info { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; }
+.hours { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+.hours th, .hours td { border: 1px solid var(--sub); padding: 8px; text-align: center; }
+.hours thead th { background: var(--main); color: #fff; }
+.hours tbody th { background: var(--sub-light); }
+.info__note { font-size: 0.85rem; opacity: 0.8; margin-top: 12px; }
+.info__hours + .info__hours { margin-top: 36px; }
+.info__details { margin-top: 24px; }
+.info__row { display: flex; gap: 12px; padding: 8px 0; border-bottom: 1px dashed var(--sub); }
+.info__row dt { flex: 0 0 80px; font-weight: 700; color: var(--main-dark); margin: 0; }
+.info__row dd { margin: 0; }
+.info__access-list { margin: 0; padding-left: 1.2em; }
+.info__map { width: 100%; aspect-ratio: 4 / 3; border-radius: 8px; overflow: hidden; }
+.info__map iframe { width: 100%; height: 100%; border: 0; }
+.info__map--placeholder { display: flex; align-items: center; justify-content: center; background: var(--sub-light); color: var(--main-dark); text-align: center; padding: 20px; font-size: 0.85rem; }
+
+/* ご挨拶 */
+.greeting { max-width: 860px; margin: 0 auto; }
+.greeting__heading { color: var(--main-dark); font-size: 1.2rem; }
+.greeting__name { text-align: right; font-weight: 700; margin-top: 16px; }
+.greeting__profile { margin-top: 40px; background: var(--sub-light); padding: 28px; border-radius: 10px; }
+.profile__title { color: var(--main-dark); font-size: 1rem; margin: 0 0 12px; }
+.profile__table { width: 100%; border-collapse: collapse; font-size: 0.9rem; margin-bottom: 20px; }
+.profile__table th { text-align: left; padding: 6px 16px 6px 0; white-space: nowrap; vertical-align: top; color: var(--main-dark); }
+.profile__table td { padding: 6px 0; }
+.profile__quals { margin: 0; padding-left: 1.2em; font-size: 0.9rem; }
+
+/* 診療内容 */
+.services__grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.services__card { background: var(--sub-light); border: 1px solid var(--sub); border-radius: 8px; padding: 24px 16px; text-align: center; display: flex; flex-direction: column; gap: 6px; }
+.services__name { font-weight: 700; color: var(--main-dark); }
+.services__desc { font-size: 0.8rem; opacity: 0.8; }
+
+/* 開院の背景 */
+.background { display: flex; flex-direction: column; gap: 16px; max-width: 900px; margin: 0 auto; }
+.background__card { display: flex; gap: 20px; background: #fff; border: 1px solid var(--sub); border-radius: 10px; padding: 24px; box-shadow: 0 2px 10px rgba(0,0,0,0.03); }
+.background__label { flex: 0 0 auto; align-self: flex-start; background: var(--main); color: #fff; padding: 4px 14px; border-radius: 999px; font-size: 0.8rem; font-weight: 700; }
+.background__image { flex: 0 0 220px; }
+.background__image img { width: 100%; height: 150px; object-fit: cover; }
+.background__heading { margin: 0 0 8px; color: var(--main-dark); font-size: 1.1rem; }
+.background__text { margin: 0; font-size: 0.92rem; }
+
+/* フッター */
+.footer { background: var(--main-dark); color: #fff; padding: 48px 0 28px; text-align: center; }
+.footer__clinic { font-size: 1.2rem; font-weight: 700; margin: 0 0 8px; }
+.footer__open { opacity: 0.85; margin: 0 0 24px; font-size: 0.9rem; }
+.footer__nav { list-style: none; display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; padding: 0; margin: 0 0 24px; }
+.footer__nav a { color: #fff; text-decoration: none; font-size: 0.85rem; opacity: 0.9; }
+.footer__nav a:hover { opacity: 1; text-decoration: underline; }
+.footer__copyright { font-size: 0.75rem; opacity: 0.7; margin: 0; }
+
+/* スマホ用CTA・SNSリンク（全パターン共通） */
+.sp_link_box { display: none !important; }
+.greeting__name p { margin: 0; }
+.greeting__name .position { font-size: 1rem; }
+.greeting__name .name { font-size: 1.35rem; }
+
+/* レスポンシブ（共通） */
+@media (max-width: 768px) {
+    .section { padding: 48px 0; }
+    .info { grid-template-columns: 1fr; }
+    .services__grid { grid-template-columns: repeat(2, 1fr); }
+    .news__item { flex-direction: column; gap: 6px; }
+    .news__meta { min-width: 0; }
+    .header__logo { font-size: 0.95rem; }
+    .background__card { flex-direction: column; gap: 12px; }
+    .background__image { flex-basis: auto; }
+}
+
+@media (max-width: 640px) {
+    .sp_link_box {
+        display: block !important;
+        width: 100%;
+        max-width: 1080px;
+        margin: 0 auto !important;
+        padding: 18px 20px 0;
+        text-align: center;
+    }
+    .sp_link_box .top_free_link {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px 5px;
+        margin: 0;
+        padding: 0 0 40px;
+        list-style: none;
+    }
+    .sp_link_box .top_free_link li { width: calc(50% - 2.5px); }
+    .sp_link_box .top_free_link a {
+        display: block;
+        padding: 10px;
+        border: 1px solid var(--main);
+        border-radius: 999px;
+        background: var(--main);
+        color: #fff;
+        text-align: center;
+        text-decoration: none;
+        font-weight: 700;
+    }
+    .sp_link_box > p { margin: 0; color: var(--main-dark); font-size: 1.1rem; font-weight: 700; }
+    .sp_link_box > h2 { margin: 2px 0 0; color: var(--text); font-size: 1.5rem; }
+    .sp_link_box .top_sns_link {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin: 30px 0 0;
+        padding: 0 0 40px;
+        list-style: none;
+    }
+    .sp_link_box .top_sns_link a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 50px;
+        height: 50px;
+        border: 1px solid var(--main);
+        border-radius: 10px;
+        background: var(--main);
+        color: #fff;
+        text-decoration: none;
+        font-size: 24px;
+    }
+}
+
+/* ===== 2. パターン1（中央寄せ・やわらかいティール） ===== */
+.site--pattern1 .section--news,
+.site--pattern1 .section--greeting,
+.site--pattern1 .section--background { background: var(--sub-light); }
+.site--pattern1 .section--info,
+.site--pattern1 .section--services { background: #fff; }
+.site--pattern1 .mv { min-height: 78vh; }
+.site--pattern1 .section__title { position: relative; }
+.site--pattern1 .section__title::after { content: ""; display: block; width: 48px; height: 3px; background: var(--main); margin: 14px auto 0; border-radius: 2px; }
+.site--pattern1 .fade-target { opacity: 0; transform: translateY(16px); transition: opacity .6s ease, transform .6s ease; }
+.site--pattern1 .fade-target.is-visible { opacity: 1; transform: none; }
+.site--pattern1 .header.is-scrolled { box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+
+/* ===== 3. パターン2（左寄せMV・交互背景） ===== */
+.site--pattern2 .mv--left { justify-content: flex-start; text-align: left; min-height: 82vh; }
+.site--pattern2 .mv--left .mv__inner { padding-left: 0; max-width: 640px; }
+.site--pattern2 .mv__overlay { background: linear-gradient(90deg, rgba(0,0,0,0.5), rgba(0,0,0,0.1)); }
+.site--pattern2 .section__title { text-align: left; padding-left: 20px; border-left: 6px solid var(--main); }
+.site--pattern2 .section__title-en { margin-top: 2px; }
+.site--pattern2 .section:nth-of-type(even) { background: var(--sub-light); }
+.site--pattern2 .section:nth-of-type(odd) { background: #fff; }
+.site--pattern2 .services__grid { grid-template-columns: repeat(3, 1fr); }
+.site--pattern2 .services__card { background: #fff; border-bottom: 3px solid var(--main); }
+.site--pattern2 .greeting { max-width: 1000px; display: grid; grid-template-columns: 1.2fr 1fr; gap: 40px; align-items: start; }
+.site--pattern2 .greeting__profile { margin-top: 0; }
+.site--pattern2 .footer { text-align: left; }
+.site--pattern2 .footer__inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; }
+.site--pattern2 .footer__nav { margin-bottom: 0; }
+.site--pattern2 .footer__copyright { text-align: center; margin-top: 24px; }
+.site--pattern2 .header.is-scrolled { box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
+@media (max-width: 768px) {
+    .site--pattern2 .greeting { grid-template-columns: 1fr; }
+    .site--pattern2 .services__grid { grid-template-columns: repeat(2, 1fr); }
+    .site--pattern2 .footer__inner { flex-direction: column; align-items: flex-start; }
+}
+
+/* ===== 4. パターン3（分割MV・モダンカード） ===== */
+.site--pattern3 { --radius: 16px; }
+.site--pattern3 .header--solid { background: var(--main); border-bottom: none; }
+.site--pattern3 .header__logo,
+.site--pattern3 .header__logo small { color: #fff; }
+.site--pattern3 .header__cta { background: #fff; color: var(--main-dark); }
+.site--pattern3 .header__cta:hover { background: var(--sub); }
+.site--pattern3 .mv--split { display: grid; grid-template-columns: 1fr 1fr; min-height: 72vh; color: var(--text); }
+.site--pattern3 .mv__text { display: flex; align-items: center; background: var(--sub-light); padding: 0 6%; }
+.site--pattern3 .mv__text .mv__title { color: var(--main-dark); text-shadow: none; }
+.site--pattern3 .mv__text .mv__subtitle { color: var(--text); text-shadow: none; opacity: 0.85; }
+.site--pattern3 .mv__visual { position: relative; overflow: hidden; }
+.site--pattern3 .mv__visual-image { position: absolute; inset: 0; background-size: cover; background-position: center; }
+.site--pattern3 .section__title { font-weight: 800; }
+.site--pattern3 .services__grid { grid-template-columns: repeat(4, 1fr); gap: 20px; }
+.site--pattern3 .services__card { background: #fff; border: none; border-radius: var(--radius); box-shadow: 0 8px 24px rgba(0,0,0,0.06); padding: 32px 16px; }
+.site--pattern3 .news__list { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+.site--pattern3 .news__item { flex-direction: column; gap: 10px; border: none; background: var(--sub-light); border-radius: var(--radius); padding: 24px; }
+.site--pattern3 .news__meta { min-width: 0; }
+.site--pattern3 .background__card { border: none; border-radius: var(--radius); box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
+.site--pattern3 .section--greeting { background: var(--sub-light); }
+.site--pattern3 .greeting__profile { background: #fff; box-shadow: 0 8px 24px rgba(0,0,0,0.05); }
+.site--pattern3 .info__map { border-radius: var(--radius); }
+@media (max-width: 768px) {
+    .site--pattern3 .mv--split { grid-template-columns: 1fr; }
+    .site--pattern3 .mv__visual { min-height: 240px; }
+    .site--pattern3 .services__grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* ============================================================
+ * デザイン刷新（添付データを基準にした3パターン）
+ * ============================================================ */
+
+/* 固定ヘッダーと右ドロワー */
+body { padding-top: 70px; letter-spacing: .08em; }
+body.nav-open { overflow: hidden; }
+.header {
+    position: fixed;
+    inset: 0 0 auto 0;
+    height: 70px;
+    border: 0;
+    background: #fff;
+    backdrop-filter: none;
+}
+.header__inner {
+    max-width: none;
+    height: 70px;
+    padding: 0 100px 0 20px;
+}
+.header__logo {
+    color: var(--text);
+    font-size: clamp(1rem, 2vw, 1.25rem);
+    letter-spacing: .06em;
+}
+.header__logo small { margin-top: 2px; color: var(--text); }
+.header__logo img {
+    display: block;
+    width: auto;
+    max-width: 300px;
+    max-height: 50px;
+}
+.header__cta {
+    min-width: 180px;
+    padding: 10px 24px;
+    border: 1px solid var(--main);
+    background: var(--main);
+    text-align: center;
+}
+.nav-toggle {
+    position: fixed;
+    z-index: 202;
+    top: 0;
+    right: 0;
+    width: 70px;
+    height: 70px;
+    padding: 0;
+    border: 0;
+    background: var(--main);
+    cursor: pointer;
+    transition: right .3s ease, background .2s ease;
+}
+.nav-toggle span {
+    position: absolute;
+    left: 50%;
+    width: 35px;
+    height: 2px;
+    background: #fff;
+    transform: translateX(-50%);
+    transition: top .25s ease, transform .25s ease, opacity .2s ease;
+}
+.nav-toggle span:nth-child(1) { top: 25px; }
+.nav-toggle span:nth-child(2) { top: 34px; }
+.nav-toggle span:nth-child(3) { top: 43px; }
+.nav-toggle.is-active { right: 280px; }
+.nav-toggle.is-active span:nth-child(1) { top: 34px; transform: translateX(-50%) rotate(45deg); }
+.nav-toggle.is-active span:nth-child(2) { opacity: 0; }
+.nav-toggle.is-active span:nth-child(3) { top: 34px; transform: translateX(-50%) rotate(-45deg); }
+.drawer-nav {
+    position: fixed;
+    z-index: 201;
+    top: 0;
+    right: -280px;
+    width: 280px;
+    height: 100vh;
+    padding: 28px 24px;
+    overflow-y: auto;
+    background: var(--main);
+    transition: right .3s ease;
+}
+.nav-open .drawer-nav { right: 0; }
+.drawer-nav__list { margin: 0; padding: 0; list-style: none; border-top: 1px solid rgba(255,255,255,.75); }
+.drawer-nav__list li { border-bottom: 1px solid rgba(255,255,255,.75); }
+.drawer-nav__list a {
+    display: block;
+    padding: 13px 8px;
+    color: #fff;
+    text-decoration: none;
+    font-size: .9rem;
+    font-weight: 700;
+}
+.drawer-nav__cta {
+    display: block;
+    margin-top: 18px;
+    padding: 11px 15px;
+    border-radius: 999px;
+    background: #fff;
+    color: var(--main-dark);
+    text-align: center;
+    text-decoration: none;
+    font-weight: 700;
+}
+.drawer-nav__cta + .drawer-nav__cta { margin-top: 10px; }
+.nav-backdrop {
+    position: fixed;
+    z-index: 200;
+    inset: 0;
+    display: none;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    border: 0;
+    background: rgba(20,20,20,.72);
+}
+.nav-open .nav-backdrop { display: block; }
+
+/* パターン1：添付データと同じ端正なデザイン */
+.site--pattern1 {
+    padding-top: 0;
+    font-family: "Yu Gothic", YuGothic, "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+    font-size: 15px;
+    line-height: 2;
+    letter-spacing: .1em;
+}
+.site--pattern1 .pc { display: block !important; }
+.site--pattern1 .sp { display: none !important; }
+.site--pattern1 .nav_toggle,
+.site--pattern1 .nav_bg,
+.site--pattern1 .pagetop {
+    border: 0;
+    padding: 0;
+}
+.site--pattern1 .nav_bg { cursor: pointer; }
+.site--pattern1 footer .footer_logo img { margin: 0 auto; }
+.site--pattern1 header.fixed {
+    width: 100%;
+    min-height: 70px;
+}
+.site--pattern1 header.fixed > .inner {
+    position: fixed;
+    z-index: 210;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: calc(100% - 70px);
+    min-width: 1210px;
+    min-height: 70px;
+    padding: 0 30px 0 18px;
+    background: #fff;
+}
+.site--pattern1 header.fixed .head_logo {
+    display: flex;
+    align-items: center;
+    min-width: 0;
+}
+.site--pattern1 header.fixed .head_logo a {
+    display: flex;
+    align-items: center;
+    color: var(--text);
+    font-size: min(3vw, 20px);
+    font-weight: 600;
+    line-height: 1.5;
+    text-decoration: none;
+}
+.site--pattern1 header.fixed .head_logo img {
+    width: auto;
+    max-width: 300px;
+    max-height: 50px;
+}
+.site--pattern1 header.fixed nav {
+    position: fixed;
+    z-index: 220;
+    top: 0;
+    right: -260px;
+    width: 260px;
+    height: 100%;
+    padding: 20px;
+    overflow-y: auto;
+    background: var(--main-color);
+    transition: right .3s ease;
+}
+.site--pattern1 header.fixed nav.open { right: 0; }
+.site--pattern1 .nav_toggle {
+    position: fixed;
+    z-index: 222;
+    top: 0;
+    right: 0;
+    width: 70px;
+    height: 70px;
+    background: var(--main-color);
+    cursor: pointer;
+    transition: right .3s ease;
+}
+.site--pattern1 .nav_toggle span {
+    position: absolute;
+    left: 50%;
+    display: block;
+    width: 35px;
+    height: 2px;
+    background: #fff;
+    transform: translateX(-50%);
+    transition: top .25s ease, transform .25s ease, opacity .2s ease;
+}
+.site--pattern1 .nav_toggle span:nth-child(1) { top: 25px; }
+.site--pattern1 .nav_toggle span:nth-child(2) { top: 35px; }
+.site--pattern1 .nav_toggle span:nth-child(3) { top: 45px; }
+.site--pattern1 .nav_toggle.active { right: 260px; }
+.site--pattern1 .nav_toggle.active span:nth-child(1) { top: 35px; transform: translateX(-50%) rotate(45deg); }
+.site--pattern1 .nav_toggle.active span:nth-child(2) { opacity: 0; }
+.site--pattern1 .nav_toggle.active span:nth-child(3) { top: 35px; transform: translateX(-50%) rotate(-45deg); }
+.site--pattern1 .nav_bg {
+    position: fixed;
+    z-index: 215;
+    inset: 0;
+    display: none;
+    width: 100%;
+    height: 100%;
+    background: rgba(43,43,43,.8);
+}
+.site--pattern1 footer .footer_logo { white-space: normal; }
+.site--pattern1 #mainvisual .mv_slider,
+.site--pattern1 #mainvisual .splide__track,
+.site--pattern1 #mainvisual .splide__list,
+.site--pattern1 #mainvisual .splide__slide {
+    height: 100%;
+}
+.site--pattern1 #mainvisual .splide__list {
+    position: relative;
+    margin: 0;
+    padding: 0;
+}
+.site--pattern1 #mainvisual .splide__slide.mv-fade-item {
+    position: absolute !important;
+    inset: 0;
+}
+.site--pattern1 #mainvisual .splide__slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.site--pattern1 .container { max-width: 1200px; padding: 0; }
+.site--pattern1 .mv {
+    min-height: 600px;
+    height: calc(100vh - 70px);
+    max-height: 760px;
+}
+.site--pattern1 .mv__overlay {
+    background: rgba(0,0,0,.08);
+}
+.site--pattern1 .mv__inner {
+    width: min(90%, 760px);
+    color: #fff;
+    font-weight: 700;
+    line-height: 1.5;
+    filter: drop-shadow(0 0 5px rgba(0,0,0,.55)) drop-shadow(0 0 10px rgba(0,0,0,.4));
+}
+.site--pattern1 .mv__title {
+    display: inline-block;
+    margin: 0 0 18px;
+    padding: 0 12px 8px;
+    border-bottom: 2px solid #fff;
+    font-size: clamp(1.65rem, 3vw, 2.25rem);
+    text-shadow: none;
+}
+.site--pattern1 .mv__badge {
+    display: block;
+    width: fit-content;
+    margin: 0 auto 2px;
+    padding: 0;
+    border-radius: 0;
+    background: transparent;
+    font-size: clamp(1rem, 1.8vw, 1.3rem);
+}
+.site--pattern1 .mv__subtitle {
+    font-size: clamp(1.9rem, 4vw, 3rem);
+    font-weight: 700;
+    text-shadow: none;
+}
+.site--pattern1 .section { padding: 80px 0; }
+.site--pattern1 .section:nth-child(odd) { background: var(--sub-light); }
+.site--pattern1 .section:nth-child(even) { background: #fff; }
+.site--pattern1 .section__title {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 30px;
+    margin: 0 0 50px;
+    color: var(--text);
+    text-align: left;
+    font-size: 1.9rem;
+    line-height: 1.5;
+}
+.site--pattern1 .section__title::after { display: none; }
+.site--pattern1 .section__title-en {
+    order: -1;
+    display: inline;
+    margin: 0;
+    color: var(--main);
+    font-size: 1.2rem;
+    font-weight: 700;
+    opacity: 1;
+}
+.site--pattern1 .section--news .container {
+    display: grid;
+    grid-template-columns: 150px 1fr;
+    gap: 70px;
+}
+.site--pattern1 .section--news .section__title {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 4px;
+}
+.site--pattern1 .section--news .news {
+    max-height: 430px;
+    padding: 30px;
+    overflow-y: auto;
+    background: #fff;
+}
+.site--pattern1 .news__item { display: block; padding: 26px 0; border-bottom: 1px dashed #dcdcdc; }
+.site--pattern1 .news__item:first-child { padding-top: 0; }
+.site--pattern1 .news__meta { min-width: 0; margin-bottom: 10px; }
+.site--pattern1 .news__category { padding: 2px 12px; border-radius: 0; }
+.site--pattern1 .news__heading { font-size: 1.25rem; }
+.site--pattern1 .freearea__body { position: relative; }
+.site--pattern1 .info { gap: 50px; grid-template-columns: 1.1fr .9fr; }
+.site--pattern1 .hours th,
+.site--pattern1 .hours td { padding: 10px 5px; border: 0; border-bottom: 1px solid #dcdcdc; background: #fff; }
+.site--pattern1 .hours thead th { background: var(--main); color: #fff; }
+.info__secondary-schedule { margin-top: 36px; }
+.info__schedule-title {
+    margin: 0 0 10px;
+    padding: 8px 18px;
+    border: 1px solid #dcdcdc;
+    background: #fff;
+    text-align: center;
+    font-weight: 700;
+}
+.site--pattern1 .info__map { border-radius: 0; }
+.site--pattern1 .greeting { max-width: 1200px; }
+.site--pattern1 .greeting__lead {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+}
+.site--pattern1 .greeting__copy {
+    width: calc(70% - 40px);
+}
+.site--pattern1 .greeting__image {
+    width: 30%;
+    max-width: 360px;
+    flex-shrink: 0;
+}
+.site--pattern1 .greeting__image img {
+    width: 100%;
+    height: auto;
+}
+.site--pattern1 .greeting__heading {
+    margin-top: 0;
+    font-size: 1.5rem;
+}
+.site--pattern1 .greeting__body { white-space: normal; }
+.site--pattern1 .greeting__profile {
+    width: 80%;
+    margin: 50px auto 0;
+    padding: 20px 30px;
+    background: #fff;
+}
+.greeting__lead--additional {
+    margin-top: 50px;
+    padding-top: 50px;
+    border-top: 1px dashed #dcdcdc;
+}
+.site--pattern1 .greeting__profile,
+.site--pattern1 .services__card,
+.site--pattern1 .background__card { border-radius: 0; box-shadow: none; }
+.site--pattern1 .services__card { border: 0; background: #fff; aspect-ratio: 1.45; justify-content: center; }
+.site--pattern1 .background__label { border-radius: 0; }
+.site--pattern1 .footer { padding: 48px 0 0; background: #fff; color: var(--text); }
+.site--pattern1 .footer__logo { margin: 0 auto 20px; }
+.site--pattern1 .footer__logo img { width: auto; max-width: 400px; max-height: 70px; margin: 0 auto; }
+.site--pattern1 .footer__nav { margin-top: 30px; padding: 24px; background: var(--sub-light); }
+.site--pattern1 .footer__nav a { color: var(--text); font-weight: 700; }
+.site--pattern1 .footer__copyright { padding: 18px; background: var(--main); color: #fff; opacity: 1; }
+
+/* パターン2：丸ゴシックと大きな角丸の柔らかなデザイン */
+.site--pattern2 {
+    font-family: "M PLUS Rounded 1c", "Hiragino Maru Gothic ProN", sans-serif;
+    background: #fffdf9;
+    letter-spacing: .045em;
+}
+.site--pattern2 .header { background: rgba(255,253,249,.95); }
+.site--pattern2 .header__cta,
+.site--pattern2 .nav-toggle,
+.site--pattern2 .drawer-nav,
+.site--pattern2 .drawer-nav__cta { border-radius: 24px 0 0 24px; }
+.site--pattern2 .nav-toggle { top: 6px; right: 6px; width: 58px; height: 58px; border-radius: 50%; }
+.site--pattern2 .nav-toggle span:nth-child(1) { top: 19px; }
+.site--pattern2 .nav-toggle span:nth-child(2) { top: 28px; }
+.site--pattern2 .nav-toggle span:nth-child(3) { top: 37px; }
+.site--pattern2 .nav-toggle.is-active { right: 286px; }
+.site--pattern2 .nav-toggle.is-active span:nth-child(1),
+.site--pattern2 .nav-toggle.is-active span:nth-child(3) { top: 28px; }
+.site--pattern2 .mv--left { min-height: 680px; margin: 20px; border-radius: 48px; }
+.site--pattern2 .mv__overlay { background: linear-gradient(90deg, rgba(51,58,45,.48), rgba(51,58,45,.06)); }
+.site--pattern2 .mv__badge { padding: 8px 20px; }
+.site--pattern2 .mv__title { font-weight: 700; }
+.site--pattern2 .section { margin: 24px; padding: 76px 0; border-radius: 42px; }
+.site--pattern2 .section:nth-of-type(even) { background: var(--sub-light); }
+.site--pattern2 .section:nth-of-type(odd) { background: #fff8ef; }
+.site--pattern2 .section__title { padding: 0; border: 0; color: var(--main-dark); }
+.site--pattern2 .section__title::before {
+    content: "";
+    width: 12px;
+    height: 12px;
+    margin-right: 12px;
+    border-radius: 50%;
+    background: var(--main);
+    box-shadow: 18px 0 0 var(--sub);
+}
+.site--pattern2 .news__category,
+.site--pattern2 .services__card,
+.site--pattern2 .greeting__profile,
+.site--pattern2 .background__card,
+.site--pattern2 .info__map { border-radius: 24px; }
+.site--pattern2 .services__card {
+    border: 0;
+    background: #fff;
+    box-shadow: 0 10px 28px rgba(74,85,68,.08);
+}
+.site--pattern2 .background__label { border-radius: 999px; }
+.site--pattern2 .greeting__lead { display: grid; grid-template-columns: 1fr minmax(220px, 340px); gap: 36px; }
+.site--pattern2 .greeting__image { overflow: hidden; border-radius: 32px; }
+.site--pattern2 .greeting__image img { width: 100%; height: 100%; object-fit: cover; }
+.site--pattern2 .footer { margin: 24px 24px 0; border-radius: 42px 42px 0 0; }
+
+/* パターン3：明朝体、細線、深い色で高級感を演出 */
+.site--pattern3 {
+    --luxury-bg: var(--sub);
+    font-family: "Noto Serif JP", "Yu Mincho", YuMincho, "Hiragino Mincho ProN", serif;
+    background: var(--luxury-bg);
+    letter-spacing: .12em;
+}
+.site--pattern3 .header--solid { background: var(--main-dark); }
+.site--pattern3 .header__cta {
+    border: 1px solid rgba(255,255,255,.65);
+    border-radius: 0;
+    background: transparent;
+    color: #fff;
+}
+.site--pattern3 .nav-toggle,
+.site--pattern3 .drawer-nav { background: var(--main-dark); }
+.site--pattern3 .drawer-nav__cta { border: 1px solid var(--main); border-radius: 0; background: transparent; color: #fff; }
+.site--pattern3 .mv--split { min-height: 740px; color: #2b302d; }
+.site--pattern3 .mv__text {
+    position: relative;
+    background: var(--luxury-bg);
+}
+.site--pattern3 .mv__text::before {
+    content: "";
+    position: absolute;
+    inset: 32px;
+    border: 1px solid var(--main);
+    pointer-events: none;
+}
+.site--pattern3 .mv__inner { padding: 70px; text-align: left; }
+.site--pattern3 .mv__text .mv__title { color: var(--main-dark); font-weight: 500; line-height: 1.55; }
+.site--pattern3 .mv__badge { border-radius: 0; background: var(--main); }
+.site--pattern3 .section { padding: 100px 0; background: var(--luxury-bg); }
+.site--pattern3 .section:nth-child(even) { background: #fff; }
+.site--pattern3 .section__title {
+    color: var(--main-dark);
+    font-weight: 500;
+    letter-spacing: .18em;
+}
+.site--pattern3 .section__title::after {
+    content: "";
+    display: block;
+    width: 1px;
+    height: 44px;
+    margin: 20px auto 0;
+    background: var(--main);
+}
+.site--pattern3 .section__title-en { color: var(--main); font-family: Georgia, serif; }
+.site--pattern3 .news__item,
+.site--pattern3 .services__card,
+.site--pattern3 .background__card,
+.site--pattern3 .greeting__profile {
+    border: 1px solid rgba(83,73,52,.18);
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+}
+.site--pattern3 .news__category,
+.site--pattern3 .background__label { border-radius: 0; background: var(--main); color: #fff; }
+.site--pattern3 .services__name,
+.site--pattern3 .background__heading,
+.site--pattern3 .greeting__heading,
+.site--pattern3 .profile__title { color: var(--main-dark); font-weight: 500; }
+.site--pattern3 .hours th,
+.site--pattern3 .hours td { border-color: rgba(83,73,52,.22); }
+.site--pattern3 .hours thead th { background: var(--main); }
+.site--pattern3 .info__map { border-radius: 0; filter: saturate(.7) sepia(.08); }
+.site--pattern3 .greeting__lead { display: grid; grid-template-columns: 1fr minmax(240px, 360px); gap: 64px; align-items: start; }
+.site--pattern3 .greeting__image { padding: 12px; border: 1px solid var(--main); }
+.site--pattern3 .greeting__image img { width: 100%; filter: saturate(.65) sepia(.08); }
+.site--pattern3 .footer { background: var(--main-dark); }
+
+@media (max-width: 1248px) {
+    .site--pattern1 .container { padding-right: 24px; padding-left: 24px; }
+}
+@media (max-width: 768px) {
+    body { padding-top: 60px; }
+    body.site--pattern1 { padding-top: 0; }
+    .header,
+    .header__inner { height: 60px; }
+    .header__inner { padding: 0 74px 0 12px; }
+    .header__actions { display: none; }
+    .nav-toggle { width: 60px; height: 60px; }
+    .nav-toggle span:nth-child(1) { top: 20px; }
+    .nav-toggle span:nth-child(2) { top: 29px; }
+    .nav-toggle span:nth-child(3) { top: 38px; }
+    .nav-toggle.is-active span:nth-child(1),
+    .nav-toggle.is-active span:nth-child(3) { top: 29px; }
+    .nav-toggle.is-active { right: 280px; }
+    .site--pattern1 .mv { min-height: 350px; height: 52vh; }
+    .site--pattern1 .section { padding: 50px 0; }
+    .site--pattern1 .section__title,
+    .site--pattern1 .section--news .section__title {
+        flex-direction: column-reverse;
+        align-items: center;
+        gap: 2px;
+        margin-bottom: 36px;
+        text-align: center;
+    }
+    .site--pattern1 .section--news .container { display: block; }
+    .site--pattern1 .section--news .news { padding: 22px 18px; }
+    .site--pattern1 .greeting__lead,
+    .site--pattern2 .greeting__lead,
+    .site--pattern3 .greeting__lead { display: flex; flex-direction: column-reverse; gap: 30px; }
+    .site--pattern1 .greeting__copy,
+    .site--pattern1 .greeting__image { width: 100%; }
+    .site--pattern1 .greeting__image,
+    .site--pattern2 .greeting__image,
+    .site--pattern3 .greeting__image { max-width: 360px; margin: 0 auto; }
+    .site--pattern1 .greeting__profile { width: 100%; }
+    .site--pattern1 .services__grid { grid-template-columns: 1fr; }
+    .site--pattern1 .services__card { aspect-ratio: auto; }
+    .site--pattern2 .mv--left,
+    .site--pattern2 .section { margin: 10px; border-radius: 26px; }
+    .site--pattern2 .mv--left { min-height: 520px; }
+    .site--pattern2 .section { padding: 52px 0; }
+    .site--pattern3 .mv--split { min-height: auto; }
+    .site--pattern3 .mv__inner { padding: 58px 34px; }
+    .site--pattern3 .mv__text::before { inset: 16px; }
+    .site--pattern3 .section { padding: 70px 0; }
+}
+
+@media (max-width: 640px) {
+    .site--pattern1 .pc { display: none !important; }
+    .site--pattern1 .sp { display: block !important; }
+    .site--pattern1 .sp_link_box { padding: 10px 20px 0; text-align: center; }
+    .site--pattern1 .top_free_link {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px 5px;
+        margin: 0;
+        padding: 0 0 40px;
+        list-style: none;
+    }
+    .site--pattern1 .top_free_link li { width: calc(50% - 2.5px); }
+    .site--pattern1 .top_free_link a {
+        display: block;
+        padding: 10px 10px 8px;
+        border: 1px solid var(--main-color);
+        border-radius: 999px;
+        background: var(--main-color);
+        color: #fff;
+        text-align: center;
+        text-decoration: none;
+        font-weight: 700;
+    }
+    .site--pattern1 .top_sns_link {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin: 30px 0 0;
+        padding: 0 0 40px;
+        list-style: none;
+    }
+    .site--pattern1 .top_sns_link a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 50px;
+        height: 50px;
+        border: 1px solid var(--main-color);
+        border-radius: 10px;
+        background: var(--main-color);
+        color: #fff;
+        text-decoration: none;
+        font-size: 24px;
+    }
+    .site--pattern1 header.fixed {
+        min-height: 60px;
+    }
+    .site--pattern1 header.fixed > .inner {
+        width: calc(100% - 60px);
+        min-width: 0;
+        min-height: 60px;
+        padding: 0 10px;
+    }
+    .site--pattern1 header.fixed .head_logo {
+        width: 100%;
+        margin: 0;
+        overflow: hidden;
+    }
+    .site--pattern1 header.fixed .head_logo a {
+        width: 100%;
+        font-size: min(4vw, 16px);
+        white-space: normal;
+    }
+    .site--pattern1 header.fixed .head_logo img {
+        width: auto;
+        max-width: 100%;
+        max-height: 44px;
+    }
+    .site--pattern1 .nav_toggle {
+        width: 60px;
+        height: 60px;
+    }
+    .site--pattern1 .nav_toggle span:nth-child(1) { top: 20px; }
+    .site--pattern1 .nav_toggle span:nth-child(2) { top: 30px; }
+    .site--pattern1 .nav_toggle span:nth-child(3) { top: 40px; }
+    .site--pattern1 .nav_toggle.active span:nth-child(1),
+    .site--pattern1 .nav_toggle.active span:nth-child(3) { top: 30px; }
+    .site--pattern1 footer .footer_logo {
+        white-space: normal;
+    }
+    .site--pattern1 footer .footer_logo img {
+        width: 90%;
+        max-width: 400px;
+        height: auto;
+    }
+}
+
+/* パターン1の構成を保ったまま、2・3の余白と質感を最終調整 */
+.site--pattern1.site--pattern2 main > section {
+    padding-top: clamp(72px, 8vw, 104px);
+    padding-bottom: clamp(72px, 8vw, 104px);
+}
+.site--pattern1.site--pattern2 main > section:nth-of-type(odd) {
+    background: color-mix(in srgb, var(--sub) 34%, #fff);
+}
+.site--pattern1.site--pattern2 main > section:nth-of-type(even) {
+    background: #fffdf9;
+}
+.site--pattern1.site--pattern2 main > section > .contents {
+    width: min(1180px, calc(100% - 48px));
+}
+.site--pattern1.site--pattern2 .top_title {
+    margin-bottom: clamp(40px, 5vw, 64px);
+}
+.site--pattern1.site--pattern2 .top_news_item,
+.site--pattern1.site--pattern2 .top_medical_item,
+.site--pattern1.site--pattern2 .top_feature_item,
+.site--pattern1.site--pattern2 .profile_box {
+    padding: clamp(22px, 3vw, 36px);
+}
+.site--pattern1.site--pattern2 .top_medical_list,
+.site--pattern1.site--pattern2 .top_feature_list {
+    gap: clamp(18px, 2.5vw, 30px);
+}
+.site--pattern1.site--pattern2 .text,
+.site--pattern1.site--pattern2 .top_news_text {
+    line-height: 2;
+}
+.site--pattern1.site--pattern2 footer .footer_navi {
+    background: color-mix(in srgb, var(--sub) 50%, #fff);
+}
+
+.site--pattern1.site--pattern3 main > section {
+    padding-top: clamp(88px, 9vw, 128px);
+    padding-bottom: clamp(88px, 9vw, 128px);
+}
+.site--pattern1.site--pattern3 main > section:nth-of-type(odd) {
+    background: var(--luxury-bg);
+}
+.site--pattern1.site--pattern3 main > section:nth-of-type(even) {
+    background: #fff;
+}
+.site--pattern1.site--pattern3 main > section > .contents {
+    width: min(1120px, calc(100% - 64px));
+}
+.site--pattern1.site--pattern3 .top_title {
+    margin-bottom: clamp(52px, 6vw, 80px);
+}
+.site--pattern1.site--pattern3 .top_title::after {
+    content: "";
+    display: block;
+    width: 1px;
+    height: 44px;
+    margin: 24px auto 0;
+    background: var(--main);
+}
+.site--pattern1.site--pattern3 .top_news_item,
+.site--pattern1.site--pattern3 .top_medical_item,
+.site--pattern1.site--pattern3 .top_feature_item,
+.site--pattern1.site--pattern3 .profile_box {
+    padding: clamp(26px, 3.5vw, 44px);
+}
+.site--pattern1.site--pattern3 .top_medical_list,
+.site--pattern1.site--pattern3 .top_feature_list {
+    gap: clamp(24px, 3vw, 40px);
+}
+.site--pattern1.site--pattern3 .text,
+.site--pattern1.site--pattern3 .top_news_text {
+    line-height: 2.15;
+}
+.site--pattern1.site--pattern3 footer .footer_navi {
+    border-top: 1px solid color-mix(in srgb, var(--main) 32%, transparent);
+    border-bottom: 1px solid color-mix(in srgb, var(--main) 32%, transparent);
+    background: transparent;
+}
+
+@media (max-width: 768px) {
+    .site--pattern1.site--pattern2 main > section,
+    .site--pattern1.site--pattern3 main > section {
+        padding-top: 64px;
+        padding-bottom: 64px;
+    }
+    .site--pattern1.site--pattern2 main > section > .contents,
+    .site--pattern1.site--pattern3 main > section > .contents {
+        width: calc(100% - 32px);
+    }
+    .site--pattern1.site--pattern2 .top_news_item,
+    .site--pattern1.site--pattern2 .top_medical_item,
+    .site--pattern1.site--pattern2 .top_feature_item,
+    .site--pattern1.site--pattern2 .profile_box,
+    .site--pattern1.site--pattern3 .top_news_item,
+    .site--pattern1.site--pattern3 .top_medical_item,
+    .site--pattern1.site--pattern3 .top_feature_item,
+    .site--pattern1.site--pattern3 .profile_box {
+        padding: 22px;
+    }
+}

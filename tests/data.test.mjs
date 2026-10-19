@@ -1,0 +1,12 @@
+import test from 'node:test';import assert from 'node:assert/strict';import fs from 'node:fs/promises';
+import {validate,palettes,mediaRefs,safeLink,adjust} from '../assets/shared.js';
+const sample=JSON.parse(await fs.readFile(new URL('../data/sample.json',import.meta.url),'utf8'));
+const schema=JSON.parse(await fs.readFile(new URL('../data/schema.json',import.meta.url),'utf8'));
+test('架空データはAI向けスキーマに一致する',()=>assert.deepEqual(validate(sample,schema),[]));
+test('3パターンと18パレットを利用できる',()=>{assert.equal(palettes.length,18);for(const design of ['pattern1','pattern2','pattern3'])assert.deepEqual(validate({...sample,design},schema),[]);});
+test('MV上限・固定件数・バージョンを検査',()=>{let d=structuredClone(sample);d.mv.images=Array(4).fill(d.mv.images[0]);assert.ok(validate(d,schema).length);d=structuredClone(sample);d.freeAreas=[];assert.ok(validate(d,schema).length);d=structuredClone(sample);d.schemaVersion=99;assert.ok(validate(d,schema).length);});
+test('未知のキーや欠けた構造を拒否する',()=>{assert.ok(validate({...sample,password:'sample'},schema).length);const d=structuredClone(sample);delete d.site;assert.ok(validate(d,schema).length);assert.ok(validate(null,schema).length);});
+test('診療時間と経歴の繰り返しを保持',()=>{const d=structuredClone(sample);d.clinicInfo.schedules.push(structuredClone(d.clinicInfo.schedules[0]));d.greeting.doctors[0].career.push({year:'',text:'追加経歴'});assert.deepEqual(validate(d,schema),[]);});
+test('画像は相対パスで出力しBlob URLを拒否',()=>{const d=structuredClone(sample);d.site.logoUpload='media/logo.png';assert.deepEqual([...mediaRefs(d)],['media/logo.png']);assert.deepEqual(validate(d,schema),[]);d.site.logoUpload='blob:example';assert.ok(validate(d,schema).length);});
+test('JavaScript URLをリンクにしない',()=>{assert.equal(safeLink('javascript:alert(1)'),'#');assert.equal(safeLink('#clinicinfo'),'#clinicinfo');assert.equal(safeLink('https://example.com'),'https://example.com');});
+test('元のMVプリセット用の色変換',()=>{assert.equal(adjust('#000000',.28),'#474747');assert.equal(adjust('#ffffff',-.18),'#d1d1d1');});
