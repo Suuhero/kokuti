@@ -1,24 +1,213 @@
-export const ROOT=new URL('../',import.meta.url);
-export const asset=p=>new URL(p,ROOT).href;
-export const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-export const clone=v=>structuredClone(v);
-export const get=(obj,path)=>path.split('.').reduce((o,k)=>o?.[k],obj);
-export function set(obj,path,value){const keys=path.split('.');const end=keys.pop();keys.reduce((o,k)=>o[k],obj)[end]=value;}
-export const palettes=[
- ['brown','BROWN','#5a4a42','#f7f0df'],['light-brown','LIGHT-BROWN','#795519','#fbf8f0'],['green','GREEN','#2bada9','#eaf9f8'],['light-green','LIGHT-GREEN','#7cbb15','#f0f6e2'],['blue','BLUE','#0091d4','#eef9ff'],['light-blue','LIGHT-BLUE','#2eb8f8','#f3fbff'],['navy','NAVY','#184374','#edf3fa'],['light-navy','LIGHT-NAVY','#2b5c93','#f5faff'],['orange','ORANGE','#fe8a01','#fff3e4'],['light-orange','LIGHT-ORANGE','#ffaf54','#fff9f1'],['pink','PINK','#e7336d','#fff1f6'],['light-pink','LIGHT-PINK','#f7779f','#fff6f9'],['purple','PURPLE','#632c86','#faf1ff'],['light-purple','LIGHT-PURPLE','#a365c9','#fcf6ff'],['red','RED','#b22024','#f8dfe0'],['light-red','LIGHT-RED','#d2363b','#ffeeee'],['yellow','YELLOW','#feda02','#fffdee'],['light-yellow','LIGHT-YELLOW','#ffe44a','#fffdf2']];
-export const designs=[['pattern1','端正なスタンダード','角ゴシックを使った、すっきりとした印象。'],['pattern2','やわらかく親しみやすい','丸ゴシックと角丸による、やさしい印象。'],['pattern3','落ち着きのある上質さ','明朝体と細い線、余白を活かした印象。']];
-export function adjust(hex,percent){return '#'+hex.slice(1).match(/../g).map(x=>{const v=parseInt(x,16);return Math.round(percent>=0?v+(255-v)*percent:v*(1+percent)).toString(16).padStart(2,'0')}).join('');}
-export async function jsonFile(path){const r=await fetch(asset(path));if(!r.ok)throw Error('データを読み込めませんでした。再読み込みしてください。');return r.json();}
-export function safeLink(v){v=String(v??'').trim();return /^(https?:\/\/|tel:|mailto:|#)/i.test(v)||/^\/(?!\/)/.test(v)?v:'#';}
-export function rich(text){
- if(!/<[a-z][\s\S]*>/i.test(text))return String(text).split(/\n\s*\n/).map(p=>`<p>${esc(p).replace(/\n/g,'<br>')}</p>`).join('');
- const doc=new DOMParser().parseFromString(String(text),'text/html');
- const allowed=['P','BR','STRONG','EM','B','I','UL','OL','LI','A','SPAN','DIV'];
- function clean(n){if(n.nodeType===3)return esc(n.textContent);if(n.nodeType!==1)return '';if(['SCRIPT','STYLE','IFRAME','OBJECT','EMBED','SVG','MATH'].includes(n.tagName))return '';const body=[...n.childNodes].map(clean).join('');if(!allowed.includes(n.tagName))return body;let attr=n.tagName==='A'?` href="${esc(safeLink(n.getAttribute('href')))}" rel="noopener noreferrer"`:'';return `<${n.tagName.toLowerCase()}${attr}>${body}</${n.tagName.toLowerCase()}>`;}
- return [...doc.body.childNodes].map(clean).join('');
+export const ROOT = new URL("../", import.meta.url);
+export const asset = (p) => new URL(p, ROOT).href;
+export const esc = (v) =>
+  String(v ?? "").replace(
+    /[&<>"']/g,
+    (c) =>
+      ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[
+        c
+      ],
+  );
+export const clone = (v) => structuredClone(v);
+export const get = (obj, path) => path.split(".").reduce((o, k) => o?.[k], obj);
+export function set(obj, path, value) {
+  const keys = path.split(".");
+  const end = keys.pop();
+  keys.reduce((o, k) => o[k], obj)[end] = value;
 }
-export function mapURL(input){const doc=new DOMParser().parseFromString(input,'text/html');const raw=doc.querySelector('iframe')?.getAttribute('src')||input;try{const u=new URL(raw);return u.protocol==='https:'&&['www.google.com','maps.google.com','www.google.co.jp'].includes(u.hostname)&&u.pathname.startsWith('/maps')?u.href:'';}catch{return '';}}
-export function download(name,content,type='application/json'){const a=document.createElement('a');const u=URL.createObjectURL(content instanceof Blob?content:new Blob([content],{type}));a.href=u;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(u),2000);}
-export function mediaRefs(data){const refs=new Set();function walk(v){if(Array.isArray(v))v.forEach(walk);else if(v&&typeof v==='object')Object.entries(v).forEach(([k,x])=>{if(['upload','imageUpload','logoUpload'].includes(k)&&x)refs.add(x);else walk(x)});}walk(data);return refs;}
-export function validate(data,schema){const errors=[];function walk(v,s,path){if(s.const!==undefined&&v!==s.const)errors.push(`${path}: 対応していないバージョンです`);if(s.enum&&!s.enum.includes(v))errors.push(`${path}: 選択肢が正しくありません`);const types={object:v&&typeof v==='object'&&!Array.isArray(v),array:Array.isArray(v),string:typeof v==='string',boolean:typeof v==='boolean',integer:Number.isInteger(v)};if(s.type&&!types[s.type]){errors.push(`${path}: データの型が正しくありません`);return;}if(s.type==='object'){for(const k of s.required||[])if(!(k in v))errors.push(`${path}.${k}: 項目がありません`);for(const [k,x]of Object.entries(v)){if(s.properties[k])walk(x,s.properties[k],path+'.'+k);else errors.push(`${path}.${k}: 未対応の項目です`);}}if(s.type==='array'){if(v.length<(s.minItems||0)||v.length>(s.maxItems??50))errors.push(`${path}: 件数を確認してください`);v.forEach((x,i)=>walk(x,s.items,`${path}.${i}`));}if(s.type==='string'&&v.length>s.maxLength)errors.push(`${path}: 文字数が多すぎます`);}
- walk(data,schema,'site');if(data?.site&&!data.site.clinicName?.trim())errors.push('医院名を入力してください');for(const key of ['main','sub','text'])if(!/^#[0-9a-f]{6}$/i.test(data?.colors?.[key]||''))errors.push(`colors.${key}: 色の形式が正しくありません`);if(data?.mv?.images?.some(i=>!['preset-mv-1.svg','preset-mv-2.svg','preset-mv-3.svg'].includes(i.preset)))errors.push('MVプリセットを確認してください');for(const ref of mediaRefs(data))if(!/^media\/[a-zA-Z0-9_.-]+\.(png|jpe?g|webp)$/i.test(ref))errors.push('画像パスはmedia/ファイル名.jpg・png・webpにしてください');return errors;}
+export const palettes = [
+  ["brown", "BROWN", "#5a4a42", "#f7f0df"],
+  ["light-brown", "LIGHT-BROWN", "#795519", "#fbf8f0"],
+  ["green", "GREEN", "#2bada9", "#eaf9f8"],
+  ["light-green", "LIGHT-GREEN", "#7cbb15", "#f0f6e2"],
+  ["blue", "BLUE", "#0091d4", "#eef9ff"],
+  ["light-blue", "LIGHT-BLUE", "#2eb8f8", "#f3fbff"],
+  ["navy", "NAVY", "#184374", "#edf3fa"],
+  ["light-navy", "LIGHT-NAVY", "#2b5c93", "#f5faff"],
+  ["orange", "ORANGE", "#fe8a01", "#fff3e4"],
+  ["light-orange", "LIGHT-ORANGE", "#ffaf54", "#fff9f1"],
+  ["pink", "PINK", "#e7336d", "#fff1f6"],
+  ["light-pink", "LIGHT-PINK", "#f7779f", "#fff6f9"],
+  ["purple", "PURPLE", "#632c86", "#faf1ff"],
+  ["light-purple", "LIGHT-PURPLE", "#a365c9", "#fcf6ff"],
+  ["red", "RED", "#b22024", "#f8dfe0"],
+  ["light-red", "LIGHT-RED", "#d2363b", "#ffeeee"],
+  ["yellow", "YELLOW", "#feda02", "#fffdee"],
+  ["light-yellow", "LIGHT-YELLOW", "#ffe44a", "#fffdf2"],
+];
+export const designs = [
+  [
+    "pattern1",
+    "端正なスタンダード",
+    "角ゴシックを使った、すっきりとした印象。",
+  ],
+  [
+    "pattern2",
+    "やわらかく親しみやすい",
+    "丸ゴシックと角丸による、やさしい印象。",
+  ],
+  ["pattern3", "落ち着きのある上質さ", "明朝体と細い線、余白を活かした印象。"],
+];
+export function adjust(hex, percent) {
+  return (
+    "#" +
+    hex
+      .slice(1)
+      .match(/../g)
+      .map((x) => {
+        const v = parseInt(x, 16);
+        return Math.round(
+          percent >= 0 ? v + (255 - v) * percent : v * (1 + percent),
+        )
+          .toString(16)
+          .padStart(2, "0");
+      })
+      .join("")
+  );
+}
+export async function jsonFile(path) {
+  const r = await fetch(asset(path));
+  if (!r.ok)
+    throw Error("データを読み込めませんでした。再読み込みしてください。");
+  return r.json();
+}
+export function safeLink(v) {
+  v = String(v ?? "").trim();
+  return /^(https?:\/\/|tel:|mailto:|#)/i.test(v) || /^\/(?!\/)/.test(v)
+    ? v
+    : "#";
+}
+export function rich(text) {
+  if (!/<[a-z][\s\S]*>/i.test(text))
+    return String(text)
+      .split(/\n\s*\n/)
+      .map((p) => `<p>${esc(p).replace(/\n/g, "<br>")}</p>`)
+      .join("");
+  const doc = new DOMParser().parseFromString(String(text), "text/html");
+  const allowed = [
+    "P",
+    "BR",
+    "STRONG",
+    "EM",
+    "B",
+    "I",
+    "UL",
+    "OL",
+    "LI",
+    "A",
+    "SPAN",
+    "DIV",
+  ];
+  function clean(n) {
+    if (n.nodeType === 3) return esc(n.textContent);
+    if (n.nodeType !== 1) return "";
+    if (
+      ["SCRIPT", "STYLE", "IFRAME", "OBJECT", "EMBED", "SVG", "MATH"].includes(
+        n.tagName,
+      )
+    )
+      return "";
+    const body = [...n.childNodes].map(clean).join("");
+    if (!allowed.includes(n.tagName)) return body;
+    let attr =
+      n.tagName === "A"
+        ? ` href="${esc(safeLink(n.getAttribute("href")))}" rel="noopener noreferrer"`
+        : "";
+    return `<${n.tagName.toLowerCase()}${attr}>${body}</${n.tagName.toLowerCase()}>`;
+  }
+  return [...doc.body.childNodes].map(clean).join("");
+}
+export function mapURL(input) {
+  const doc = new DOMParser().parseFromString(input, "text/html");
+  const raw = doc.querySelector("iframe")?.getAttribute("src") || input;
+  try {
+    const u = new URL(raw);
+    return u.protocol === "https:" &&
+      ["www.google.com", "maps.google.com", "www.google.co.jp"].includes(
+        u.hostname,
+      ) &&
+      u.pathname.startsWith("/maps")
+      ? u.href
+      : "";
+  } catch {
+    return "";
+  }
+}
+export function download(name, content, type = "application/json") {
+  const a = document.createElement("a");
+  const u = URL.createObjectURL(
+    content instanceof Blob ? content : new Blob([content], { type }),
+  );
+  a.href = u;
+  a.download = name;
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(u), 2000);
+}
+export function mediaRefs(data) {
+  const refs = new Set();
+  function walk(v) {
+    if (Array.isArray(v)) v.forEach(walk);
+    else if (v && typeof v === "object")
+      Object.entries(v).forEach(([k, x]) => {
+        if (["upload", "imageUpload", "logoUpload"].includes(k) && x)
+          refs.add(x);
+        else walk(x);
+      });
+  }
+  walk(data);
+  return refs;
+}
+export function validate(data, schema) {
+  const errors = [];
+  function walk(v, s, path) {
+    if (s.const !== undefined && v !== s.const)
+      errors.push(`${path}: 対応していないバージョンです`);
+    if (s.enum && !s.enum.includes(v))
+      errors.push(`${path}: 選択肢が正しくありません`);
+    const types = {
+      object: v && typeof v === "object" && !Array.isArray(v),
+      array: Array.isArray(v),
+      string: typeof v === "string",
+      boolean: typeof v === "boolean",
+      integer: Number.isInteger(v),
+    };
+    if (s.type && !types[s.type]) {
+      errors.push(`${path}: データの型が正しくありません`);
+      return;
+    }
+    if (s.type === "object") {
+      for (const k of s.required || [])
+        if (!(k in v)) errors.push(`${path}.${k}: 項目がありません`);
+      for (const [k, x] of Object.entries(v)) {
+        if (s.properties[k]) walk(x, s.properties[k], path + "." + k);
+        else errors.push(`${path}.${k}: 未対応の項目です`);
+      }
+    }
+    if (s.type === "array") {
+      if (v.length < (s.minItems || 0) || v.length > (s.maxItems ?? 50))
+        errors.push(`${path}: 件数を確認してください`);
+      v.forEach((x, i) => walk(x, s.items, `${path}.${i}`));
+    }
+    if (s.type === "string" && v.length > s.maxLength)
+      errors.push(`${path}: 文字数が多すぎます`);
+  }
+  walk(data, schema, "site");
+  if (data?.site && !data.site.clinicName?.trim())
+    errors.push("医院名を入力してください");
+  for (const key of ["main", "sub", "text"])
+    if (!/^#[0-9a-f]{6}$/i.test(data?.colors?.[key] || ""))
+      errors.push(`colors.${key}: 色の形式が正しくありません`);
+  if (
+    data?.mv?.images?.some(
+      (i) =>
+        !["preset-mv-1.svg", "preset-mv-2.svg", "preset-mv-3.svg"].includes(
+          i.preset,
+        ),
+    )
+  )
+    errors.push("MVプリセットを確認してください");
+  for (const ref of mediaRefs(data))
+    if (!/^media\/[a-zA-Z0-9_.-]+\.(png|jpe?g|webp)$/i.test(ref))
+      errors.push("画像パスはmedia/ファイル名.jpg・png・webpにしてください");
+  return errors;
+}

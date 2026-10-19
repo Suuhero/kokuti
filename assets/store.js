@@ -1,9 +1,97 @@
-import {jsonFile,clone,mediaRefs} from './shared.js';
-const DB_NAME='kokuti-demo-'+new URL('../',import.meta.url).pathname;
+import { jsonFile, clone, mediaRefs } from "./shared.js";
+const DB_NAME = "kokuti-demo-" + new URL("../", import.meta.url).pathname;
 export class BrowserStore {
- async db(){if(this.connection)return this.connection;this.connection=await new Promise((resolve,reject)=>{const r=indexedDB.open(DB_NAME,1);r.onupgradeneeded=()=>{r.result.createObjectStore('state');r.result.createObjectStore('media');};r.onsuccess=()=>resolve(r.result);r.onerror=()=>reject(Error('ブラウザ保存を利用できません。ブラウザの設定をご確認ください。'));});return this.connection;}
- async load(){const db=await this.db();return new Promise((resolve,reject)=>{const r=db.transaction('state').objectStore('state').get('site');r.onsuccess=async()=>{try{resolve(r.result||{data:await jsonFile('data/sample.json'),revision:0,updatedAt:null});}catch(e){reject(e)}};r.onerror=()=>reject(r.error);});}
- async images(){const db=await this.db();return new Promise((resolve,reject)=>{const result=new Map(),r=db.transaction('media').objectStore('media').openCursor();r.onsuccess=()=>{const c=r.result;if(c){result.set(c.key,c.value);c.continue();}else resolve(result)};r.onerror=()=>reject(r.error);});}
- async save(data,images,expected){const db=await this.db();return new Promise((resolve,reject)=>{const tx=db.transaction(['state','media'],'readwrite'),state=tx.objectStore('state'),media=tx.objectStore('media');let error,result;const r=state.get('site');r.onsuccess=()=>{if((r.result?.revision||0)!==expected){error=Error('別のタブで変更が保存されています。JSONをダウンロードして入力を控え、再読み込みしてください。');tx.abort();return;}result={data:clone(data),revision:expected+1,updatedAt:new Date().toISOString()};state.put(result,'site');media.clear();for(const ref of mediaRefs(data))if(images.has(ref))media.put(images.get(ref),ref);};tx.oncomplete=()=>resolve(result);tx.onabort=()=>reject(error||Error('保存できませんでした。容量不足やブラウザの設定を確認してください。'));tx.onerror=()=>{};});}
- async reset(expected){return this.save(await jsonFile('data/sample.json'),new Map(),expected);}
+  async db() {
+    if (this.connection) return this.connection;
+    this.connection = await new Promise((resolve, reject) => {
+      const r = indexedDB.open(DB_NAME, 1);
+      r.onupgradeneeded = () => {
+        r.result.createObjectStore("state");
+        r.result.createObjectStore("media");
+      };
+      r.onsuccess = () => resolve(r.result);
+      r.onerror = () =>
+        reject(
+          Error(
+            "ブラウザ保存を利用できません。ブラウザの設定をご確認ください。",
+          ),
+        );
+    });
+    return this.connection;
+  }
+  async load() {
+    const db = await this.db();
+    return new Promise((resolve, reject) => {
+      const r = db.transaction("state").objectStore("state").get("site");
+      r.onsuccess = async () => {
+        try {
+          resolve(
+            r.result || {
+              data: await jsonFile("data/sample.json"),
+              revision: 0,
+              updatedAt: null,
+            },
+          );
+        } catch (e) {
+          reject(e);
+        }
+      };
+      r.onerror = () => reject(r.error);
+    });
+  }
+  async images() {
+    const db = await this.db();
+    return new Promise((resolve, reject) => {
+      const result = new Map(),
+        r = db.transaction("media").objectStore("media").openCursor();
+      r.onsuccess = () => {
+        const c = r.result;
+        if (c) {
+          result.set(c.key, c.value);
+          c.continue();
+        } else resolve(result);
+      };
+      r.onerror = () => reject(r.error);
+    });
+  }
+  async save(data, images, expected) {
+    const db = await this.db();
+    return new Promise((resolve, reject) => {
+      const tx = db.transaction(["state", "media"], "readwrite"),
+        state = tx.objectStore("state"),
+        media = tx.objectStore("media");
+      let error, result;
+      const r = state.get("site");
+      r.onsuccess = () => {
+        if ((r.result?.revision || 0) !== expected) {
+          error = Error(
+            "別のタブで変更が保存されています。JSONをダウンロードして入力を控え、再読み込みしてください。",
+          );
+          tx.abort();
+          return;
+        }
+        result = {
+          data: clone(data),
+          revision: expected + 1,
+          updatedAt: new Date().toISOString(),
+        };
+        state.put(result, "site");
+        media.clear();
+        for (const ref of mediaRefs(data))
+          if (images.has(ref)) media.put(images.get(ref), ref);
+      };
+      tx.oncomplete = () => resolve(result);
+      tx.onabort = () =>
+        reject(
+          error ||
+            Error(
+              "保存できませんでした。容量不足やブラウザの設定を確認してください。",
+            ),
+        );
+      tx.onerror = () => {};
+    });
+  }
+  async reset(expected) {
+    return this.save(await jsonFile("data/sample.json"), new Map(), expected);
+  }
 }
