@@ -3,8 +3,11 @@ body.site {
   min-width: 0;
   overflow-wrap: anywhere;
 }
-.site--pattern1 .contents {
-  max-width: calc(100% - 48px);
+.site--pattern1 .contents,
+.site--pattern1.site--pattern2 main > section > .contents,
+.site--pattern1.site--pattern3 main > section > .contents {
+  width: calc(100% - 48px);
+  max-width: 1200px;
 }
 .clinicinfo_left,
 .clinicinfo_right {
@@ -106,8 +109,10 @@ body.site {
   }
 }
 @media (max-width: 640px) {
-  .site--pattern1 .contents {
-    max-width: calc(100% - 32px);
+  .site--pattern1 .contents,
+  .site--pattern1.site--pattern2 main > section > .contents,
+  .site--pattern1.site--pattern3 main > section > .contents {
+    width: calc(100% - 32px);
   }
   .site--pattern1 header.fixed .header_btn_box {
     display: none;
