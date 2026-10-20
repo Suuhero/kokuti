@@ -123,8 +123,6 @@ async function run() {
         svg = mvSVG(svg, c);
         u = URL.createObjectURL(new Blob([svg], { type: "image/svg+xml" }));
         urls.push(u);
-        if (n === 0 && d.design !== "pattern1")
-          document.documentElement.style.setProperty("--section-art", `url("${u}")`);
       }
       return `<li class="splide__slide mv-fade-item${n === 0 ? " is-active" : ""}" data-mv-fade-item><img src="${e(u)}" width="1920" height="600" alt="メインビジュアル${n + 1}"></li>`;
     }),
