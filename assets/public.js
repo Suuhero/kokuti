@@ -6,6 +6,8 @@ import {
   safeLink,
   mapURL,
   adjust,
+  mvAsset,
+  mvSVG,
   jsonFile,
 } from "./shared.js";
 const store = new BrowserStore(),
@@ -102,6 +104,7 @@ async function run() {
     sub: c.sub,
     "sub-light": adjust(c.sub, 0.05),
     text: c.text,
+    ink: adjust(c.main,-0.72),
     "main-color": c.main,
     "bg-color": c.sub,
   };
@@ -114,18 +117,14 @@ async function run() {
       let u;
       if (m.upload) u = media(m.upload);
       else {
-        const r = await fetch(asset("assets/" + m.preset));
+        const r = await fetch(asset("assets/" + mvAsset(d.design, m.preset)), {cache:"no-cache"});
         if (!r.ok) throw Error("MV画像を読み込めませんでした");
         let svg = await r.text();
-        const colors = {
-          MAIN: c.main,
-          MAIN_DARK: adjust(c.main, -0.18),
-          SUB: c.sub,
-          SUB_LIGHT: adjust(c.sub, 0.28),
-        };
-        svg = svg.replace(/\{\{(\w+)\}\}/g, (_, k) => colors[k]);
+        svg = mvSVG(svg, c);
         u = URL.createObjectURL(new Blob([svg], { type: "image/svg+xml" }));
         urls.push(u);
+        if (n === 0 && d.design !== "pattern1")
+          document.documentElement.style.setProperty("--section-art", `url("${u}")`);
       }
       return `<li class="splide__slide mv-fade-item${n === 0 ? " is-active" : ""}" data-mv-fade-item><img src="${e(u)}" width="1920" height="600" alt="メインビジュアル${n + 1}"></li>`;
     }),
@@ -153,19 +152,19 @@ async function run() {
         : doc.body || doc.heading
           ? "03"
           : "04";
-      return `<div class="top_greeting_wrap"><div class="top_greeting_pattern${cls}"><div class="top_greeting_text">${doc.heading ? `<div class="top_greeting_catch">${e(doc.heading)}</div>` : ""}${doc.body ? `<div class="top_geeting_text text">${rich(doc.body)}</div>` : ""}<div class="top_greeting_name">${doc.position ? `<p class="position">${e(doc.position)}</p>` : ""}${doc.name ? `<p class="name">${e(doc.name)}</p>` : ""}</div></div>${doc.imageUpload ? `<div class="top_greeting_img">${img(doc.imageUpload, doc.name, 'width="800" height="1000"')}</div>` : ""}</div>${doc.career.length ? `<div class="top_profile"><div class="profile_box"><h3 class="tit01">${e(doc.careerTitle)}</h3>${doc.career.some((r) => r.year) ? `<table><tbody>${doc.career.map((r) => `<tr><th>${e(r.year)}</th><td>${e(r.text)}</td></tr>`).join("")}</tbody></table>` : `<ul>${doc.career.map((r) => `<li>${e(r.text)}</li>`).join("")}</ul>`}</div></div>` : ""}</div>`;
+      return `<div class="top_greeting_wrap${doc.imageUpload ? " has-photo" : ""}"><div class="top_greeting_pattern${cls}"><div class="top_greeting_text">${doc.heading ? `<div class="top_greeting_catch">${e(doc.heading)}</div>` : ""}${doc.body ? `<div class="top_geeting_text text">${rich(doc.body)}</div>` : ""}<div class="top_greeting_name">${doc.position ? `<p class="position">${e(doc.position)}</p>` : ""}${doc.name ? `<p class="name">${e(doc.name)}</p>` : ""}</div></div>${doc.imageUpload ? `<div class="top_greeting_img">${img(doc.imageUpload, doc.name, 'width="800" height="1000"')}</div>` : ""}</div>${doc.career.length ? `<div class="top_profile"><div class="profile_box"><h3 class="tit01">${e(doc.careerTitle)}</h3>${doc.career.some((r) => r.year) ? `<table><tbody>${doc.career.map((r) => `<tr><th>${e(r.year)}</th><td>${e(r.text)}</td></tr>`).join("")}</tbody></table>` : `<ul>${doc.career.map((r) => `<li>${e(r.text)}</li>`).join("")}</ul>`}</div></div>` : ""}</div>`;
     })
     .join("");
   const map = mapURL(i.mapEmbed);
   document.querySelector("#app").innerHTML = `
  <header class="fixed"><div class="inner"><div class="head_logo"><a href="#">${logo}</a></div>${btns ? `<div class="header_btn_box">${btns}</div>` : ""}</div><nav><ul class="navi">${nav}</ul><ul class="nav_btn_area">${buttons.map((b) => `<li><a href="${e(safeLink(b.url))}"${external(b)}>${e(b.label)}</a></li>`).join("")}</ul><ul class="sns_list">${sns}</ul></nav><div class="nav_toggle" role="button" tabindex="0" aria-label="メニューを開く" aria-expanded="false"><span></span><span></span><span></span></div><div class="nav_bg"></div></header>
- <div id="mainvisual"><div class="inner"><div class="kokuchi_box"><p class="kokuchi_title">${e(s.clinicName)}</p>${s.openDate ? `<p class="kokuchi_date">${e(s.openDate)}</p>` : ""}${s.kokuchiTitle ? `<p class="kokuchi_open">${e(s.kokuchiTitle)}</p>` : ""}${s.kokuchiSubtitle || s.kokuchiSubDate ? `<div class="kokuchi_note">${s.kokuchiSubtitle ? `<p>${e(s.kokuchiSubtitle)}</p>` : ""}${s.kokuchiSubDate ? `<p>${e(s.kokuchiSubDate)}</p>` : ""}</div>` : ""}</div></div><div id="mv_slider" class="splide mv_slider" data-mv-fade><div class="splide__track"><ul class="splide__list">${mv.join("")}</ul></div></div><h1 class="pc">${e(s.pageTitle)}</h1></div>
- <main class="front"><h1 class="sp">${e(s.pageTitle)}</h1><div class="top_title sp_link_box contents sp" style="margin-bottom:0!important"><ul class="top_free_link">${buttons.map((b) => `<li><a href="${e(safeLink(b.url))}"${external(b)}>${e(b.label)}</a></li>`).join("")}</ul>${sns ? `<p>${e(d.sns.headingEn)}</p><h2>${e(d.sns.heading)}</h2><ul class="top_sns_link">${sns}</ul>` : ""}</div>${free[0]}${free[1]}
+ <div id="mainvisual" class="${d.mv.images.some(m => m.upload) ? "has-upload" : ""}"><div class="inner"><div class="kokuchi_box"><p class="kokuchi_title">${e(s.clinicName)}</p>${s.openDate ? `<p class="kokuchi_date">${e(s.openDate)}</p>` : ""}${s.kokuchiTitle ? `<p class="kokuchi_open">${e(s.kokuchiTitle)}</p>` : ""}${s.kokuchiSubtitle || s.kokuchiSubDate ? `<div class="kokuchi_note">${s.kokuchiSubtitle ? `<p>${e(s.kokuchiSubtitle)}</p>` : ""}${s.kokuchiSubDate ? `<p>${e(s.kokuchiSubDate)}</p>` : ""}</div>` : ""}</div></div><div id="mv_slider" class="splide mv_slider" data-mv-fade><div class="splide__track"><ul class="splide__list">${mv.join("")}</ul></div></div><h1 class="visually-hidden">${e(s.pageTitle)}</h1></div>
+ <main class="front"><div class="top_title sp_link_box contents sp" style="margin-bottom:0!important"><ul class="top_free_link">${buttons.map((b) => `<li><a href="${e(safeLink(b.url))}"${external(b)}>${e(b.label)}</a></li>`).join("")}</ul>${sns ? `<p>${e(d.sns.headingEn)}</p><h2>${e(d.sns.heading)}</h2><ul class="top_sns_link">${sns}</ul>` : ""}</div>${free[0]}${free[1]}
  <section id="news" class="sec_top_news"><div class="contents">${title(d.newsSettings, false)}<div class="sec_top_news_list_wrap"><p>開院準備を進めています。こちらはデモ用のお知らせです。</p></div></div></section>
- <section id="clinicinfo" class="sec_top_clinicinfo"><div class="contents">${title(i)}<div class="sec_top_clinicinfo_inner clinicinfo_flex"><div class="clinicinfo_left"><dl class="clinicinfo_name"><dt>医院名</dt><dd>${e(s.clinicName)}</dd></dl><dl class="clinicinfo_kamoku"><dt>診療科目</dt><dd>${e(departments)}</dd></dl><div class="clinicinfo_num">${i.tel ? `<dl class="clinicinfo_tel"><dt>電話</dt><dd><a href="tel:${e(i.tel.replace(/[^0-9+]/g, ""))}">${e(i.tel)}</a></dd></dl>` : ""}</div><div class="clinicinfo_schedule">${schedules}</div></div><div id="access" class="clinicinfo_right">${map ? `<div class="googlemap"><iframe src="${e(map)}" title="所在地の地図" loading="lazy" referrerpolicy="no-referrer"></iframe></div>` : ""}<dl class="clinicinfo_add">${postal ? `<dt>${e(postal)}</dt>` : ""}<dd>${e(street)}</dd></dl><ul class="clinicinfo_access_detail">${i.accessItems.map((a) => `<li>${e(a.text)}</li>`).join("")}</ul></div></div></div></section>
+ <section id="clinicinfo" class="sec_top_clinicinfo"><div class="contents">${title(i)}<div class="clinic-overview"><div class="clinic-facts"><dl><dt>医院名</dt><dd>${e(s.clinicName)}</dd></dl><dl><dt>診療科目</dt><dd>${e(departments)}</dd></dl>${i.tel ? `<dl><dt>電話</dt><dd><a href="tel:${e(i.tel.replace(/[^0-9+]/g, ""))}">${e(i.tel)}</a></dd></dl>` : ""}<dl id="access"><dt>所在地</dt><dd>${e(postal)}<br>${e(street)}</dd></dl>${i.accessItems.length ? `<ul class="access-notes">${i.accessItems.map(a => `<li>${e(a.text)}</li>`).join("")}</ul>` : ""}</div><div class="clinic-schedules">${schedules}</div></div>${map ? `<div class="googlemap"><iframe src="${e(map)}" title="所在地の地図" loading="lazy" referrerpolicy="no-referrer"></iframe></div>` : ""}</div></section>
  <section id="doctor" class="sec_top_doctor"><div class="contents">${title(g)}${doctors}</div></section>
  <section id="medical" class="sec_top_medical"><div class="contents">${title(d.services)}<ul class="top_medical_list">${d.services.items.map((t) => `<li class="top_medical_item"><div class="medical_inner"><h3 class="medical_item_title">${e(t.title)}</h3></div>${t.desc ? `<div class="top_medical_text"><p>${e(t.desc)}</p></div>` : ""}</li>`).join("")}</ul></div></section>
- <section id="feature" class="sec_top_feature"><div class="contents">${title(d.background)}<div class="top_feature_list">${d.background.items.map((t, n) => `<div class="top_feature_item clearfix${t.imageUpload ? " float_wrap" : ""}"><div class="featutr_item_title"><span class="feature_item_num">POINT.${n + 1}</span><h3>${e(t.title)}</h3></div>${t.imageUpload ? `<div class="top_feature_img img_fl">${img(t.imageUpload, t.title, 'width="650" height="450"')}</div>` : ""}${t.body ? `<div class="top_feature_text text">${rich(t.body)}</div>` : ""}</div>`).join("")}</div></div></section>${free[2]}</main>
+ <section id="feature" class="sec_top_feature"><div class="contents">${title(d.background)}<div class="top_feature_list">${d.background.items.map((t, n) => `<div class="top_feature_item clearfix${t.imageUpload ? " float_wrap" : ""}"><div class="featutr_item_title"><span class="feature_item_num">${String(n + 1).padStart(2,"0")}</span><h3>${e(t.title)}</h3></div>${t.imageUpload ? `<div class="top_feature_img img_fl">${img(t.imageUpload, t.title, 'width="650" height="450"')}</div>` : ""}${t.body ? `<div class="top_feature_text text">${rich(t.body)}</div>` : ""}</div>`).join("")}</div></div></section>${free[2]}</main>
  <footer><div class="contents"><div class="footer_logo" id="flogo"><a href="#">${logo}</a></div><div class="footer_info"><p class="footer_add">${e(postal)}　<br class="sp_inline">${e(street)}</p><p>${e(departments)}</p></div></div><div class="footer_navi"><div class="inner"><ul>${footerNav}</ul></div></div><p class="copy"><small>©${e(s.clinicName)}</small></p><div class="pagetop" role="button" tabindex="0" aria-label="ページ上部へ"></div></footer>
  <aside class="demo-tools" aria-label="デモの操作"><strong>架空の医院・デモ表示</strong><a href="${asset("admin/")}">管理画面を開く</a></aside>`;
   document.querySelectorAll("img").forEach((im) =>

@@ -211,3 +211,19 @@ export function validate(data, schema) {
       errors.push("画像パスはmedia/ファイル名.jpg・png・webpにしてください");
   return errors;
 }
+
+// Keep the existing JSON preset slots compatible; design selects the SVG family.
+export const mvNames = {
+  pattern1: ['光とドット','やわらかな円','水平のグラデーション'],
+  pattern2: ['やわらかな波','まるい重なり','大きなアーチ'],
+  pattern3: ['静かな流れ','細い曲線','透ける斜面'],
+};
+export function mvAsset(design, preset) {
+  const family = Object.hasOwn(mvNames, design) ? design : 'pattern1';
+  const slot = /^preset-mv-([123])\.svg$/.exec(preset)?.[1] || '1';
+  return family === 'pattern1' ? 'preset-mv-'+slot+'.svg' : family+'-mv-'+slot+'.svg';
+}
+export function mvSVG(source, colors) {
+  const tokens = { MAIN:colors.main, MAIN_DARK:adjust(colors.main,-0.18), SUB:colors.sub, SUB_LIGHT:adjust(colors.sub,0.28) };
+  return source.replace(/\{\{(\w+)\}\}/g, (_,key) => tokens[key] || '#ffffff');
+}

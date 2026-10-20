@@ -7,6 +7,7 @@ import {
   mediaRefs,
   safeLink,
   adjust,
+  mvAsset, mvSVG, mvNames,
 } from "../assets/shared.js";
 const sample = JSON.parse(
   await fs.readFile(new URL("../data/sample.json", import.meta.url), "utf8"),
@@ -14,6 +15,26 @@ const sample = JSON.parse(
 const schema = JSON.parse(
   await fs.readFile(new URL("../data/schema.json", import.meta.url), "utf8"),
 );
+test("既存MVスロットを9種類に割り当て、18配色をSVGに反映する", async () => {
+  const sources = new Set();
+  for (const design of Object.keys(mvNames)) {
+    for (let slot = 1; slot <= 3; slot++) {
+      const file = mvAsset(design, `preset-mv-${slot}.svg`);
+      const source = await fs.readFile(new URL(`../assets/${file}`, import.meta.url), "utf8");
+      sources.add(source);
+      assert.match(source, /viewBox="0 0 1600 900"/);
+      for (const [, , main, sub] of palettes) {
+        const svg = mvSVG(source, {main, sub});
+        assert.ok(!svg.includes("{{"));
+        assert.ok(svg.includes(main));
+        assert.ok(svg.includes(sub));
+        assert.doesNotMatch(svg, /<script|<image|href=/);
+      }
+    }
+  }
+  assert.equal(sources.size, 9);
+  assert.equal(mvAsset("unknown", "invalid"), "preset-mv-1.svg");
+});
 test("架空データはAI向けスキーマに一致する", () =>
   assert.deepEqual(validate(sample, schema), []));
 test("3パターンと18パレットを利用できる", () => {

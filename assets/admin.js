@@ -6,7 +6,10 @@ import {
   set,
   clone,
   palettes,
-  adjust,
+
+  mvAsset,
+  mvNames,
+  mvSVG,
   designs,
   jsonFile,
   download,
@@ -14,7 +17,7 @@ import {
   validate,
 } from "./shared.js";
 const store = new BrowserStore();
-let presetSources = [];
+let presetSources = {};
 let data,
   schema,
   images = new Map(),
@@ -146,13 +149,12 @@ function field(path, label, type = "text", hint = "") {
   return `<div class="field"><label for="${id(path)}">${e(label)}</label><div class="control">${input}${hint ? `<p class="hint">${e(hint)}</p>` : ""}</div></div>`;
 }
 function presetField(path) {
-  const colors = {MAIN:data.colors.main, MAIN_DARK:adjust(data.colors.main,-0.18), SUB:data.colors.sub, SUB_LIGHT:adjust(data.colors.sub,0.28)};
   return '<fieldset class="preset-field"><legend>プリセットを画像で選ぶ</legend><div class="preset-grid">' + [1,2,3].map((n) => {
     const value = 'preset-mv-'+n+'.svg';
-    const svg = presetSources[n-1].replace(/\{\{(\w+)\}\}/g, (_,key) => colors[key]);
+    const svg = mvSVG(presetSources[mvAsset(data.design,value)],data.colors);
     const url = URL.createObjectURL(new Blob([svg],{type:'image/svg+xml'})); imageURLs.push(url);
-    return '<label class="preset-choice"><input type="radio" name="'+path+'" data-path="'+path+'" value="'+value+'" '+(get(data,path)===value?'checked':'')+'><img src="'+url+'" alt="プリセット '+n+'"><span>プリセット '+n+'</span></label>';
-  }).join('') + '</div><p class="hint">選択中のカラーで表示しています。アップロード画像を使っている場合は、画像を解除するとプリセットが表示されます。</p></fieldset>';
+    return '<label class="preset-choice"><input type="radio" name="'+path+'" data-path="'+path+'" value="'+value+'" '+(get(data,path)===value?'checked':'')+'><img src="'+url+'" alt=""><span>'+String.fromCharCode(64+n)+' · '+mvNames[data.design][n-1]+'</span></label>';
+  }).join('') + '</div><p class="hint">選択中のデザイン専用の3種類です。カラー変更にも連動します。アップロード画像を使っている場合は、画像を解除するとプリセットが表示されます。</p></fieldset>';
 }
 function designSample(key) {
   return '<span class="design-sample sample-'+key+'" style="--sample-main:'+e(data.colors.main)+';--sample-sub:'+e(data.colors.sub)+'"><span class="sample-en">MEDICAL</span><span class="sample-title">診療のご案内</span><span class="sample-card"><span class="sample-card-title">内科・小児科</span><span class="sample-copy">いつもの安心を、<br>地域の皆さまへ。</span></span></span>';
@@ -724,11 +726,12 @@ async function init() {
       jsonFile("data/schema.json"),
       store.images(),
     ]);
-    presetSources = await Promise.all([1,2,3].map(async n => {
-      const response = await fetch(asset('assets/preset-mv-'+n+'.svg'));
+    const presetFiles = Object.keys(mvNames).flatMap(design => [1,2,3].map(n => mvAsset(design,'preset-mv-'+n+'.svg')));
+    presetSources = Object.fromEntries(await Promise.all(presetFiles.map(async file => {
+      const response = await fetch(asset('assets/'+file), {cache:'no-cache'});
       if (!response.ok) throw Error('MVプレビューを読み込めませんでした。再読み込みしてください。');
-      return response.text();
-    }));
+      return [file,await response.text()];
+    })));
     data = saved.data;
     revision = saved.revision;
     updatedAt = saved.updatedAt;

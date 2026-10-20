@@ -1,0 +1,201 @@
+/* Approved 2026-10-20 design. Original stylesheet retained as compatibility base. */
+body.site { --header-height:80px; --line:color-mix(in srgb,var(--main) 25%,#fff); color:var(--text); background:#fff; letter-spacing:.035em; font-size:16px; line-height:1.85; }
+body.site--pattern2 { --header-height:88px; background:#fff; }
+body.site--pattern3 { letter-spacing:.055em; background:#fff; }
+#app *,#app *::before,#app *::after { box-sizing:border-box; }
+#app .contents { width:calc(100% - 80px); max-width:1200px; margin-inline:auto; padding:0; }
+#app a { text-underline-offset:4px; }
+#app section,#app #access { scroll-margin-top:calc(var(--header-height) + 20px); }
+#app header.fixed { position:fixed; inset:0 0 auto; width:100%; height:var(--header-height); min-height:0; z-index:1000; background:#fff; border:0; box-shadow:0 1px 0 #00000008; }
+#app header.fixed > .inner { position:relative; inset:auto; width:100%; min-width:0; height:100%; min-height:0; padding:0 96px 0 32px; gap:24px; background:#fff; }
+#app header.fixed .head_logo { min-width:0; flex:1; }
+#app header.fixed .head_logo a { font-size:20px; color:var(--ink); letter-spacing:.08em; white-space:normal; overflow-wrap:anywhere; line-height:1.4; }
+#app header.fixed .head_logo img { max-width:100%; max-height:48px; width:auto; object-fit:contain; }
+#app header.fixed .header_btn_box { display:flex; gap:14px; flex:none; margin:0; }
+#app header.fixed .header_btn_box a { display:flex; justify-content:center; align-items:center; min-width:140px; min-height:44px; margin:0; padding:10px 24px; border:1px solid var(--line); border-radius:4px; background:color-mix(in srgb,var(--main) 24%,#fff); color:var(--ink); font-size:15px; font-weight:600; line-height:1.3; text-decoration:none; }
+#app .nav_toggle { position:absolute; top:calc((var(--header-height) - 48px)/2); right:24px; width:48px; height:48px; margin:0; background:var(--main); border:0; border-radius:4px; transition:background .2s; }
+#app .nav_toggle span { width:24px; height:2px; left:50%; background:var(--ink); }
+#app .nav_toggle span:nth-child(1) { top:16px; }
+#app .nav_toggle span:nth-child(2) { top:23px; }
+#app .nav_toggle span:nth-child(3) { top:30px; }
+#app .nav_toggle.active { right:24px; }
+#app .nav_toggle.active span:nth-child(1),#app .nav_toggle.active span:nth-child(3) { top:23px; }
+#app header.fixed nav { top:var(--header-height); right:-360px; width:min(360px,100vw); height:calc(100dvh - var(--header-height)); padding:24px; background:#fff; color:var(--ink); border-left:1px solid var(--line); visibility:hidden; transition:right .25s,visibility .25s; }
+#app header.fixed nav.open { right:0; visibility:visible; }
+#app header nav .navi li { border-bottom:1px solid var(--line); }
+#app header nav a { display:block; color:var(--ink); text-decoration:none; padding:12px 8px; font-size:16px; }
+#app header nav .nav_btn_area { margin-top:24px; }
+#app header nav .nav_btn_area a { color:var(--ink); border:1px solid var(--line); background:var(--sub); border-radius:4px; }
+#app .nav_bg { position:fixed; inset:var(--header-height) 0 0; width:100%; height:auto; background:#14273755; }
+body.nav_open { overflow:hidden; }
+body.site--pattern2 #app .nav_toggle { border-radius:50%; width:52px; height:52px; top:18px; }
+body.site--pattern2 #app .nav_toggle span:nth-child(1) { top:18px; }
+body.site--pattern2 #app .nav_toggle span:nth-child(2) { top:25px; }
+body.site--pattern2 #app .nav_toggle span:nth-child(3) { top:32px; }
+body.site--pattern2 #app .nav_toggle.active span:nth-child(1),body.site--pattern2 #app .nav_toggle.active span:nth-child(3) { top:25px; }
+body.site--pattern2 #app header.fixed .header_btn_box a { border-radius:999px; background:var(--main); color:var(--ink); border:0; }
+body.site--pattern3 #app header.fixed .header_btn_box a,body.site--pattern3 #app .nav_toggle { background:#fff; border:1px solid var(--main-dark); color:var(--ink); border-radius:0; }
+#app #mainvisual { position:relative; margin:var(--header-height) 0 0; height:auto; min-height:640px; overflow:hidden; color:var(--ink); }
+#app #mainvisual > .inner { position:relative; inset:auto; display:flex; justify-content:center; align-items:center; width:100%; height:auto; min-height:640px; padding:100px 32px; transform:none; z-index:2; }
+#app #mainvisual .kokuchi_box { position:relative; inset:auto; width:min(100%,920px); padding:0; margin:0; transform:none; border:0; border-radius:0; background:none; text-align:center; text-shadow:none; filter:none; color:var(--ink); box-shadow:none; }
+#app #mainvisual .kokuchi_title { font-size:clamp(28px,3.2vw,40px); font-weight:700; line-height:1.5; letter-spacing:.08em; display:block; padding:0; margin:0 0 28px; border:0; color:inherit; }
+#app #mainvisual .kokuchi_date { margin:0 0 6px; font-size:clamp(20px,2vw,26px); line-height:1.6; letter-spacing:.04em; color:inherit; }
+#app #mainvisual .kokuchi_open { margin:0; font-size:clamp(36px,4vw,52px); font-weight:700; line-height:1.5; letter-spacing:.08em; color:inherit; }
+#app #mainvisual .kokuchi_note { display:table; max-width:100%; margin:26px auto 0; padding:20px 24px 0; border-top:1px solid var(--main); color:inherit; background:none; }
+#app #mainvisual .kokuchi_note p { margin:0; font-size:18px; line-height:1.85; font-weight:500; }
+#app #mainvisual .kokuchi_note p:first-child { font-size:21px; font-weight:600; margin-bottom:6px; }
+#app #mv_slider,#app #mv_slider .splide__track,#app #mv_slider .splide__list { position:absolute; inset:0; width:100%; height:100%; margin:0; padding:0; z-index:0; }
+#app #mv_slider .splide__slide { position:absolute; inset:0; width:100%; height:100%; }
+#app #mv_slider img { width:100%; height:100%; object-fit:cover; object-position:center; }
+#app #mainvisual.has-upload .kokuchi_box { padding:32px; background:#fffffff0; border-radius:4px; }
+body.site--pattern2 #app #mainvisual .kokuchi_note { border:0; padding:16px 36px; background:#ffffffb8; border-radius:24px; }
+body.site--pattern3 #app #mainvisual .kokuchi_title,body.site--pattern3 #app #mainvisual .kokuchi_open { font-weight:500; }
+body.site--pattern3 #app #mainvisual .kokuchi_note { border:0; }
+body.site--pattern3 #app #mainvisual .kokuchi_note::before { content:""; display:block; width:56px; height:1px; background:var(--main); margin:0 auto 20px; }
+#app .visually-hidden { position:absolute!important; width:1px!important; height:1px!important; padding:0!important; margin:-1px!important; overflow:hidden!important; clip-path:inset(50%)!important; white-space:nowrap!important; }
+#app main.front { margin:0; padding:0; }
+#app main > section { padding:80px 0; margin:0; background:#fff; }
+#app main > #clinicinfo,#app main > #medical { background:var(--sub); background-image:var(--section-art,none); background-size:cover; background-position:center; }
+#app .top_title { display:block; width:100%; margin:0 0 36px; text-align:left; padding:0; }
+#app .top_title::after { display:none; }
+#app .top_title p { display:flex; align-items:center; gap:16px; margin:0 0 10px; color:var(--main-dark); font-size:13px; font-weight:600; letter-spacing:.18em; line-height:1.5; }
+#app .top_title p::after { content:""; display:block; height:1px; width:70px; background:var(--main); }
+#app .top_title h2 { color:var(--ink); font-size:32px; font-weight:700; letter-spacing:.05em; line-height:1.5; margin:0; }
+#app .text { font-size:16px; line-height:1.95; letter-spacing:.025em; }
+#app .text p { margin:0 0 14px; }
+#app .text p:last-child { margin-bottom:0; }
+#app .sec_top_news .contents { display:block; }
+#app .sec_top_news_list_wrap { margin:0; width:100%; padding:0; background:none; border:0; box-shadow:none; }
+#app .clinic-overview { display:grid; grid-template-columns:1fr 1.1fr; gap:40px; align-items:start; }
+#app .clinic-facts,#app .clinic-schedules { min-width:0; }
+#app .clinic-facts dl { display:grid; grid-template-columns:110px 1fr; margin:0; padding:10px 0; border-bottom:1px solid var(--line); gap:18px; align-items:start; }
+#app .clinic-facts dt { background:var(--sub); padding:6px 10px; font-weight:600; }
+#app .clinic-facts dd { margin:0; padding:6px 0; color:var(--ink); overflow-wrap:anywhere; }
+#app .clinic-facts a { color:inherit; }
+#app .access-notes { padding:0; margin:18px 0 0; list-style:none; font-size:14px; line-height:1.8; }
+#app .sche_wrap { margin:0 0 24px; }
+#app .schedule_title { margin:0 0 10px; padding:0; background:none; color:var(--ink); font-size:16px; border-radius:0; box-shadow:none; }
+#app .tb02 { width:100%; min-width:410px; margin:0; border-collapse:collapse; border-radius:0; overflow:visible; table-layout:auto; }
+#app .tb02 th,#app .tb02 td { padding:14px 8px; border:1px solid var(--line); color:var(--ink); background:#fff; font-size:15px; line-height:1.5; text-align:center; font-weight:500; width:auto; }
+#app .tb02 tr:first-child th,#app .tb02 tr:first-child td { background:var(--sub); }
+#app .tb02 th { width:31%; white-space:nowrap; }
+#app .schedule_note { font-size:14px; line-height:1.8; margin:14px 0 0; }
+#app .schedule_note .text { font-size:14px; }
+#app .schedule_note .kyushinbi { margin:0 0 8px; color:var(--text); }
+#app .googlemap { margin:30px 0 0; border:0; padding:0; overflow:hidden; }
+#app .googlemap iframe { display:block; width:100%; height:360px; border:0; }
+#app .top_greeting_wrap { display:grid; grid-template-columns:minmax(0,1.4fr) minmax(0,1fr); gap:40px; margin:0 0 48px; align-items:start; }
+#app .top_greeting_wrap:last-child { margin-bottom:0; }
+#app [class^="top_greeting_pattern"] { display:block; margin:0; padding:0; width:100%; }
+#app .top_greeting_text { width:100%; margin:0; padding:0; }
+#app .top_greeting_catch { margin:0 0 22px; font-size:25px; line-height:1.7; color:var(--ink); font-weight:600; }
+#app .top_greeting_name { display:flex; gap:12px; flex-wrap:wrap; align-items:baseline; margin:24px 0 0; justify-content:flex-start; }
+#app .top_greeting_name .name { font-size:20px; font-weight:600; color:var(--ink); }
+#app .top_greeting_name .position { font-size:15px; margin:0; }
+#app .top_profile { width:100%; margin:0; border-left:1px solid var(--main); padding-left:32px; }
+#app .profile_box { width:100%; padding:0; margin:0; border:0; background:none; box-shadow:none; }
+#app .profile_box .tit01 { margin:0 0 20px; padding:0; border:0; color:var(--ink); font-size:20px; text-align:left; }
+#app .profile_box table { width:100%; border-collapse:collapse; }
+#app .profile_box th,#app .profile_box td { border:0; border-bottom:1px solid var(--line); padding:12px 8px; font-size:14px; line-height:1.8; text-align:left; vertical-align:top; }
+#app .profile_box th { white-space:nowrap; width:80px; background:var(--sub); font-weight:500; }
+#app .profile_box ul { padding-left:20px; }
+#app .top_greeting_wrap.has-photo { display:block; }
+#app .has-photo [class^="top_greeting_pattern"] { display:grid; grid-template-columns:1.4fr 1fr; gap:40px; align-items:start; }
+#app .top_greeting_img { width:100%; padding:0; margin:0; border:0; }
+#app .top_greeting_img img { width:100%; height:auto; max-height:520px; object-fit:cover; filter:none; }
+#app .has-photo .top_profile { margin-top:32px; }
+#app .top_medical_list { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:20px; padding:0; margin:0; list-style:none; }
+#app .top_medical_item { width:auto; padding:26px 18px; margin:0; border:1px solid var(--line); background:#fff; border-radius:4px; box-shadow:none; text-align:center; }
+#app .medical_inner { padding:0; background:none; border:0; }
+#app .medical_item_title { font-size:23px; color:var(--main-dark); line-height:1.5; padding:0; margin:0 0 18px; }
+#app .top_medical_text { padding:0; margin:0; font-size:16px; line-height:1.9; text-align:center; }
+#app .top_feature_list { display:grid; gap:0; margin:0; }
+#app .top_feature_item { width:100%; padding:28px 0; margin:0; border:0; border-bottom:1px solid var(--line); background:none; border-radius:0; box-shadow:none; }
+#app .featutr_item_title { display:flex; align-items:center; gap:24px; padding:0; margin:0 0 12px; }
+#app .feature_item_num { display:block; padding:0 24px 0 0; border-right:1px solid var(--main); background:none; border-radius:0; color:var(--main-dark); font:44px/1.2 Georgia,serif; flex:none; }
+#app .featutr_item_title h3 { color:var(--ink); font-size:24px; line-height:1.6; margin:0; }
+#app .top_feature_text { margin-left:92px; }
+#app .top_feature_img { width:36%; margin:10px 24px 10px 0; padding:0; border:0; }
+#app .top_feature_img img { filter:none; height:auto; }
+#app footer { margin:0; background:#fff; padding-top:48px; }
+#app footer .contents { padding:0 0 40px; }
+#app footer .footer_logo a { color:var(--ink); font-size:22px; text-decoration:none; }
+#app footer .footer_navi { background:var(--sub); padding:20px; }
+#app footer .footer_navi .inner { width:100%; }
+#app footer .footer_navi ul { display:flex; flex-wrap:wrap; gap:12px 24px; justify-content:center; }
+#app footer .footer_navi a { color:var(--ink); font-size:14px; }
+#app footer .copy { background:#fff; color:var(--text); padding:20px 16px 60px; }
+#app .pagetop { width:44px; height:44px; right:18px; bottom:18px; background:var(--main); }
+body.site--pattern2 #app .clinic-facts,body.site--pattern2 #app .clinic-schedules { background:#fff; padding:24px; border-radius:20px; }
+body.site--pattern2 #app .clinic-overview { gap:24px; }
+body.site--pattern2 #app .profile_box { padding:24px; border-radius:20px; background:var(--sub); }
+body.site--pattern2 #app .top_profile { padding:0; border:0; }
+body.site--pattern2 #app .top_medical_item { border:0; border-radius:20px; }
+body.site--pattern2 #app .medical_inner { background:var(--sub); padding:12px; border-radius:14px; margin-bottom:16px; }
+body.site--pattern2 #app .medical_item_title { margin:0; color:var(--ink); }
+body.site--pattern2 #app .top_feature_list { gap:18px; }
+body.site--pattern2 #app .top_feature_item { border:1px solid var(--line); background:#fff; border-radius:20px; padding:24px; }
+body.site--pattern2 #app .feature_item_num { background:var(--sub); border:0; border-radius:50%; font-family:inherit; font-weight:600; font-size:22px; width:60px; height:60px; line-height:60px; text-align:center; padding:0; }
+body.site--pattern2 #app .top_feature_text { margin-left:84px; }
+body.site--pattern3 #app .top_title h2 { font-weight:500; font-size:36px; }
+body.site--pattern3 #app .text,body.site--pattern3 #app .tb02,body.site--pattern3 #app .clinic-facts,body.site--pattern3 #app .profile_box table { font-family:Meiryo,sans-serif; letter-spacing:.025em; }
+body.site--pattern3 #app .clinic-facts dt { background:none; }
+body.site--pattern3 #app .top_medical_item { border:0; border-right:1px solid var(--line); border-radius:0; background:none; }
+body.site--pattern3 #app .top_medical_item:last-child { border-right:0; }
+body.site--pattern3 #app .medical_item_title { color:var(--ink); font-weight:500; }
+body.site--pattern3 #app .top_feature_list { grid-template-columns:repeat(2,minmax(0,1fr)); gap:36px; }
+body.site--pattern3 #app .top_feature_item { border:0; }
+body.site--pattern3 #app .top_feature_text { margin-left:0; }
+body.site--pattern3 #app .featutr_item_title { align-items:start; }
+body.site--pattern3 #app .feature_item_num { font-style:italic; border:0; padding:0; }
+@media(max-width:1000px) {
+ #app .clinic-overview { grid-template-columns:1fr; gap:28px; }
+ #app .top_medical_list { grid-template-columns:repeat(2,minmax(0,1fr)); }
+ #app header.fixed .header_btn_box a { min-width:100px; padding:10px 14px; }
+}
+@media(max-width:640px) {
+ body.site,body.site--pattern2 { --header-height:76px; }
+ #app .contents { width:calc(100% - 40px); }
+ #app header.fixed > .inner { padding:0 76px 0 18px; }
+ #app header.fixed .head_logo a { font-size:17px; letter-spacing:.035em; }
+ #app header.fixed .head_logo img { max-height:42px; }
+ #app header.fixed .header_btn_box { display:none; }
+ #app .nav_toggle,body.site--pattern2 #app .nav_toggle { width:44px; height:44px; top:16px; right:16px; }
+ #app .nav_toggle.active { right:16px; }
+ #app .nav_toggle span,body.site--pattern2 #app .nav_toggle span { width:22px; }
+ #app .nav_toggle span:nth-child(1),body.site--pattern2 #app .nav_toggle span:nth-child(1) { top:14px; }
+ #app .nav_toggle span:nth-child(2),body.site--pattern2 #app .nav_toggle span:nth-child(2) { top:21px; }
+ #app .nav_toggle span:nth-child(3),body.site--pattern2 #app .nav_toggle span:nth-child(3) { top:28px; }
+ #app .nav_toggle.active span:nth-child(1),#app .nav_toggle.active span:nth-child(3),body.site--pattern2 #app .nav_toggle.active span:nth-child(1),body.site--pattern2 #app .nav_toggle.active span:nth-child(3) { top:21px; }
+ #app #mainvisual,#app #mainvisual > .inner { min-height:650px; }
+ #app #mainvisual > .inner { padding:76px 20px; }
+ #app #mainvisual .kokuchi_title { font-size:clamp(21px,6.2vw,26px); margin-bottom:24px; letter-spacing:.02em; }
+ #app #mainvisual .kokuchi_date { font-size:19px; }
+ #app #mainvisual .kokuchi_open { font-size:36px; }
+ #app #mainvisual .kokuchi_note { margin-top:24px; padding:20px 0 0; }
+ #app #mainvisual .kokuchi_note p { font-size:15px; }
+ #app #mainvisual .kokuchi_note p:first-child { font-size:18px; }
+ body.site--pattern2 #app #mainvisual .kokuchi_note { padding:16px; border-radius:20px; }
+ #app main > section { padding:52px 0; }
+ #app .top_title { margin-bottom:28px; }
+ #app .top_title h2,body.site--pattern3 #app .top_title h2 { font-size:28px; }
+ #app .top_greeting_wrap,#app .has-photo [class^="top_greeting_pattern"] { grid-template-columns:1fr; gap:28px; }
+ #app .top_profile { padding:22px 0 0; border-left:0; border-top:1px solid var(--line); }
+ #app .top_greeting_catch { font-size:22px; }
+ #app .clinic-facts dl { grid-template-columns:76px 1fr; gap:12px; font-size:14px; }
+ #app .clinic-facts dt { padding:6px; }
+ body.site--pattern2 #app .clinic-facts,body.site--pattern2 #app .clinic-schedules { padding:18px; }
+ #app .tb02 { min-width:0; }
+ #app .tb02 th,#app .tb02 td { padding:12px 3px; font-size:12px; }
+ #app .top_medical_list { gap:12px; }
+ #app .top_medical_item { padding:22px 12px; }
+ #app .medical_item_title { font-size:21px; }
+ #app .top_medical_text { font-size:14px; }
+ #app .featutr_item_title { gap:16px; flex-wrap:nowrap; align-items:start; }
+ #app .featutr_item_title h3 { font-size:21px; }
+ #app .feature_item_num { font-size:34px; padding-right:16px; }
+ #app .top_feature_text,body.site--pattern2 #app .top_feature_text { margin-left:0; }
+ #app .top_feature_img { float:none; width:100%; margin:20px 0; }
+ body.site--pattern3 #app .top_feature_list { grid-template-columns:1fr; gap:0; }
+ #app .sp_link_box { padding:28px 0; }
+}
