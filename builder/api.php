@@ -1,6 +1,11 @@
 <?php
 declare(strict_types=1);
 require __DIR__.'/gate.php';
+require __DIR__.'/transport.php';
+set_exception_handler(static function(Throwable $e): void {
+ error_log('Builder API exception: '.get_class($e));
+ fail_request(500,'AI接続処理でサーバーエラーが発生しました。制作担当者に確認してください。');
+});
 header('Content-Type: application/json; charset=utf-8');
 $action=$_GET['action'] ?? '';
 if($action==='status' && $_SERVER['REQUEST_METHOD']==='GET') {echo json_encode(['csrf'=>$_SESSION['csrf'],'configured'=>!empty($_SESSION['gemini_key']) || (bool)getenv('GEMINI_API_KEY')]);exit;}
@@ -24,12 +29,8 @@ $curl=curl_init('https://generativelanguage.googleapis.com/v1beta/models/'.$mode
 curl_setopt_array($curl,[CURLOPT_POST=>true,CURLOPT_POSTFIELDS=>json_encode($payload,JSON_UNESCAPED_UNICODE),CURLOPT_HTTPHEADER=>['Content-Type: application/json','x-goog-api-key: '.$key],CURLOPT_RETURNTRANSFER=>true,CURLOPT_TIMEOUT=>100,CURLOPT_CONNECTTIMEOUT=>15,CURLOPT_FOLLOWLOCATION=>false]);
 $response=curl_exec($curl);$code=curl_getinfo($curl,CURLINFO_HTTP_CODE);$error=curl_errno($curl);curl_close($curl);
 if($error) {
- $message=match($error) {
-  CURLE_PEER_FAILED_VERIFICATION, CURLE_SSL_CACERT_BADFILE => 'PHPのHTTPS証明書設定に問題があります。制作担当者がcurl.cainfoのCA証明書を確認してください。',
-  CURLE_COULDNT_RESOLVE_HOST => 'Googleの接続先を見つけられませんでした。ネットワーク・DNS設定を確認してください。',
-  CURLE_OPERATION_TIMEDOUT => 'Geminiへの接続がタイムアウトしました。再度試してください。',
-  default => 'Geminiとの通信に失敗しました。ネットワーク接続を確認して再度試してください。'
- };
+ error_log('Builder Gemini transport errno: '.$error);
+ $message=gemini_transport_error($error);
  fail_request(502,$message);
 }
 if($code===429)fail_request(429,'Geminiの利用上限に達しました。時間をおいて再試行するか、別モデルを試してください。日次上限の場合はリセットまで待つ必要があります。');
