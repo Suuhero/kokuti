@@ -17,6 +17,7 @@ files['admin/.htaccess']=strToU8('DirectoryIndex index.php\nOptions -Indexes\n<F
 files['private/.htaccess']=strToU8('Require all denied\n');
 files['data/.htaccess']=strToU8('Options -Indexes\n<FilesMatch "^(site\\.json|\\.pending-.*)$">\nRequire all denied\n</FilesMatch>\n');
 files['media/.htaccess']=strToU8('Options -Indexes -ExecCGI\nRemoveHandler .php .phtml .phar .cgi .pl\n<FilesMatch "\\.(php[0-9]?|phtml|phar|cgi|pl|html|svg)$">\nRequire all denied\n</FilesMatch>\nHeader set X-Content-Type-Options "nosniff"\n');
-files['設置方法.txt']=strToU8('kokuti FTP設置用\nPHP 8.1以上 / Apache・.htaccess対応 / HTTPSを利用してください。\n1. Xサーバーのドメイン・DNS・SSLを設定します。\n2. ZIPの中身を公開フォルダへ配置します。隠しファイル.htaccessも必要です。\n3. admin/を開き、設定したアカウントでログインします。\n4. data・media・privateはPHPから書き込める権限が必要です。777にはしないでください。\n5. sitemap.xmlはPHPで動的生成します。\n6. 公開前にprivate/config.phpとdata/site.jsonが直接表示されないこと、管理画面から保存できることを確認してください。\nパスワードを失念した場合は制作ツールで認証情報を再生成しprivate/config.phpだけを差し替えてください。\nログインは1時間で期限切れ。10回失敗でIP/IDごとに15分制限します。\n既存サイトを更新する前にバックアップしてください。\n');
+files['image/.htaccess']=files['media/.htaccess'];
+files['設置方法.txt']=strToU8('kokuti FTP設置用\nPHP 8.1以上 / Apache・.htaccess対応 / HTTPSを利用してください。\n1. Xサーバーのドメイン・DNS・SSLを設定します。\n2. ZIPの中身を公開フォルダへ配置します。隠しファイル.htaccessも必要です。\n3. admin/を開き、設定したアカウントでログインします。\n4. data・image・privateはPHPから書き込める権限が必要です。777にはしないでください。\n5. sitemap.xmlはPHPで動的生成します。\n6. 公開前にprivate/config.phpとdata/site.jsonが直接表示されないこと、管理画面から保存できることを確認してください。\nパスワードを失念した場合は制作ツールで認証情報を再生成しprivate/config.phpだけを差し替えてください。\nログインは1時間で期限切れ。10回失敗でIP/IDごとに15分制限します。\n既存サイトを更新する前にバックアップしてください。\n');
 await fs.mkdir(path.join(root,'builder'),{recursive:true});await fs.writeFile(path.join(root,'builder/template.zip'),zipSync(files,{level:6}));
 console.log(`FTP template: ${Object.keys(files).length} files`);

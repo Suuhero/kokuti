@@ -37,7 +37,7 @@ prompt='''あなたは医院の基本情報シートを告知サイト用JSONに
 不明な文字列は空文字、繰り返し項目は空配列にし、固定件数の欄は空の項目を残します。
 schemaVersionは1、デザイン未指定はpattern1、色未指定はlight-blue / #4cb5df / #eff9fd / #333333です。
 MV未指定は [{"preset":"preset-mv-1.svg","upload":""}] とします。
-画像ファイルのないimageUploadとlogoUploadは空文字です。画像が提供されている場合のみmedia/ファイル名の相対パスを指定します。
+画像ファイルのないimageUploadとlogoUploadは空文字です。画像が提供されている場合のみimage/ファイル名の相対パスを指定します。
 clinicInfo.schedules.rowsは曜日をmon,tue,wed,thu,fri,sat,sunで指定します。
 headerButtonsは2個、freeAreasは3個で固定です。未使用のリンクや本文は空文字です。
 許可HTMLはp,br,strong,em,b,i,ul,ol,li,aのみ。HTML不要な欄にHTMLを入れないでください。

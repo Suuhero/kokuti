@@ -6,7 +6,7 @@ function kokuti_head(array $data, string $root): string
 {
     $html = '';
     $icon = $data['site']['faviconUpload'] ?? '';
-    if (is_string($icon) && preg_match('~^media/[a-zA-Z0-9_-]+\.(png|ico)$~i', $icon) && is_file($root . '/' . $icon)) {
+    if (is_string($icon) && preg_match('~^(?:image|media)/[a-zA-Z0-9_-]+\.(png|ico)$~i', $icon) && is_file($root . '/' . $icon)) {
         $html .= '<link rel="icon" href="' . htmlspecialchars($icon, ENT_QUOTES, 'UTF-8') . '" />' . "\n";
     } elseif (is_file($root . '/favicon/favicon.ico')) {
         $html .= '<link rel="icon" type="image/png" href="favicon/favicon-96x96.png" sizes="96x96" />' . "\n";

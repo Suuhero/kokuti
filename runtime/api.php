@@ -24,11 +24,11 @@ if($user['role']!=='company') {
 $files=$body['images'] ?? [];if(!is_array($files) || count($files)>50) fail_request(422,'画像件数を確認してください。');
 foreach($files as $path=>$encoded) {
  if($user['role']!=='company' && in_array($path,array_column($previous['mv']['images'],'upload'),true)) fail_request(403,'MV画像は社内アカウントで変更してください。');
- if(!is_string($path) || !preg_match('~^media/[a-zA-Z0-9_-]+\.(png|jpg|jpeg|webp|ico)$~',$path,$m) || !is_string($encoded)) fail_request(422,'画像を確認してください。');
+ if(!is_string($path) || !preg_match('~^(?:image|media)/[a-zA-Z0-9_-]+\.(png|jpg|jpeg|webp|ico)$~',$path,$m) || !is_string($encoded)) fail_request(422,'画像を確認してください。');
  $bytes=base64_decode($encoded,true);if($bytes===false || strlen($bytes)>5*1024*1024) fail_request(422,'画像サイズを確認してください。');
  $ext=$m[1];$ok=match($ext){'png'=>str_starts_with($bytes,"\x89PNG\r\n\x1a\n"),'jpg','jpeg'=>str_starts_with($bytes,"\xff\xd8\xff"),'webp'=>substr($bytes,0,4)==='RIFF' && substr($bytes,8,4)==='WEBP','ico'=>str_starts_with($bytes,"\x00\x00\x01\x00"),default=>false};
  if(!$ok) fail_request(422,'画像形式が正しくありません。');
- if(file_put_contents($root.'/'.$path,$bytes,LOCK_EX)===false) fail_request(503,'画像を保存できません。mediaの書き込み権限を確認してください。');
+ if(file_put_contents($root.'/'.$path,$bytes,LOCK_EX)===false) fail_request(503,'画像を保存できません。imageの書き込み権限を確認してください。');
 }
 $json=json_encode($d,JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT|JSON_THROW_ON_ERROR);
 $tmp=$root.'/data/.pending-'.bin2hex(random_bytes(8));

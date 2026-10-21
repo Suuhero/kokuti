@@ -94,3 +94,5 @@ test("元のMVプリセット用の色変換", () => {
   assert.equal(adjust("#000000", 0.28), "#474747");
   assert.equal(adjust("#ffffff", -0.18), "#d1d1d1");
 });
+
+test('image folder supports new uploads and rejects traversal',()=>{const d=structuredClone(sample);d.site.logoUpload='image/logo.png';d.site.faviconUpload='image/icon.ico';assert.deepEqual(validate(d,schema),[]);d.site.logoUpload='image/../logo.png';assert.ok(validate(d,schema).length);});

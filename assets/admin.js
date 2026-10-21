@@ -17,7 +17,7 @@ import {
   download,
   mediaRefs,
   validate,
-} from "./shared.js?v=20261021d";
+} from "./shared.js?v=20261021-image";
 const isRuntime = !!document.getElementById('kokuti-runtime');
 const isCustomer = isRuntime && JSON.parse(document.getElementById('kokuti-runtime').textContent).role === 'customer';
 const store = isRuntime ? new ServerStore() : new BrowserStore();
@@ -431,7 +431,7 @@ function view() {
     return (
       panel(
         "データのダウンロード",
-        `<div class="tools"><p>現在の入力内容をsite.jsonとしてダウンロードします。画像は下の一覧から1つずつ保存してください。画像の配置先はmedia/です。</p><div class="tool-row"><button type="button" data-action="export">site.jsonをダウンロード</button><a href="${asset("data/AIプロンプト.txt")}" download="基本情報シートからJSON作成_プロンプト.txt">AI用プロンプト</a><a href="${asset("data/schema.json")}" download="schema.json">JSON仕様</a></div><ul class="files">${refs.map((ref) => `<li><span>${e(ref)}${images.has(ref) ? "" : "（画像未配置）"}</span><button type="button" data-download-image="${e(ref)}" ${images.has(ref) ? "" : "disabled"}>ダウンロード</button></li>`).join("") || "<li>アップロード画像はありません。</li>"}</ul></div>`,
+        `<div class="tools"><p>現在の入力内容をsite.jsonとしてダウンロードします。画像は下の一覧から1つずつ保存してください。画像の配置先はimage/です。</p><div class="tool-row"><button type="button" data-action="export">site.jsonをダウンロード</button><a href="${asset("data/AIプロンプト.txt")}" download="基本情報シートからJSON作成_プロンプト.txt">AI用プロンプト</a><a href="${asset("data/schema.json")}" download="schema.json">JSON仕様</a></div><ul class="files">${refs.map((ref) => `<li><span>${e(ref)}${images.has(ref) ? "" : "（画像未配置）"}</span><button type="button" data-download-image="${e(ref)}" ${images.has(ref) ? "" : "disabled"}>ダウンロード</button></li>`).join("") || "<li>アップロード画像はありません。</li>"}</ul></div>`,
       ) +
       panel(
         "JSONを試す",
@@ -557,7 +557,7 @@ async function upload(input) {
     const png = [137,80,78,71,13,10,26,10].every((v,n)=>bytes[n]===v);
     const ico = bytes[0]===0 && bytes[1]===0 && bytes[2]===1 && bytes[3]===0 && (bytes[4] || bytes[5]);
     if (file.size > 1024*1024 || (!png && !ico)) throw Error("faviconはPNGまたはICO、1MB以下にしてください。");
-    const path = `media/${crypto.randomUUID()}.${png ? "png" : "ico"}`;
+    const path = `image/${crypto.randomUUID()}.${png ? "png" : "ico"}`;
     images.set(path, new Blob([file], {type:png ? "image/png" : "image/x-icon"}));
     set(data, input.dataset.image, path); mark(); render(); return;
   }
@@ -577,7 +577,7 @@ async function upload(input) {
   const ext = { "image/jpeg": "jpg", "image/png": "png", "image/webp": "webp" }[
     file.type
   ];
-  const path = `media/${crypto.randomUUID()}.${ext}`;
+  const path = `image/${crypto.randomUUID()}.${ext}`;
   images.set(path, file);
   set(data, input.dataset.image, path);
   mark();

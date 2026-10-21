@@ -42,5 +42,5 @@ function check_site(array $d, string $root): void {
     if(!validate_schema($d,$s) || trim($d['site']['clinicName'])==='') fail_request(422,'サイトデータの項目・件数を確認してください。');
     foreach(['main','sub','text'] as $k) if(!preg_match('/^#[a-f0-9]{6}$/i',$d['colors'][$k])) fail_request(422,'色の形式が正しくありません。');
     foreach($d['mv']['images'] as $i) if(!in_array($i['preset'],['preset-mv-1.svg','preset-mv-2.svg','preset-mv-3.svg'],true)) fail_request(422,'背景を確認してください。');
-    $walk=function($v) use (&$walk) {if(!is_array($v)) return; foreach($v as $k=>$x) {if(in_array($k,['upload','imageUpload','logoUpload','faviconUpload'],true) && $x!=='' && (!is_string($x) || !preg_match('~^media/[a-zA-Z0-9_-]+\.(png|jpg|jpeg|webp|ico)$~',$x))) fail_request(422,'画像パスが正しくありません。'); if(is_array($x)) $walk($x);}}; $walk($d);
+    $walk=function($v) use (&$walk) {if(!is_array($v)) return; foreach($v as $k=>$x) {if(in_array($k,['upload','imageUpload','logoUpload','faviconUpload'],true) && $x!=='' && (!is_string($x) || !preg_match('~^(?:image|media)/[a-zA-Z0-9_-]+\.(png|jpg|jpeg|webp|ico)$~',$x))) fail_request(422,'画像パスが正しくありません。'); if(is_array($x)) $walk($x);}}; $walk($d);
 }

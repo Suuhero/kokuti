@@ -1,7 +1,7 @@
 import {designSample} from './design-controls.js';
-import {renderFields,bindFields} from './builder-fields.js';
+import {renderFields,bindFields} from './builder-fields.js?v=20261021-image';
 import {BrowserStore} from './store.js';
-import {esc, get, set, palettes, designs, mvNames, mvSVG, mvAsset, validate, jsonFile, download, mediaRefs} from './shared.js?v=20261021d';
+import {esc, get, set, palettes, designs, mvNames, mvSVG, mvAsset, validate, jsonFile, download, mediaRefs} from './shared.js?v=20261021-image';
 import {domainId,siteURL,randomPassword,credential,docxXML,emptySite} from './builder-core.js?v=20261021-50mb';
 import {zipSync,unzipSync,strToU8} from './vendor/fflate.js';
 const $=s=>document.querySelector(s), store=new BrowserStore();
@@ -32,7 +32,7 @@ $('#word').onchange=task(async()=>{const f=$('#word').files[0];if(!f)return;if(!
 $('#json').onchange=task(async()=>{const f=$('#json').files[0];if(!f)return;if(f.size>2*1024*1024)throw Error('JSONは2MB以下にしてください。');const d=JSON.parse(await f.text());const errors=validate(d,schema);if(errors.length)throw Error(errors.slice(0,5).join('\n'));data=d;fill();status('JSONを読み込みました。画像ファイルは別途設定してください。');});
 $('#sample').onclick=task(async()=>{if(data.site.clinicName && !confirm('入力内容を架空データに置き換えますか？'))return;data=structuredClone(sample);images=new Map();$('#url').value='https://sakura-clinic.example/';fill();status('架空データを読み込みました。実際の医院情報ではありません。');});
 $('#clear').onclick=task(async()=>{if(!confirm('入力内容をクリアしますか？'))return;data=emptySite(sample);images=new Map();$('#source').value='';$('#url').value='';$('#reviewed').checked=false;fill();});
-for(const [id,key]of[['logo','logoUpload'],['favicon','faviconUpload']])$('#'+id).onchange=task(async()=>{const f=$('#'+id).files[0];if(!f)return;const ext=f.name.split('.').at(-1).toLowerCase();if(!(id==='favicon'?['png','ico']:['png','jpg','jpeg','webp']).includes(ext))throw Error('対応する画像形式を選んでください。');if(f.size>(id==='favicon'?1:5)*1024*1024)throw Error('画像サイズの上限を超えています。');const b=new Uint8Array(await f.arrayBuffer());if(ext==='ico'){if(b[0]!==0||b[1]!==0||b[2]!==1||b[3]!==0)throw Error('ICO画像を確認してください。');}else {const bitmap=await createImageBitmap(f);bitmap.close();if(ext==='png' && !(b[0]===137&&b[1]===80&&b[2]===78&&b[3]===71))throw Error('PNG画像を確認してください。');}const path='media/'+crypto.randomUUID()+'.'+ext;images.set(path,f);data.site[key]=path;renderMedia();});
+for(const [id,key]of[['logo','logoUpload'],['favicon','faviconUpload']])$('#'+id).onchange=task(async()=>{const f=$('#'+id).files[0];if(!f)return;const ext=f.name.split('.').at(-1).toLowerCase();if(!(id==='favicon'?['png','ico']:['png','jpg','jpeg','webp']).includes(ext))throw Error('対応する画像形式を選んでください。');if(f.size>(id==='favicon'?1:5)*1024*1024)throw Error('画像サイズの上限を超えています。');const b=new Uint8Array(await f.arrayBuffer());if(ext==='ico'){if(b[0]!==0||b[1]!==0||b[2]!==1||b[3]!==0)throw Error('ICO画像を確認してください。');}else {const bitmap=await createImageBitmap(f);bitmap.close();if(ext==='png' && !(b[0]===137&&b[1]===80&&b[2]===78&&b[3]===71))throw Error('PNG画像を確認してください。');}const path='image/'+crypto.randomUUID()+'.'+ext;images.set(path,f);data.site[key]=path;renderMedia();});
 $('#next1').onclick=task(async()=>{go(2);});
 $('#next2').onclick=task(async()=>{sync();const url=siteURL($('#url').value);const errors=validate(data,schema);if(errors.length)throw Error(errors.slice(0,5).join('\n'));$('#url').value=url;if(!$('#customer-id').value)$('#customer-id').value=domainId(url);await persist();go(3);});
 document.querySelectorAll('[data-generate]').forEach(b=>b.onclick=()=>{$('#'+b.dataset.generate+'-password').value=randomPassword();$('#credentials-saved').checked=false;});

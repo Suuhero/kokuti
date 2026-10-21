@@ -9,7 +9,7 @@ import {
   mvAsset,
   mvSVG,
   jsonFile,
-} from "./shared.js?v=20261021d";
+} from "./shared.js?v=20261021-image";
 const store = new BrowserStore(),
   urls = [];
 const e = esc;
@@ -49,7 +49,7 @@ async function run() {
     }
     return asset(path);
   };
-  if (!embedded && /^media\/[a-zA-Z0-9_-]+\.(png|ico)$/i.test(s.faviconUpload || "")) {
+  if (!embedded && /^(?:image|media)\/[a-zA-Z0-9_-]+\.(png|ico)$/i.test(s.faviconUpload || "")) {
     const icon = document.createElement("link");
     icon.rel = "icon";
     icon.href = media(s.faviconUpload);
@@ -70,7 +70,7 @@ async function run() {
     .filter(([k, v]) => !["heading", "headingEn"].includes(k) && v)
     .map(
       ([k, v]) =>
-        `<li><a class="sns" aria-label="${e(k)}" href="${e(safeLink(v))}" target="_blank" rel="noopener noreferrer"><i aria-hidden="true" class="fa-brands fa-${k === "x" ? "x-twitter" : k}"></i></a></li>`,
+        `<li><a class="sns" aria-label="${e(k)}" href="${e(safeLink(v))}" target="_blank" rel="noopener noreferrer"><i aria-hidden="true" class="fa-brands fa-${k === "x" ? "x-twitter" : k}"></i><span class="sns-button-label">${e(({facebook:"Facebook",instagram:"Instagram",line:"LINE",x:"X",tiktok:"TikTok",youtube:"YouTube"})[k] || k)}</span><span aria-hidden="true" class="sns-arrow">↗</span></a></li>`,
     )
     .join("");
   const free = d.freeAreas.map((a, n) =>

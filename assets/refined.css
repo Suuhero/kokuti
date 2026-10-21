@@ -217,3 +217,15 @@ body.site--pattern3 #app .feature_item_num { font-style:italic; border:0; paddin
  body.site--pattern3 #app .top_feature_list { grid-template-columns:1fr; gap:0; }
  #app .sp_link_box { padding:28px 0; }
 }
+
+/* Align the feature number with the first heading baseline, including wrapped titles. */
+body.site--pattern3 #app .featutr_item_title {align-items:baseline;}
+body.site--pattern3 #app .feature_item_num {position:static;transform:none;line-height:1.2;}
+#app .top_sns_link, #app .sns_list {display:flex;flex-wrap:wrap;gap:12px;}
+#app .top_sns_link li, #app .sns_list li {width:auto;margin:0;padding:0;}
+#app a.sns {display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:48px;padding:10px 18px;border:1px solid var(--main);border-radius:8px;background:var(--sub);color:var(--main-dark);text-decoration:none;line-height:1.4;}
+#app a.sns i {font-size:20px;}
+#app a.sns .sns-button-label {font:600 14px/1.4 sans-serif;}
+#app a.sns .sns-arrow {font-size:16px;}
+#app a.sns:hover {background:var(--sub);color:var(--ink);opacity:1;box-shadow:0 0 0 1px var(--main);text-decoration:underline;}
+#app a.sns:focus-visible {outline:3px solid var(--main-dark);outline-offset:3px;}

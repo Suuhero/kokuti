@@ -207,8 +207,8 @@ export function validate(data, schema) {
   )
     errors.push("MVプリセットを確認してください");
   for (const ref of mediaRefs(data))
-    if (!(ref === data.site?.faviconUpload ? /^media\/[a-zA-Z0-9_-]+\.(png|ico)$/i : /^media\/[a-zA-Z0-9_.-]+\.(png|jpe?g|webp)$/i).test(ref))
-      errors.push("画像パスはmedia/ファイル名.jpg・png・webpにしてください");
+    if (!(ref === data.site?.faviconUpload ? /^(?:image|media)\/[a-zA-Z0-9_-]+\.(png|ico)$/i : /^(?:image|media)\/[a-zA-Z0-9_.-]+\.(png|jpe?g|webp)$/i).test(ref))
+      errors.push("画像パスはimage/ファイル名.jpg・png・webpにしてください");
   return errors;
 }
 

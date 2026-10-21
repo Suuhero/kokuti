@@ -27,7 +27,8 @@ altered=structuredClone(saved.data);altered.site.clinicName='保存確認クリ�
 assert.equal((await post({data:altered,revision:'stale'})).status,409);
 assert.equal((await post({data:altered,revision:saved.revision,images:{'media/../../evil.php':'bad'}})).status,422);
 assert.equal((await post({data:altered,revision:saved.revision,images:{'media/fake.png':Buffer.from('<?php echo 1;').toString('base64')}})).status,422);
-assert.equal((await post({data:altered,revision:saved.revision,images:{}})).status,200);
+assert.equal((await post({data:altered,revision:saved.revision,images:{'image/test.png':'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jRZkAAAAASUVORK5CYII='}})).status,200);
+assert.ok((await fs.stat(path.join(root,'image/test.png'))).size>0);
 assert.equal((await(await req('admin/api.php')).json()).data.site.clinicName,'保存確認クリニック');
 const publicHtml=await(await req('')).text();assert.equal(JSON.parse(publicHtml.match(/<script id="kokuti-site-data"[^>]*>(.*?)<\/script>/s)[1]).site.clinicName,'保存確認クリニック');assert.ok(!publicHtml.includes('noindex,nofollow'));
 const sitemap=await(await req('sitemap.php')).text();assert.ok(sitemap.includes('https://clinic.example/notice/'));
