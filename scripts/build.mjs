@@ -22,3 +22,5 @@ for (const file of ["site.json", "auth.json"]) {
   }
 }
 console.log("Pages demo built: dist/pages");
+await fs.mkdir(path.join(out,'builder'),{recursive:true});
+for(const file of ['index.html','template.zip']) await fs.copyFile(path.join(root,'builder',file),path.join(out,'builder',file));

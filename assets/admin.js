@@ -1,4 +1,5 @@
 import { BrowserStore } from "./store.js";
+import { ServerStore } from "./server-store.js";
 import {
   asset,
   esc as e,
@@ -16,7 +17,9 @@ import {
   mediaRefs,
   validate,
 } from "./shared.js?v=20261021";
-const store = new BrowserStore();
+const isRuntime = !!document.getElementById('kokuti-runtime');
+const isCustomer = isRuntime && JSON.parse(document.getElementById('kokuti-runtime').textContent).role === 'customer';
+const store = isRuntime ? new ServerStore() : new BrowserStore();
 let presetSources = {};
 let data,
   schema,
@@ -187,6 +190,7 @@ function view() {
         "告知サイトを編集する",
         `<div class="home-intro"><h2>${e(data.site.clinicName)}</h2><p>左のメニューから項目を編集し、「変更を保存」で反映します。</p></div><div class="home-links">${nav
           .slice(1, 11)
+          .filter(([key])=>!isCustomer || key!=='design')
           .map(
             ([key, label, , desc]) =>
               `<a href="#${key}">${label}<span>${desc}</span></a>`,
@@ -194,7 +198,7 @@ function view() {
           .join("")}</div>`,
       ) +
       panel(
-        "デモの使い方",
+        isRuntime ? "編集と保存" : "デモの使い方",
         '<div class="tools"><p>保存した内容は、このブラウザの告知サイトに反映されます。他の人のデモや本番サイトには影響しません。</p><p>ブラウザのデータを削除すると編集内容も消えます。残したい内容は詳細設定からJSONと画像をダウンロードしてください。</p><div class="tool-row"><a href="../" target="_blank" rel="noopener">サイトを表示</a><a href="#tools">ダウンロード・初期化</a></div></div>',
       )
     );
@@ -254,7 +258,7 @@ function view() {
           3,
         ),
         "画像をアップロードするとプリセットより優先されます。",
-      )
+      ) + panel('追加CSS（社内用）', field('site.customCss','追加CSS','textarea','公開サイトにだけ適用します。CSSのみ入力してください。管理画面には反映されません。'))
     );
   if (screen === "clinic")
     return (
@@ -465,18 +469,33 @@ function notice(message, error = false) {
     : e(message);
 }
 function render() {
+  if(isCustomer && screen==='design') screen='home';
   imageURLs.forEach(URL.revokeObjectURL);
   imageURLs = [];
   const active = nav.find((n) => n[0] === screen) || nav[0];
   document.querySelector("#page-title").textContent = active[1];
   document.querySelector("#page-description").textContent = active[3];
   document.querySelector("#nav").innerHTML = nav
+    .filter(([key])=>!isCustomer || key!=='design')
     .map(
       ([key, label, icon]) =>
         `<a href="#${key}" ${key === screen ? 'aria-current="page"' : ""}><span class="dashicons dashicons-${icon}" aria-hidden="true"></span>${label}</a>`,
     )
     .join("");
   document.querySelector("#editor").innerHTML = view();
+  if(!isRuntime) document.querySelectorAll('a[href="../"]').forEach(a=>a.setAttribute('href','../index.html'));
+  if(isRuntime) {
+    document.querySelector('[data-action="reset"]')?.closest('.panel')?.remove();
+    const reset=document.querySelector('[data-action="reset"]');if(reset)reset.closest('.tools').hidden=true;
+    const role=JSON.parse(document.getElementById('kokuti-runtime').textContent).role;
+    const analytics=document.querySelector('[data-path="site.analyticsCode"]');
+    if(analytics && role!=='company'){analytics.closest('.field')?.remove();if(analytics.isConnected)analytics.hidden=true;}
+    if(isCustomer) {const input=document.getElementById('import-json');if(input)input.closest('.tools').hidden=true;}
+    if(screen==='home') {
+      const tools=document.querySelector('#editor .tools');
+      if(tools) tools.innerHTML='<p>変更を保存すると公開サイトに反映されます。編集前のJSONと画像は詳細設定から控えてください。</p><a href="../" target="_blank" rel="noopener">サイトを表示 ↗</a>';
+    }
+  }
   state();
 }
 function mark() {

@@ -8,3 +8,8 @@
 - `assets/fontawesome/`: 元の参照先から取得したFont Awesome Free 6.4.2。Fonts: SIL OFL 1.1、Code: MIT、Icons: CC BY 4.0。付属LICENSE.txt参照。
 
 各素材の権利は元の権利者に帰属します。この一覧はサイト全体へ新しいライセンスを付与するものではありません。
+# fflate
+
+ZIP生成・DOCXの本文抽出に fflate 0.8.3（MIT）を使用します。
+ライセンス: assets/vendor/fflate-LICENSE.txt
+ソース: https://github.com/101arrowz/fflate

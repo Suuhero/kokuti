@@ -179,7 +179,7 @@ export function validate(data, schema) {
       for (const k of s.required || [])
         if (!(k in v)) errors.push(`${path}.${k}: 項目がありません`);
       for (const [k, x] of Object.entries(v)) {
-        if (s.properties[k]) walk(x, s.properties[k], path + "." + k);
+        if (Object.hasOwn(s.properties,k)) walk(x, s.properties[k], path + "." + k);
         else errors.push(`${path}.${k}: 未対応の項目です`);
       }
     }

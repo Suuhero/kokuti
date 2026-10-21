@@ -31,6 +31,7 @@ async function run() {
     images = new Map();
   }
   const d = record.data;
+  if(d.site.customCss) {const style=document.createElement('style');style.id='kokuti-custom-css';style.textContent=d.site.customCss;document.head.append(style);}
   const requested = new URL(location.href).searchParams.get("pattern");
   if (["pattern1", "pattern2", "pattern3"].includes(requested))
     d.design = requested;
@@ -171,6 +172,11 @@ async function run() {
  <section id="feature" class="sec_top_feature"><div class="contents">${title(d.background)}<div class="top_feature_list">${d.background.items.map((t, n) => `<div class="top_feature_item clearfix${t.imageUpload ? " float_wrap" : ""}"><div class="featutr_item_title"><span class="feature_item_num">${String(n + 1).padStart(2,"0")}</span><h3>${e(t.title)}</h3></div>${t.imageUpload ? `<div class="top_feature_img img_fl">${img(t.imageUpload, t.title, 'width="650" height="450"')}</div>` : ""}${t.body ? `<div class="top_feature_text text">${rich(t.body)}</div>` : ""}</div>`).join("")}</div></div></section>${free[2]}</main>
  <footer><div class="contents"><div class="footer_logo" id="flogo"><a href="#">${logo}</a></div><div class="footer_info"><p class="footer_add">${e(postal)}　<br class="sp_inline">${e(street)}</p><p>${e(departments)}</p></div></div><div class="footer_navi"><div class="inner"><ul>${footerNav}</ul></div></div><p class="copy"><small>©${e(s.clinicName)}</small></p><div class="pagetop" role="button" tabindex="0" aria-label="ページ上部へ"></div></footer>
  <aside class="demo-tools" aria-label="デモの操作"><strong>架空の医院・デモ表示</strong><a href="${asset("admin/")}">管理画面を開く</a></aside>`;
+  if (embedded) {
+    document.querySelector('.demo-tools')?.remove();
+    const news=document.querySelector('.sec_top_news_list_wrap p');
+    if(news) news.textContent='開院に関する情報は、このサイトでご案内します。';
+  }
   document.querySelectorAll("img").forEach((im) =>
     im.addEventListener("error", () => {
       im.alt += "（画像未配置）";

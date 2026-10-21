@@ -1,0 +1,5 @@
+DirectoryIndex index.php
+Options -Indexes
+<FilesMatch "^(gate\.php|index\.html)$">
+Require all denied
+</FilesMatch>

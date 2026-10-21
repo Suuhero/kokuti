@@ -5,3 +5,5 @@ media/
 data/site.json
 data/auth.json
 *.log
+builder/template.zip
+private/

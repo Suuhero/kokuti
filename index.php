@@ -12,6 +12,9 @@ try {
         throw new RuntimeException('Invalid site data');
     }
     $template = file_get_contents(__DIR__ . '/index.html');
+    $escape = fn($v) => htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8');
+    $template = preg_replace_callback('~<title>.*?</title>~s', fn() => '<title>'.$escape($data['site']['pageTitle'] ?: $data['site']['clinicName']).'</title>', $template);
+    $template = preg_replace_callback('~<meta\s+name="description"\s+content="[^"]*"\s*/?>~s', fn() => '<meta name="description" content="'.$escape($data['site']['description']).'">', $template);
     // Keep data inert and prevent embedded text from terminating the script tag.
     $json = json_encode($data, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_THROW_ON_ERROR);
     $head = '<script id="kokuti-site-data" type="application/json">' . $json . '</script>' . "\n";
