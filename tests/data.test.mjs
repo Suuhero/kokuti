@@ -37,6 +37,17 @@ test("既存MVスロットを9種類に割り当て、18配色をSVGに反映す
 });
 test("架空データはAI向けスキーマに一致する", () =>
   assert.deepEqual(validate(sample, schema), []));
+test("任意のfaviconは旧JSONと互換、ICO/PNGのみ相対パスで保存", () => {
+  for (const ext of ['ico','png']) {
+    const d=structuredClone(sample); d.site.faviconUpload=`media/icon.${ext}`;
+    assert.deepEqual(validate(d,schema),[]);
+    assert.ok(mediaRefs(d).has(d.site.faviconUpload));
+  }
+  for (const path of ['https://example.com/icon.png','media/../icon.png','media/icon.svg']) {
+    const d=structuredClone(sample); d.site.faviconUpload=path;
+    assert.ok(validate(d,schema).length);
+  }
+});
 test("3パターンと18パレットを利用できる", () => {
   assert.equal(palettes.length, 18);
   for (const design of ["pattern1", "pattern2", "pattern3"])

@@ -46,3 +46,13 @@ Full-view source/implementation comparisons were performed in combined image inp
 - [x] Three typography/radius treatments.
 - [x] Palette/preset save flow, tests and both build outputs.
 - [x] Post-fix visual comparison.
+
+## 2026-10-21 follow-up verification
+
+User requested admin regrouping, favicon editing, and all-pattern layout repairs. Section treatments now use separate quiet CSS backgrounds (2026-10-20 follow-up), not the MV SVG.
+
+Fixed inherited absolute positioning and ratio spacers in medical cards; removed duplicate greeting gap and career heading decoration; restored inline doctor position/name and two-column career rows; reset feature-number width to prevent mobile title overflow; normalized section title spacing despite legacy important rules; removed right borders on even medical cards at two-column widths.
+
+Checked all three patterns at default desktop 1280×720 and mobile override 390×844 (375px content width with scrollbar). Mobile document scrollWidth equals clientWidth after feature fix. Inspected clinic tables, greetings, medical cards and feature headings. Public console error log empty. Evidence: C:/Users/sueshige/Documents/Codex/2026-10-05/new-chat/outputs/kokuti/layout-fixed-desktop.png.
+
+Admin checks: logo/favicon in Basic, MV in Design, switching to pattern3 updates MV labels; ICO upload and save succeeded, public head contains icon Blob URL. Schema/path and PHP override/fallback tests pass. Stale schema/CSS caches found during testing; JSON revalidation and versioned entry assets added. Physical Safari/device matrix and all arbitrary image/content combinations remain untested.

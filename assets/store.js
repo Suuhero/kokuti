@@ -1,4 +1,4 @@
-import { jsonFile, clone, mediaRefs } from "./shared.js";
+import { jsonFile, clone, mediaRefs } from "./shared.js?v=20261021";
 const DB_NAME = "kokuti-demo-" + new URL("../", import.meta.url).pathname;
 export class BrowserStore {
   async db() {

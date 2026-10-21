@@ -66,7 +66,7 @@ export function adjust(hex, percent) {
   );
 }
 export async function jsonFile(path) {
-  const r = await fetch(asset(path));
+  const r = await fetch(asset(path), {cache:"no-cache"});
   if (!r.ok)
     throw Error("データを読み込めませんでした。再読み込みしてください。");
   return r.json();
@@ -149,7 +149,7 @@ export function mediaRefs(data) {
     if (Array.isArray(v)) v.forEach(walk);
     else if (v && typeof v === "object")
       Object.entries(v).forEach(([k, x]) => {
-        if (["upload", "imageUpload", "logoUpload"].includes(k) && x)
+        if (["upload", "imageUpload", "logoUpload", "faviconUpload"].includes(k) && x)
           refs.add(x);
         else walk(x);
       });
@@ -207,7 +207,7 @@ export function validate(data, schema) {
   )
     errors.push("MVプリセットを確認してください");
   for (const ref of mediaRefs(data))
-    if (!/^media\/[a-zA-Z0-9_.-]+\.(png|jpe?g|webp)$/i.test(ref))
+    if (!(ref === data.site?.faviconUpload ? /^media\/[a-zA-Z0-9_-]+\.(png|ico)$/i : /^media\/[a-zA-Z0-9_.-]+\.(png|jpe?g|webp)$/i).test(ref))
       errors.push("画像パスはmedia/ファイル名.jpg・png・webpにしてください");
   return errors;
 }

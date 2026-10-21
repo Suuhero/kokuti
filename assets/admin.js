@@ -15,7 +15,7 @@ import {
   download,
   mediaRefs,
   validate,
-} from "./shared.js";
+} from "./shared.js?v=20261021";
 const store = new BrowserStore();
 let presetSources = {};
 let data,
@@ -45,12 +45,6 @@ const nav = [
     "デザイン・カラー",
     "admin-appearance",
     "元の3つのデザインと18色のパレットから選べます。",
-  ],
-  [
-    "images",
-    "ロゴ・メイン画像",
-    "format-image",
-    "ロゴとメインビジュアルを設定します。",
   ],
   [
     "clinic",
@@ -161,12 +155,13 @@ function designSample(key) {
 }
 function imageField(path, label) {
   const value = get(data, path);
+  const favicon = path === "site.faviconUpload";
   let u = "";
   if (value && images.has(value)) {
     u = URL.createObjectURL(images.get(value));
     imageURLs.push(u);
   }
-  return `<div class="field"><label for="${id(path)}">${e(label)}</label><div class="control"><div class="image-editor">${u ? `<img class="image-preview" src="${u}" alt="${e(label)}のプレビュー">` : `<div class="empty-image">${value ? "画像ファイルが未配置です" : "画像は設定されていません"}</div>`}<div class="image-actions"><input id="${id(path)}" type="file" accept="image/png,image/jpeg,image/webp" data-image="${path}" aria-label="${e(label)}">${value ? `<button type="button" class="remove" data-clear-image="${path}">画像を解除</button>` : ""}</div><p class="hint">JPG / PNG / WebP・1枚5MBまで。${value ? e(value) : ""}</p></div></div></div>`;
+  return `<div class="field"><label for="${id(path)}">${e(label)}</label><div class="control"><div class="image-editor">${u ? `<img class="image-preview" src="${u}" alt="${e(label)}のプレビュー">` : `<div class="empty-image">${value ? "画像ファイルが未配置です" : "画像は設定されていません"}</div>`}<div class="image-actions"><input id="${id(path)}" type="file" accept="${favicon ? ".png,.ico,image/png,image/x-icon,image/vnd.microsoft.icon" : "image/png,image/jpeg,image/webp"}" data-image="${path}" aria-label="${e(label)}">${value ? `<button type="button" class="remove" data-clear-image="${path}">画像を解除</button>` : ""}</div><p class="hint">${favicon ? "PNG / ICO・1MBまで。正方形の画像を推奨。" : "JPG / PNG / WebP・1枚5MBまで。"}${value ? e(value) : ""}</p></div></div></div>`;
 }
 function panel(name, body, intro = "") {
   return `<section class="panel"><h2>${e(name)}</h2>${intro ? `<p class="panel-intro">${e(intro)}</p>` : ""}${body}</section>`;
@@ -223,6 +218,12 @@ function view() {
           field("site.analyticsCode", "アナリティクスコード", "textarea", "<script>タグを含む計測コードを貼り付けてください。FTP用PHPでは公開ページの<head>に出力します。GitHub Pagesデモでは保存・JSON出力のみで、計測は実行しません。"),
       ) +
       panel(
+        "ロゴ",
+        field("site.logoText", "ロゴ表示テキスト") +
+          imageField("site.logoUpload", "ロゴ画像"),
+      ) +
+      panel("サイトアイコン（favicon）", imageField("site.faviconUpload", "favicon画像"), "PNGまたはICOを設定します。保存後に公開サイトのタブへ反映されます。FTP設置時はJSONと画像を詳細設定からダウンロードしてください。") +
+      panel(
         "開院のお知らせ",
         field("site.openDate", "日付") +
           field("site.kokuchiTitle", "タイトル") +
@@ -235,20 +236,12 @@ function view() {
       panel(
         "デザインパターン",
         `<div class="designs">${designs.map(([key, name, desc]) => `<label class="design-choice"><input type="radio" name="design" data-path="design" value="${key}" ${data.design === key ? "checked" : ""}>${designSample(key)}<strong>${name}</strong><small>${desc}</small></label>`).join("")}</div>`,
-        "見出し・本文の書体とカードの角を拡大した比較見本です。公開サイトのレイアウトはそのままです。",
+        "見出し・本文の書体とカードの角を拡大した比較見本です。ページ全体の書体・角丸・背景の雰囲気が変わります。",
       ) +
       panel(
         "カラーパレット",
         `<div class="palette-grid">${palettes.map(([key, label, main, sub], n) => `<label class="palette"><input type="radio" name="palette" data-palette="${key}" ${data.colors.preset === key ? "checked" : ""}><span class="palette-name">${String(n + 1).padStart(2, "0")} ${label}</span><span class="swatches"><i style="background:${main}"></i><i style="background:${sub}"></i></span></label>`).join("")}</div>`,
         "メインカラー・背景色・MVプリセットに反映されます。",
-      )
-    );
-  if (screen === "images")
-    return (
-      panel(
-        "ロゴ",
-        field("site.logoText", "ロゴ表示テキスト") +
-          imageField("site.logoUpload", "ロゴ画像"),
       ) +
       panel(
         "メインビジュアル",
@@ -438,7 +431,7 @@ function view() {
       ) +
       panel(
         "JSONを試す",
-        `<div class="tools"><p>AIで作ったJSONを読み込み、保存する前に内容を確認できます。読み込み時に現在の入力内容を置き換えます。</p><label for="import-json">site.jsonを選択</label><p><input id="import-json" type="file" accept=".json,application/json"></p><p>画像ファイルは「ロゴ・メイン画像」「医師紹介」等から設定してください。</p></div>`,
+        `<div class="tools"><p>AIで作ったJSONを読み込み、保存する前に内容を確認できます。読み込み時に現在の入力内容を置き換えます。</p><label for="import-json">site.jsonを選択</label><p><input id="import-json" type="file" accept=".json,application/json"></p><p>画像ファイルは「基本情報」「デザイン・カラー」「医師紹介」等から設定してください。</p></div>`,
       ) +
       panel(
         "デモを初期化",
@@ -540,6 +533,15 @@ async function save() {
 async function upload(input) {
   const file = input.files?.[0];
   if (!file) return;
+  if (input.dataset.image === "site.faviconUpload") {
+    const bytes = new Uint8Array(await file.slice(0, 8).arrayBuffer());
+    const png = [137,80,78,71,13,10,26,10].every((v,n)=>bytes[n]===v);
+    const ico = bytes[0]===0 && bytes[1]===0 && bytes[2]===1 && bytes[3]===0 && (bytes[4] || bytes[5]);
+    if (file.size > 1024*1024 || (!png && !ico)) throw Error("faviconはPNGまたはICO、1MB以下にしてください。");
+    const path = `media/${crypto.randomUUID()}.${png ? "png" : "ico"}`;
+    images.set(path, new Blob([file], {type:png ? "image/png" : "image/x-icon"}));
+    set(data, input.dataset.image, path); mark(); render(); return;
+  }
   if (
     file.size > 5 * 1024 * 1024 ||
     !["image/jpeg", "image/png", "image/webp"].includes(file.type)
@@ -579,6 +581,7 @@ document.querySelector("#editor").addEventListener("change", async (ev) => {
     if (el.dataset.path && el.type === "radio") {
       set(data, el.dataset.path, el.value);
       mark();
+      if (el.dataset.path === "design") render();
     }
     if (el.dataset.palette) {
       const [key, , main, sub] = palettes.find(
@@ -692,6 +695,7 @@ document.querySelector("#menu-toggle").addEventListener("click", () => {
     .setAttribute("aria-expanded", String(open));
 });
 addEventListener("hashchange", () => {
+  if (location.hash === "#images") { location.hash = "#design"; return; }
   screen = nav.some((n) => n[0] === location.hash.slice(1))
     ? location.hash.slice(1)
     : "home";
@@ -721,6 +725,7 @@ addEventListener("beforeunload", (ev) => {
 });
 async function init() {
   try {
+    if (location.hash === "#images") history.replaceState(null, "", "#design");
     const [saved, s, im] = await Promise.all([
       store.load(),
       jsonFile("data/schema.json"),

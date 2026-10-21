@@ -9,7 +9,7 @@ import {
   mvAsset,
   mvSVG,
   jsonFile,
-} from "./shared.js";
+} from "./shared.js?v=20261021";
 const store = new BrowserStore(),
   urls = [];
 const e = esc;
@@ -48,6 +48,12 @@ async function run() {
     }
     return asset(path);
   };
+  if (!embedded && /^media\/[a-zA-Z0-9_-]+\.(png|ico)$/i.test(s.faviconUpload || "")) {
+    const icon = document.createElement("link");
+    icon.rel = "icon";
+    icon.href = media(s.faviconUpload);
+    document.head.append(icon);
+  }
   const img = (path, alt, extra = "") =>
     path ? `<img src="${e(media(path))}" alt="${e(alt)}" ${extra}>` : "";
   const logo = s.logoUpload

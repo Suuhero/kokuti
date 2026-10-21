@@ -137,6 +137,10 @@
         "analyticsCode": {
           "type": "string",
           "maxLength": 20000
+        },
+        "faviconUpload": {
+          "type": "string",
+          "maxLength": 20000
         }
       }
     },
