@@ -216,7 +216,7 @@ export function validate(data, schema) {
 export const mvNames = {
   pattern1: ['光とドット','やわらかな円','水平のグラデーション'],
   pattern2: ['やわらかな波','まるい重なり','大きなアーチ'],
-  pattern3: ['静かな流れ','細い曲線','透ける斜面'],
+  pattern3: ['静かな流れ','細い曲線','余白と光'],
 };
 export function mvAsset(design, preset) {
   const family = Object.hasOwn(mvNames, design) ? design : 'pattern1';

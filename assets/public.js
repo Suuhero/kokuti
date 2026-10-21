@@ -9,7 +9,7 @@ import {
   mvAsset,
   mvSVG,
   jsonFile,
-} from "./shared.js?v=20261021";
+} from "./shared.js?v=20261021d";
 const store = new BrowserStore(),
   urls = [];
 const e = esc;

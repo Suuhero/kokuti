@@ -5,7 +5,7 @@ import {zipSync,strToU8} from 'fflate';
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const files={};
 async function add(file,dest=file){files[dest]=new Uint8Array(await fs.readFile(path.join(root,file)));}
-async function tree(dir){for(const e of await fs.readdir(path.join(root,dir),{withFileTypes:true})){const f=dir+'/'+e.name;if(e.isDirectory())await tree(f);else if(!f.includes('/vendor/')&&!/builder(?:-core)?\./.test(f))await add(f);}}
+async function tree(dir){for(const e of await fs.readdir(path.join(root,dir),{withFileTypes:true})){const f=dir+'/'+e.name;if(e.isDirectory())await tree(f);else if(!f.includes('/vendor/')&&!/builder(?:-[a-z]+)?\./.test(f))await add(f);}}
 await tree('assets');await tree('favicon');
 for(const f of ['index.php','head.php','data/schema.json','data/AIプロンプト.txt'])await add(f);
 let html=await fs.readFile(path.join(root,'index.html'),'utf8');

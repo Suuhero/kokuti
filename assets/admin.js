@@ -1,3 +1,4 @@
+import {designSample as renderDesignSample} from './design-controls.js';
 import { BrowserStore } from "./store.js";
 import { ServerStore } from "./server-store.js";
 import {
@@ -16,7 +17,7 @@ import {
   download,
   mediaRefs,
   validate,
-} from "./shared.js?v=20261021";
+} from "./shared.js?v=20261021d";
 const isRuntime = !!document.getElementById('kokuti-runtime');
 const isCustomer = isRuntime && JSON.parse(document.getElementById('kokuti-runtime').textContent).role === 'customer';
 const store = isRuntime ? new ServerStore() : new BrowserStore();
@@ -153,9 +154,8 @@ function presetField(path) {
     return '<label class="preset-choice"><input type="radio" name="'+path+'" data-path="'+path+'" value="'+value+'" '+(get(data,path)===value?'checked':'')+'><img src="'+url+'" alt=""><span>'+String.fromCharCode(64+n)+' · '+mvNames[data.design][n-1]+'</span></label>';
   }).join('') + '</div><p class="hint">選択中のデザイン専用の3種類です。カラー変更にも連動します。アップロード画像を使っている場合は、画像を解除するとプリセットが表示されます。</p></fieldset>';
 }
-function designSample(key) {
-  return '<span class="design-sample sample-'+key+'" style="--sample-main:'+e(data.colors.main)+';--sample-sub:'+e(data.colors.sub)+'"><span class="sample-en">MEDICAL</span><span class="sample-title">診療のご案内</span><span class="sample-card"><span class="sample-card-title">内科・小児科</span><span class="sample-copy">いつもの安心を、<br>地域の皆さまへ。</span></span></span>';
-}
+function designSample(key) { return renderDesignSample(key,data.colors); }
+
 function imageField(path, label) {
   const value = get(data, path);
   const favicon = path === "site.faviconUpload";
