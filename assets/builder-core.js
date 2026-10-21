@@ -23,7 +23,7 @@ export async function credential(id,password,role) {
   return {id,role,salt,iterations:600000,hash:Array.from(new Uint8Array(hash),x=>x.toString(16).padStart(2,'0')).join('')};
 }
 export function docxXML(bytes) {
-  if(bytes.length>10*1024*1024) throw Error('Wordファイルは10MB以下にしてください。');
+  if(bytes.length>50*1024*1024) throw Error('Wordファイルは50MB以下にしてください。');
   let oversized=false;
   const files=unzipSync(bytes,{filter:f=> { if(f.name !== 'word/document.xml') return false; if(f.originalSize>2*1024*1024) {oversized=true;return false;} return true; }});
   if(oversized) throw Error('Wordの本文が大きすぎます。文章を分けて貼り付けてください。');

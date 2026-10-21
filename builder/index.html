@@ -4,7 +4,7 @@
 <ol class="steps" aria-label="作成ステップ"><li aria-current="step"><b>1</b>基本情報</li><li><b>2</b>ID・パスワード</li><li><b>3</b>ダウンロード</li></ol>
 <div id="status" role="status" aria-live="polite" hidden></div>
 <section id="step1"><article><h2>基本情報を取り込む</h2><p>Word・文章・作成済みJSONから取り込めます。手入力でも進められます。</p>
-<div class="import-row"><label class="file-button">Wordを選択<input type="file" id="word" accept=".docx"></label><label class="file-button">JSONを選択<input type="file" id="json" accept=".json"></label><button id="sample">架空データで試す</button></div>
+<div class="import-row"><label class="file-button">Wordを選択（50MBまで）<input type="file" id="word" accept=".docx"></label><label class="file-button">JSONを選択<input type="file" id="json" accept=".json"></label><button id="sample">架空データで試す</button></div>
 <label for="source">AIに送る文章 <span class="optional">Wordの本文を抽出、または直接貼り付け</span></label><textarea id="source" rows="8" maxlength="60000" placeholder="ここに医院の基本情報を貼り付けてください。"></textarea>
 <p class="note">Wordの抽出はブラウザ内で行います。この時点ではAIに送信しません。無料APIへの送信前に、担当者の個人情報・内部メモなどを削除してください。</p>
 <label class="check"><input type="checkbox" id="reviewed">送信する文章を確認し、個人情報・機密情報を除外しました</label>
@@ -24,4 +24,4 @@
 <footer class="actions"><button data-back="1">← 基本情報へ</button><button id="next2" class="primary">ダウンロードへ →</button></footer></section>
 <section id="step3" hidden><article><h2>公開ファイルの準備ができました</h2><p>内容を確認して、FTP配置用のZIPをダウンロードしてください。</p><dl id="review"></dl><label class="check"><input type="checkbox" id="publish-reviewed">掲載内容・画像・診療時間・公開URLを確認しました</label><button id="download" class="primary big">ZIPをダウンロード</button><p id="download-state"></p></article>
 <article><h2>FTPに配置する手順</h2><ol class="instructions"><li>Xサーバーにドメインを登録し、DNSとSSLを設定します。</li><li>ZIPを解凍し、中身を公開URLに対応するフォルダへアップロードします。.htaccessも含めてください。</li><li>公開サイトと「admin/」を開き、表示・ログイン・保存を確認します。</li></ol><p>サイトマップは「sitemap.xml」で自動生成します。/sitmap.xmlからも転送します。</p><p class="note">既存サイトへの上書きはバックアップ後に行ってください。ZIPに制作ツール・APIキー・Word原本・平文パスワードは含みません。</p></article><footer class="actions"><button data-back="2">← ID・パスワードへ</button></footer></section>
-</main><script type="module" src="../assets/builder.js?v=20261021d"></script></body></html>
+</main><script type="module" src="../assets/builder.js?v=20261021-50mb"></script></body></html>
