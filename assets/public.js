@@ -70,7 +70,7 @@ async function run() {
     .filter(([k, v]) => !["heading", "headingEn"].includes(k) && v)
     .map(
       ([k, v]) =>
-        `<li><a class="sns" aria-label="${e(k)}" href="${e(safeLink(v))}" target="_blank" rel="noopener noreferrer"><i aria-hidden="true" class="fa-brands fa-${k === "x" ? "x-twitter" : k}"></i><span class="sns-button-label">${e(({facebook:"Facebook",instagram:"Instagram",line:"LINE",x:"X",tiktok:"TikTok",youtube:"YouTube"})[k] || k)}</span><span aria-hidden="true" class="sns-arrow">↗</span></a></li>`,
+        `<li><a class="sns" aria-label="${e(k)}" href="${e(safeLink(v))}" target="_blank" rel="noopener noreferrer"><i aria-hidden="true" class="fa-brands fa-${k === "x" ? "x-twitter" : k}"></i><span class="sns-button-label">${e(({facebook:"Facebook",instagram:"Instagram",line:"LINE",x:"X",tiktok:"TikTok",youtube:"YouTube"})[k] || k)}</span><span aria-hidden="true" class="sns-arrow"></span></a></li>`,
     )
     .join("");
   const free = d.freeAreas.map((a, n) =>
