@@ -105,6 +105,8 @@ async function run() {
   const footerNav = links.filter(([,href])=>href!=="#"&&href!=="#access")
     .map(([label,href])=>`<li><a href="${href}">${e(label)}</a></li>`).join("");
   document.body.className = `home page-template page-template-front-page page-template-front-page-php page site site--pattern1${d.design === "pattern1" ? "" : " site--" + d.design}`;
+  // The first MV slot selects the coordinated section treatment.
+  document.body.dataset.background = /^preset-mv-[123]\.svg$/.test(d.mv.images[0]?.preset || "") ? d.mv.images[0].preset.charAt(10) : "1";
   const vars = {
     main: c.main,
     "main-dark": adjust(c.main, -0.18),
