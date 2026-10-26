@@ -57,16 +57,16 @@ body.site--pattern3 #app #mainvisual .kokuchi_note::before { content:""; display
 #app main > section { padding:80px 0; margin:0; background:#fff; }
 /* A/B/C follows the first MV preset; section artwork stays quieter than the hero. */
 #app main > #clinicinfo,#app main > #medical {--section-tint:color-mix(in srgb,var(--main) 9%,var(--sub));--section-line:color-mix(in srgb,var(--main) 18%,var(--sub));background-color:var(--sub);background-repeat:no-repeat;background-size:100% 100%;}
-#app main > #clinicinfo {--edge-x:0%;--opposite-x:100%;--section-angle:115deg;}
-#app main > #medical {--edge-x:100%;--opposite-x:0%;--section-angle:245deg;}
+#app main > #clinicinfo {--edge-x:0%;--opposite-x:100%;--section-angle:155deg;}
+#app main > #medical {--edge-x:100%;--opposite-x:0%;--section-angle:205deg;}
 body[data-background="1"] #app main > :is(#clinicinfo,#medical) {background-image:radial-gradient(ellipse at var(--edge-x) 100%,var(--section-tint),transparent 65%),linear-gradient(var(--section-angle),#ffffffb3,var(--sub));}
 body[data-background="2"] #app main > :is(#clinicinfo,#medical) {background-image:radial-gradient(ellipse 460px 340px at var(--edge-x) 100%,var(--section-tint) 0 68%,transparent 68.3%),radial-gradient(ellipse 240px 200px at var(--opposite-x) 0%,#ffffffb3 0 70%,transparent 70.3%);}
-body[data-background="3"] #app main > :is(#clinicinfo,#medical) {background-image:linear-gradient(0deg,var(--section-tint),transparent 35%),linear-gradient(var(--section-angle),#ffffffb3,var(--sub));}
+body[data-background="3"] #app main > :is(#clinicinfo,#medical) {background-image:radial-gradient(ellipse 135% 100% at var(--edge-x) 160%,var(--section-tint) 0 90%,transparent 90.3%),linear-gradient(180deg,#ffffffb3,var(--sub));}
 body.site--pattern2[data-background="1"] #app main > :is(#clinicinfo,#medical) {background-image:linear-gradient(var(--section-angle),transparent 0 65%,var(--section-tint) 65% 77%,transparent 77%),linear-gradient(var(--section-angle),#ffffffb3,var(--sub));}
 body.site--pattern2[data-background="2"] #app main > :is(#clinicinfo,#medical) {background-image:radial-gradient(ellipse 620px 460px at var(--edge-x) 100%,var(--section-tint) 0 70%,transparent 70.3%),radial-gradient(ellipse 280px 240px at var(--opposite-x) 0%,#ffffffb3 0 70%,transparent 70.3%);}
-body.site--pattern2[data-background="3"] #app main > :is(#clinicinfo,#medical) {background-image:radial-gradient(ellipse 110% 95% at 50% 145%,transparent 0 75%,var(--section-tint) 75.3% 86%,transparent 86.3%),linear-gradient(0deg,var(--sub),#ffffff80);}
+body.site--pattern2[data-background="3"] #app main > :is(#clinicinfo,#medical) {background-image:radial-gradient(ellipse 130% 110% at var(--edge-x) 180%,var(--section-tint) 0 90%,transparent 90.3%),radial-gradient(ellipse 120% 100% at var(--opposite-x) 165%,color-mix(in srgb,var(--main) 5%,var(--sub)) 0 90%,transparent 90.3%),linear-gradient(180deg,#ffffffb3,var(--sub));}
 body.site--pattern3[data-background="1"] #app main > :is(#clinicinfo,#medical) {background-image:linear-gradient(var(--section-angle),transparent 0 82%,var(--section-tint) 82.2%),linear-gradient(var(--section-angle),#ffffffb3,var(--sub));}
-body.site--pattern3[data-background="2"] #app main > :is(#clinicinfo,#medical) {background-image:radial-gradient(ellipse 140% 100% at var(--edge-x) -20%,transparent 0 85%,var(--section-line) 85.1% 85.25%,transparent 85.4%),linear-gradient(var(--section-angle),#ffffffb3,var(--sub));}
+body.site--pattern3[data-background="2"] #app main > :is(#clinicinfo,#medical) {--section-line:color-mix(in srgb,var(--main) 6%,var(--sub));background-image:radial-gradient(ellipse 140% 100% at var(--edge-x) -20%,transparent 0 85%,var(--section-line) 85.1% 85.25%,transparent 85.4%),linear-gradient(var(--section-angle),#ffffffb3,var(--sub));}
 body.site--pattern3[data-background="3"] #app main > :is(#clinicinfo,#medical) {background-image:radial-gradient(ellipse at var(--opposite-x) 0%,var(--section-tint),transparent 55%),linear-gradient(var(--section-angle),#fff,var(--sub));}
 #app .top_title { display:block; width:100%; margin:0 0 36px!important; text-align:left; padding:0!important; }
 #app .top_title::after { display:none; }
