@@ -14,10 +14,11 @@ body.site--pattern3 { letter-spacing:.055em; background:#fff; }
 #app header.fixed .header_btn_box { display:flex; gap:14px; flex:none; margin:0; }
 #app header.fixed .header_btn_box a { display:flex; justify-content:center; align-items:center; min-width:140px; min-height:44px; margin:0; padding:10px 24px; border:1px solid var(--line); border-radius:4px; background:color-mix(in srgb,var(--main) 24%,#fff); color:var(--ink); font-size:15px; font-weight:600; line-height:1.3; text-decoration:none; }
 #app .nav_toggle { position:absolute; top:calc((var(--header-height) - 48px)/2); right:24px; width:48px; height:48px; margin:0; background:var(--main); border:0; border-radius:4px; transition:background .2s; }
+/* Equal 8px spacing keeps all bars on the same pixel phase at common display scales. */
 #app .nav_toggle span { width:24px; height:2px; left:50%; background:var(--ink); }
-#app .nav_toggle span:nth-child(1) { top:16px; }
+#app .nav_toggle span:nth-child(1) { top:15px; }
 #app .nav_toggle span:nth-child(2) { top:23px; }
-#app .nav_toggle span:nth-child(3) { top:30px; }
+#app .nav_toggle span:nth-child(3) { top:31px; }
 #app .nav_toggle.active { right:24px; }
 #app .nav_toggle.active span:nth-child(1),#app .nav_toggle.active span:nth-child(3) { top:23px; }
 #app header.fixed nav { top:var(--header-height); right:-360px; width:min(360px,100vw); height:calc(100dvh - var(--header-height)); padding:24px; background:#fff; color:var(--ink); border-left:1px solid var(--line); visibility:hidden; transition:right .25s,visibility .25s; }
@@ -29,9 +30,9 @@ body.site--pattern3 { letter-spacing:.055em; background:#fff; }
 #app .nav_bg { position:fixed; inset:var(--header-height) 0 0; width:100%; height:auto; background:#14273755; }
 body.nav_open { overflow:hidden; }
 body.site--pattern2 #app .nav_toggle { border-radius:50%; width:52px; height:52px; top:18px; }
-body.site--pattern2 #app .nav_toggle span:nth-child(1) { top:18px; }
+body.site--pattern2 #app .nav_toggle span:nth-child(1) { top:17px; }
 body.site--pattern2 #app .nav_toggle span:nth-child(2) { top:25px; }
-body.site--pattern2 #app .nav_toggle span:nth-child(3) { top:32px; }
+body.site--pattern2 #app .nav_toggle span:nth-child(3) { top:33px; }
 body.site--pattern2 #app .nav_toggle.active span:nth-child(1),body.site--pattern2 #app .nav_toggle.active span:nth-child(3) { top:25px; }
 body.site--pattern2 #app header.fixed .header_btn_box a { border-radius:999px; background:var(--main); color:var(--ink); border:0; }
 body.site--pattern3 #app header.fixed .header_btn_box a,body.site--pattern3 #app .nav_toggle { background:#fff; border:1px solid var(--main-dark); color:var(--ink); border-radius:0; }
@@ -186,9 +187,9 @@ body.site--pattern3 #app .feature_item_num { font-style:italic; border:0; paddin
  #app .nav_toggle,body.site--pattern2 #app .nav_toggle { width:44px; height:44px; top:16px; right:16px; }
  #app .nav_toggle.active { right:16px; }
  #app .nav_toggle span,body.site--pattern2 #app .nav_toggle span { width:22px; }
- #app .nav_toggle span:nth-child(1),body.site--pattern2 #app .nav_toggle span:nth-child(1) { top:14px; }
+ #app .nav_toggle span:nth-child(1),body.site--pattern2 #app .nav_toggle span:nth-child(1) { top:13px; }
  #app .nav_toggle span:nth-child(2),body.site--pattern2 #app .nav_toggle span:nth-child(2) { top:21px; }
- #app .nav_toggle span:nth-child(3),body.site--pattern2 #app .nav_toggle span:nth-child(3) { top:28px; }
+ #app .nav_toggle span:nth-child(3),body.site--pattern2 #app .nav_toggle span:nth-child(3) { top:29px; }
  #app .nav_toggle.active span:nth-child(1),#app .nav_toggle.active span:nth-child(3),body.site--pattern2 #app .nav_toggle.active span:nth-child(1),body.site--pattern2 #app .nav_toggle.active span:nth-child(3) { top:21px; }
  #app #mainvisual,#app #mainvisual > .inner { min-height:650px; }
  #app #mainvisual > .inner { padding:76px 20px; }
