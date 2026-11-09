@@ -42,14 +42,14 @@ body.site--pattern3 #app header.fixed .header_btn_box a,body.site--pattern3 #app
 #app #mainvisual .kokuchi_title { font-size:clamp(28px,3.2vw,40px); font-weight:700; line-height:1.5; letter-spacing:.08em; display:block; padding:0; margin:0 0 28px; border:0; color:inherit; }
 #app #mainvisual .kokuchi_date { margin:0 0 6px; font-size:clamp(20px,2vw,26px); line-height:1.6; letter-spacing:.04em; color:inherit; }
 #app #mainvisual .kokuchi_open { margin:0; font-size:clamp(36px,4vw,52px); font-weight:700; line-height:1.5; letter-spacing:.08em; color:inherit; }
-#app #mainvisual .kokuchi_note { display:table; max-width:100%; margin:26px auto 0; padding:20px 24px 0; border-top:1px solid var(--main); color:inherit; background:none; }
-#app #mainvisual .kokuchi_note p { margin:0; font-size:18px; line-height:1.85; font-weight:500; }
-#app #mainvisual .kokuchi_note p:first-child { font-size:21px; font-weight:600; margin-bottom:6px; }
+#app #mainvisual .kokuchi_note { display:table; max-width:100%; margin:30px auto 0; padding:22px 32px 0; border-top:1px solid var(--main); color:inherit; background:none; }
+#app #mainvisual .kokuchi_note p { margin:0; font-size:20px; line-height:1.8; font-weight:500; }
+#app #mainvisual .kokuchi_note p:first-child { font-size:24px; font-weight:600; margin-bottom:10px; }
 #app #mv_slider,#app #mv_slider .splide__track,#app #mv_slider .splide__list { position:absolute; inset:0; width:100%; height:100%; margin:0; padding:0; z-index:0; }
 #app #mv_slider .splide__slide { position:absolute; inset:0; width:100%; height:100%; }
 #app #mv_slider img { width:100%; height:100%; object-fit:cover; object-position:center; }
 #app #mainvisual.has-upload .kokuchi_box { padding:32px; background:#fffffff0; border-radius:4px; }
-body.site--pattern2 #app #mainvisual .kokuchi_note { border:0; padding:16px 36px; background:#ffffffb8; border-radius:24px; }
+body.site--pattern2 #app #mainvisual .kokuchi_note { border:0; padding:20px 40px; background:#ffffffb8; border-radius:24px; }
 body.site--pattern3 #app #mainvisual .kokuchi_title,body.site--pattern3 #app #mainvisual .kokuchi_open { font-weight:500; }
 body.site--pattern3 #app #mainvisual .kokuchi_note { border:0; }
 body.site--pattern3 #app #mainvisual .kokuchi_note::before { content:""; display:block; width:56px; height:1px; background:var(--main); margin:0 auto 20px; }
@@ -197,8 +197,8 @@ body.site--pattern3 #app .feature_item_num { font-style:italic; border:0; paddin
  #app #mainvisual .kokuchi_date { font-size:19px; }
  #app #mainvisual .kokuchi_open { font-size:36px; }
  #app #mainvisual .kokuchi_note { margin-top:24px; padding:20px 0 0; }
- #app #mainvisual .kokuchi_note p { font-size:15px; }
- #app #mainvisual .kokuchi_note p:first-child { font-size:18px; }
+ #app #mainvisual .kokuchi_note p { font-size:16px; }
+ #app #mainvisual .kokuchi_note p:first-child { font-size:20px; margin-bottom:8px; }
  body.site--pattern2 #app #mainvisual .kokuchi_note { padding:16px; border-radius:20px; }
  #app main > section { padding:52px 0; }
  #app .top_title { margin-bottom:28px!important; }
