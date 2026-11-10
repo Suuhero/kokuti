@@ -18,6 +18,7 @@ $old=file_get_contents($root.'/data/site.json');
 if(($body['revision'] ?? '')!==hash('sha256',$old)) fail_request(409,'別の画面で保存されています。入力をJSONで控え、再読み込みしてください。');
 $previous=json_decode($old,true);
 if($user['role']!=='company') {
+ if(($d['fontSize'] ?? 'medium')!==($previous['fontSize'] ?? 'medium')) fail_request(403,'フォントサイズは社内アカウントで変更してください。');
  foreach(['design','colors','mv'] as $key) if($d[$key]!==$previous[$key]) fail_request(403,'デザイン・配色・MVは社内アカウントで変更してください。');
  foreach(['analyticsCode','customCss'] as $key) if(($d['site'][$key] ?? '')!==($previous['site'][$key] ?? '')) fail_request(403,'CSS・アナリティクスは社内アカウントで変更してください。');
 }

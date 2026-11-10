@@ -16,6 +16,7 @@
     "freeAreas"
   ],
   "properties": {
+    "fontSize": { "type": "string", "enum": ["small", "medium", "large"] },
     "schemaVersion": {
       "const": 1
     },

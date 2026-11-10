@@ -243,6 +243,11 @@ function view() {
         "見出し・本文の書体とカードの角を拡大した比較見本です。ページ全体の書体・角丸・背景の雰囲気が変わります。",
       ) +
       panel(
+        "フォントサイズ",
+        `<div class="font-sizes">${[["small","小"],["medium","中（標準）"],["large","大"]].map(([value,label])=>`<label><input type="radio" name="fontSize" data-path="fontSize" value="${value}" ${(data.fontSize || "medium")===value ? "checked" : ""}>${label}</label>`).join("")}</div>`,
+        "サイト全体の文字を控えめに調整します。小：94％、中：100％、大：106％。",
+      ) +
+      panel(
         "カラーパレット",
         `<div class="palette-grid">${palettes.map(([key, label, main, sub], n) => `<label class="palette"><input type="radio" name="palette" data-palette="${key}" ${data.colors.preset === key ? "checked" : ""}><span class="palette-name">${String(n + 1).padStart(2, "0")} ${label}</span><span class="swatches"><i style="background:${main}"></i><i style="background:${sub}"></i></span></label>`).join("")}</div>`,
         "メインカラー・背景色・MVプリセットに反映されます。",

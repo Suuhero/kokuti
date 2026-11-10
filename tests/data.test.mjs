@@ -96,3 +96,9 @@ test("元のMVプリセット用の色変換", () => {
 });
 
 test('image folder supports new uploads and rejects traversal',()=>{const d=structuredClone(sample);d.site.logoUpload='image/logo.png';d.site.faviconUpload='image/icon.ico';assert.deepEqual(validate(d,schema),[]);d.site.logoUpload='image/../logo.png';assert.ok(validate(d,schema).length);});
+
+test('font sizes accept three levels and older JSON', () => {
+ for (const size of ['small','medium','large']) assert.deepEqual(validate({...sample,fontSize:size},schema),[]);
+ const old=structuredClone(sample);delete old.fontSize;assert.deepEqual(validate(old,schema),[]);
+ assert.ok(validate({...sample,fontSize:'huge'},schema).length);
+});

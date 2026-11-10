@@ -106,3 +106,8 @@
 @media(max-width:640px) { .designs { grid-template-columns:1fr; } .design-choice { display:block; } .preset-grid { grid-template-columns:1fr; } .preset-field { padding:14px; } }
 
 .design-choice,.preset-choice,.palette{margin:0;font-weight:400}.design-choice input[type=radio],.preset-choice input[type=radio]{display:inline-block;padding:0;min-height:0;border:0;border-radius:50%;width:18px;height:18px}.palette input[type=radio]{display:inline-block;width:14px;height:14px;padding:0;min-height:0;border:0} @media(max-width:640px){.palette-grid{grid-template-columns:repeat(2,minmax(0,1fr));padding:12px}.designs{padding:12px}}
+
+.sample-pattern3 .sample-card { border:0; }
+.font-sizes { display:flex; flex-wrap:wrap; gap:12px; }
+.font-sizes label { display:flex; align-items:center; gap:10px; padding:12px 22px; border:1px solid #cbd0d6; border-radius:6px; cursor:pointer; background:#fff; }
+.font-sizes label:has(input:checked) { border-color:#2271b1; box-shadow:0 0 0 1px #2271b1; background:#f0f7fc; }

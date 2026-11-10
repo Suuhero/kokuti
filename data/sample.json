@@ -1,5 +1,6 @@
 {
   "schemaVersion": 1,
+  "fontSize": "medium",
   "design": "pattern1",
   "colors": {
     "preset": "light-blue",
