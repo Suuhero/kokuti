@@ -696,3 +696,15 @@ dialog p {
     font-size: 12px;
   }
 }
+
+@media (max-width: 800px) {
+  button, .remove, #save, #menu-toggle, .tool-row a {
+    min-width: 44px;
+    min-height: 44px;
+  }
+  #menu-toggle { flex: 0 0 44px; }
+  input[type="file"]::file-selector-button {
+    min-width: 44px;
+    min-height: 44px;
+  }
+}
