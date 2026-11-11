@@ -9,6 +9,34 @@ export const esc = (v) =>
       ],
   );
 export const clone = (v) => structuredClone(v);
+export function setImageError(input, message) {
+  if (!input?.isConnected) return;
+  if (!input.id) input.id = "image-input-" + crypto.randomUUID();
+  const errorId = input.id + "-upload-error";
+  let error = document.getElementById(errorId);
+  if (message && !error) {
+    error = document.createElement("span");
+    error.id = errorId;
+    error.className = "upload-error";
+    error.setAttribute("role", "alert");
+    error.hidden = true;
+    (input.closest(".image-actions") || input).insertAdjacentElement("afterend", error);
+  }
+  const descriptions = new Set((input.getAttribute("aria-describedby") || "").split(/\s+/).filter(Boolean));
+  if (message) {
+    input.value = "";
+    input.setAttribute("aria-invalid", "true");
+    descriptions.add(errorId);
+    error.textContent = message;
+    error.hidden = false;
+  } else {
+    input.removeAttribute("aria-invalid");
+    descriptions.delete(errorId);
+    if (error) { error.textContent = ""; error.hidden = true; }
+  }
+  if (descriptions.size) input.setAttribute("aria-describedby", [...descriptions].join(" "));
+  else input.removeAttribute("aria-describedby");
+}
 export const get = (obj, path) => path.split(".").reduce((o, k) => o?.[k], obj);
 export function set(obj, path, value) {
   const keys = path.split(".");

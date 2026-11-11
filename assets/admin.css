@@ -612,6 +612,19 @@ dialog p {
     display: block;
   }
 }
+
+.upload-error {
+  display: block;
+  margin: 6px 0 0;
+  color: #a4262c;
+  font-size: 13px;
+  line-height: 1.65;
+  overflow-wrap: anywhere;
+}
+input[type="file"][aria-invalid="true"] {
+  outline: 2px solid #a4262c;
+  outline-offset: 2px;
+}
 @media (max-width: 520px) {
   #main {
     padding: 66px 14px 20px;

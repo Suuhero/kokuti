@@ -1,7 +1,7 @@
 import {designSample} from './design-controls.js';
-import {renderFields,bindFields} from './builder-fields.js?v=20261021-image';
+import {renderFields,bindFields} from './builder-fields.js?v=20261111-image-errors';
 import {BrowserStore} from './store.js';
-import {esc, get, set, palettes, designs, mvNames, mvSVG, mvAsset, validate, jsonFile, download, mediaRefs} from './shared.js?v=20261021-image';
+import {esc, get, set, palettes, designs, mvNames, mvSVG, mvAsset, validate, jsonFile, download, mediaRefs, setImageError} from './shared.js?v=20261111-image-errors';
 import {domainId,siteURL,randomPassword,credential,docxXML,emptySite} from './builder-core.js?v=20261021-50mb';
 import {zipSync,unzipSync,strToU8} from './vendor/fflate.js';
 const $=s=>document.querySelector(s), store=new BrowserStore();
@@ -76,8 +76,8 @@ function task(fn){return async ev=>{if(busy)return;busy=true;const b=ev?.current
 function sync(){const oldName=data.site.clinicName;document.querySelectorAll('[data-path]').forEach(el=>set(data,el.dataset.path,el.value));data.site.logoText=data.site.clinicName;if(oldName && data.site.pageTitle.startsWith(oldName))data.site.pageTitle=data.site.clinicName+data.site.pageTitle.slice(oldName.length);if(!data.site.pageTitle)data.site.pageTitle=data.site.clinicName+'｜開院のお知らせ';}
 async function persist(){sync();const r=await store.save(data,images,revision);revision=r.revision;}
 function go(n){step=n;$("#validation-status").textContent="";for(let i=1;i<=4;i++)$('#step'+i).hidden=i!==n;document.querySelectorAll('.steps li').forEach((li,i)=>{li.removeAttribute('aria-current');if(i===n-1)li.setAttribute('aria-current','step');});window.scrollTo({top:0,behavior:'smooth'});$('#status').hidden=true;}
-function fill(){resetFieldErrors();document.querySelectorAll('[data-path]').forEach(el=>el.value=get(data,el.dataset.path)||'');renderDesign();renderMedia();renderFields($('#extra-fields'),data,schema,images);$('#content-summary').textContent=`診療時間 ${data.clinicInfo.schedules.length}件 · 医師紹介 ${data.greeting.doctors.length}名 · 診療内容 ${data.services.items.length}件 · 特徴 ${data.background.items.length}件`;}
-function renderMedia(){mediaURLs.forEach(URL.revokeObjectURL);mediaURLs=[];for(const [id,key]of[['logo','logoUpload'],['favicon','faviconUpload']]){const path=data.site[key];const container=$('#'+id+'-preview');container.replaceChildren();if(images.has(path)){const url=URL.createObjectURL(images.get(path));mediaURLs.push(url);const img=document.createElement('img');img.src=url;img.alt=id==='logo'?'選択したロゴ':'選択したfavicon';container.append(img);const btn=document.createElement('button');btn.type='button';btn.textContent='取り消す';btn.onclick=()=>{data.site[key]='';renderMedia();};container.append(btn);}}}
+function fill(){resetFieldErrors();for(const id of ['logo','favicon']){setImageError($('#'+id),'');$('#'+id).value='';}document.querySelectorAll('[data-path]').forEach(el=>el.value=get(data,el.dataset.path)||'');renderDesign();renderMedia();renderFields($('#extra-fields'),data,schema,images);$('#content-summary').textContent=`診療時間 ${data.clinicInfo.schedules.length}件 · 医師紹介 ${data.greeting.doctors.length}名 · 診療内容 ${data.services.items.length}件 · 特徴 ${data.background.items.length}件`;}
+function renderMedia(){mediaURLs.forEach(URL.revokeObjectURL);mediaURLs=[];for(const [id,key]of[['logo','logoUpload'],['favicon','faviconUpload']]){const path=data.site[key];const container=$('#'+id+'-preview');container.replaceChildren();if(images.has(path)){const url=URL.createObjectURL(images.get(path));mediaURLs.push(url);const img=document.createElement('img');img.src=url;img.alt=id==='logo'?'選択したロゴ':'選択したfavicon';container.append(img);const btn=document.createElement('button');btn.type='button';btn.textContent='取り消す';btn.onclick=()=>{data.site[key]='';const input=$('#'+id);input.value='';setImageError(input,'');renderMedia();};container.append(btn);}}}
 async function renderDesign(){
  const version=++designVersion;
  $("#font-sizes").innerHTML=`${[["small","小"],["medium","中（標準）"],["large","大"]].map(([value,label])=>`<label><input type="radio" name="fontSize" data-font-size="${value}" value="${value}" ${(data.fontSize || "medium")===value ? "checked" : ""}>${label}</label>`).join("")}`;
@@ -96,7 +96,30 @@ $('#word').onchange=task(async()=>{const f=$('#word').files[0];if(!f)return;if(!
 $('#json').onchange=task(async()=>{const f=$('#json').files[0];if(!f)return;if(f.size>2*1024*1024)throw Error('JSONは2MB以下にしてください。');const d=JSON.parse(await f.text());const errors=validate(d,schema);if(errors.length)throw Error(errors.slice(0,5).join('\n'));data=d;fill();status('JSONを読み込みました。画像ファイルは別途設定してください。');});
 $('#sample').onclick=task(async()=>{if(data.site.clinicName && !confirm('入力内容を架空データに置き換えますか？'))return;data=structuredClone(sample);images=new Map();$('#url').value='https://sakura-clinic.example/';fill();status('架空データを読み込みました。実際の医院情報ではありません。');});
 $('#clear').onclick=task(async()=>{if(!confirm('入力内容をクリアしますか？'))return;data=emptySite(sample);images=new Map();$('#source').value='';$('#url').value='';$('#reviewed').checked=false;fill();});
-for(const [id,key]of[['logo','logoUpload'],['favicon','faviconUpload']])$('#'+id).onchange=task(async()=>{const f=$('#'+id).files[0];if(!f)return;const ext=f.name.split('.').at(-1).toLowerCase();if(!(id==='favicon'?['png','ico']:['png','jpg','jpeg','webp']).includes(ext))throw Error('対応する画像形式を選んでください。');if(f.size>(id==='favicon'?1:5)*1024*1024)throw Error('画像サイズの上限を超えています。');const b=new Uint8Array(await f.arrayBuffer());if(ext==='ico'){if(b[0]!==0||b[1]!==0||b[2]!==1||b[3]!==0)throw Error('ICO画像を確認してください。');}else {const bitmap=await createImageBitmap(f);bitmap.close();if(ext==='png' && !(b[0]===137&&b[1]===80&&b[2]===78&&b[3]===71))throw Error('PNG画像を確認してください。');}const path='image/'+crypto.randomUUID()+'.'+ext;images.set(path,f);data.site[key]=path;renderMedia();});
+for(const [id,key]of[['logo','logoUpload'],['favicon','faviconUpload']]) {
+ const input=$('#'+id);
+ input.onchange=async()=>{
+  const f=input.files[0];if(!f)return;
+  const currentData=data,currentImages=images,current=()=>input.isConnected && data===currentData && images===currentImages && input.files[0]===f;
+  setImageError(input,'');
+  try {
+   const ext=f.name.split('.').at(-1).toLowerCase();
+   if(!(id==='favicon'?['png','ico']:['png','jpg','jpeg','webp']).includes(ext))throw Error(id==='favicon'?'faviconはPNGまたはICOを選んでください。':'画像はPNG・JPG・WebPを選んでください。');
+   if(f.size>(id==='favicon'?1:5)*1024*1024)throw Error(id==='favicon'?'faviconは1MB以下にしてください。':'画像は5MB以下にしてください。');
+   const bytes=new Uint8Array(await f.arrayBuffer());
+   if(ext==='ico') {
+    if(bytes[0]!==0||bytes[1]!==0||bytes[2]!==1||bytes[3]!==0)throw Error('ICO画像を確認してください。');
+   } else {
+    const bitmap=await createImageBitmap(f).catch(()=>{throw Error('画像を読み込めませんでした。別の画像を選び直してください。');});
+    bitmap.close();
+    if(ext==='png' && !(bytes[0]===137&&bytes[1]===80&&bytes[2]===78&&bytes[3]===71))throw Error('PNG画像を確認してください。');
+   }
+   if(!current())return;
+   const path='image/'+crypto.randomUUID()+'.'+ext;
+   images.set(path,f);data.site[key]=path;setImageError(input,'');renderMedia();
+  } catch(e) {if(current())setImageError(input,e?.name==='Error' && e.message ? e.message : '画像を読み込めませんでした。別の画像を選び直してください。');}
+ };
+}
 $('#next1').onclick=task(async()=>{go(2);});
 $('#next2').onclick=task(async()=>{sync();const url=checkURL();if(!url)return;const errors=validate(data,schema);if(errors.length)throw Error(errors.slice(0,5).join('\n'));$('#url').value=url;if(!$('#customer-id').value)$('#customer-id').value=domainId(url);await persist();go(3);});
 document.querySelectorAll('[data-generate]').forEach(b=>b.onclick=()=>{$('#'+b.dataset.generate+'-password').value=randomPassword();$('#credentials-saved').checked=false;if(accountsChecked)checkCredentials(false);});

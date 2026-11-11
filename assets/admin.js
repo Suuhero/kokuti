@@ -17,7 +17,8 @@ import {
   download,
   mediaRefs,
   validate,
-} from "./shared.js?v=20261021-image";
+  setImageError,
+} from "./shared.js?v=20261111-image-errors";
 const isRuntime = !!document.getElementById('kokuti-runtime');
 const isCustomer = isRuntime && JSON.parse(document.getElementById('kokuti-runtime').textContent).role === 'customer';
 const store = isRuntime ? new ServerStore() : new BrowserStore();
@@ -31,6 +32,7 @@ let data,
   busy = false,
   screen = "home",
   imageURLs = [];
+const imageReads = new WeakMap();
 const nav = [
   [
     "home",
@@ -557,8 +559,15 @@ async function save() {
 async function upload(input) {
   const file = input.files?.[0];
   if (!file) return;
+  const token = Symbol(), originalData = data;
+  imageReads.set(input, token);
+  const isCurrent = () => input.isConnected && data === originalData &&
+    input.files?.[0] === file && imageReads.get(input) === token;
+  setImageError(input, "");
+  try {
   if (input.dataset.image === "site.faviconUpload") {
     const bytes = new Uint8Array(await file.slice(0, 8).arrayBuffer());
+    if (!isCurrent()) return;
     const png = [137,80,78,71,13,10,26,10].every((v,n)=>bytes[n]===v);
     const ico = bytes[0]===0 && bytes[1]===0 && bytes[2]===1 && bytes[3]===0 && (bytes[4] || bytes[5]);
     if (file.size > 1024*1024 || (!png && !ico)) throw Error("faviconはPNGまたはICO、1MB以下にしてください。");
@@ -574,6 +583,7 @@ async function upload(input) {
   const bitmap = await createImageBitmap(file).catch(() => {
     throw Error("画像を読み込めませんでした。画像形式を確認してください。");
   });
+  if (!isCurrent()) { bitmap.close(); return; }
   if (bitmap.width > 16000 || bitmap.height > 16000) {
     bitmap.close();
     throw Error("画像が大きすぎます。縦横16000px以下にしてください。");
@@ -587,6 +597,13 @@ async function upload(input) {
   set(data, input.dataset.image, path);
   mark();
   render();
+  } catch (err) {
+    if (isCurrent()) setImageError(input,
+      err?.name === "Error" && err.message
+        ? err.message
+        : "画像を読み込めませんでした。画像形式を確認し、もう一度選択してください。",
+    );
+  }
 }
 document.querySelector("#editor").addEventListener("submit", (ev) => {
   ev.preventDefault();
