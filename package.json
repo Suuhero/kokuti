@@ -4,7 +4,6 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "preview": "node scripts/preview.mjs",
     "build": "node scripts/build-template.mjs && node scripts/build.mjs",
     "build:ftp": "node scripts/build-ftp.mjs",
     "test": "node scripts/build-template.mjs && node --test tests/data.test.mjs tests/builder.test.mjs"

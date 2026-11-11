@@ -1,7 +1,6 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { buildComparison } from "./build-comparison.mjs";
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), ".."),
   out = path.join(root, "dist/pages");
 await fs.mkdir(out, { recursive: true });
@@ -25,4 +24,3 @@ for (const file of ["site.json", "auth.json"]) {
 console.log("Pages demo built: dist/pages");
 await fs.mkdir(path.join(out,'builder'),{recursive:true});
 for(const file of ['index.html','template.zip']) await fs.copyFile(path.join(root,'builder',file),path.join(out,'builder',file));
-await buildComparison(root, out);

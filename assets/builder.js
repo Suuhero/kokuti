@@ -1,7 +1,7 @@
-import {designSample} from './design-controls.js?v=20261111-studio';
+import {designSample} from './design-controls.js';
 import {renderFields,bindFields} from './builder-fields.js?v=20261021-image';
 import {BrowserStore} from './store.js';
-import {esc, get, set, palettes, designs, mvNames, mvSVG, mvAsset, validate, jsonFile, download, mediaRefs} from './shared.js?v=20261111-studio';
+import {esc, get, set, palettes, designs, mvNames, mvSVG, mvAsset, validate, jsonFile, download, mediaRefs} from './shared.js?v=20261021-image';
 import {domainId,siteURL,randomPassword,credential,docxXML,emptySite} from './builder-core.js?v=20261021-50mb';
 import {zipSync,unzipSync,strToU8} from './vendor/fflate.js';
 const $=s=>document.querySelector(s), store=new BrowserStore();
@@ -12,35 +12,7 @@ function status(text,error=false){$('#status').hidden=false;$('#status').textCon
 function task(fn){return async ev=>{if(busy)return;busy=true;const b=ev?.currentTarget;if(b?.tagName==='BUTTON')b.disabled=true;try{await fn(ev);}catch(e){if(['ai','retry','downgrade','connect','disconnect'].includes(b?.id))aiNotice(e.message || '処理に失敗しました。',true);else status(e.message || '処理に失敗しました。',true);}finally{busy=false;if(b?.tagName==='BUTTON')b.disabled=b.id==='downgrade' && modelIndex>=models.length-1;}};}
 function sync(){const oldName=data.site.clinicName;document.querySelectorAll('[data-path]').forEach(el=>set(data,el.dataset.path,el.value));data.site.logoText=data.site.clinicName;if(oldName && data.site.pageTitle.startsWith(oldName))data.site.pageTitle=data.site.clinicName+data.site.pageTitle.slice(oldName.length);if(!data.site.pageTitle)data.site.pageTitle=data.site.clinicName+'｜開院のお知らせ';}
 async function persist(){sync();const r=await store.save(data,images,revision);revision=r.revision;}
-const stepTitles = [
-  ['基本情報を取り込む', 'Word・文章・作成済みJSONから、告知サイトに掲載する情報を準備します。'],
-  ['掲載内容を確認', '掲載する文章・画像を確認し、サイトのデザインを選びます。'],
-  ['ログイン情報を設定', '編集できる範囲に合わせて、お客様と社内のアカウントを用意します。'],
-  ['公開用ZIPを作成', '医院名と公開先を確認し、FTPに配置するファイルをダウンロードします。'],
-];
-function go(n) {
-  step = n;
-  stepTitles.forEach((_, index) => {
-    const number = index + 1;
-    $('#step' + number).hidden = number !== n;
-    const control = document.querySelector('[data-step="' + number + '"]');
-    control.disabled = number >= n;
-    const item = control.closest('li');
-    item.classList.toggle('completed', number < n);
-    if (number === n) item.setAttribute('aria-current', 'step');
-    else item.removeAttribute('aria-current');
-  });
-  $('#step-title').textContent = stepTitles[n - 1][0];
-  $('#step-intro').textContent = stepTitles[n - 1][1];
-  $('#status').hidden = true;
-  $('#step-title').focus({preventScroll:true});
-  window.scrollTo(0, 0);
-}
-document.querySelectorAll('[data-step]').forEach(control => {
-  control.addEventListener('click', () => {
-    if (!busy && Number(control.dataset.step) < step) go(Number(control.dataset.step));
-  });
-});
+function go(n){step=n;for(let i=1;i<=4;i++)$('#step'+i).hidden=i!==n;document.querySelectorAll('.steps li').forEach((li,i)=>{li.removeAttribute('aria-current');if(i===n-1)li.setAttribute('aria-current','step');});window.scrollTo({top:0,behavior:'smooth'});$('#status').hidden=true;}
 function fill(){document.querySelectorAll('[data-path]').forEach(el=>el.value=get(data,el.dataset.path)||'');renderDesign();renderMedia();renderFields($('#extra-fields'),data,schema,images);$('#content-summary').textContent=`診療時間 ${data.clinicInfo.schedules.length}件 · 医師紹介 ${data.greeting.doctors.length}名 · 診療内容 ${data.services.items.length}件 · 特徴 ${data.background.items.length}件`;}
 function renderMedia(){mediaURLs.forEach(URL.revokeObjectURL);mediaURLs=[];for(const [id,key]of[['logo','logoUpload'],['favicon','faviconUpload']]){const path=data.site[key];const container=$('#'+id+'-preview');container.replaceChildren();if(images.has(path)){const url=URL.createObjectURL(images.get(path));mediaURLs.push(url);const img=document.createElement('img');img.src=url;img.alt=id==='logo'?'選択したロゴ':'選択したfavicon';container.append(img);const btn=document.createElement('button');btn.type='button';btn.textContent='取り消す';btn.onclick=()=>{data.site[key]='';renderMedia();};container.append(btn);}}}
 async function renderDesign(){

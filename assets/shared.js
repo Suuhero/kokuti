@@ -38,15 +38,15 @@ export const palettes = [
 export const designs = [
   [
     "pattern1",
-    "まちの案内板",
-    "角ゴシックと区切り線で診療情報を明快に。",
+    "端正なスタンダード",
+    "角ゴシックを使った、すっきりとした印象。",
   ],
   [
     "pattern2",
-    "まちのひだまり",
-    "丸みのある書体と、柔らかな色面。",
+    "やわらかく親しみやすい",
+    "丸ゴシックと角丸による、やさしい印象。",
   ],
-  ["pattern3", "和のジャーナル", "明朝体とゆとりのある余白で読む誌面。"],
+  ["pattern3", "落ち着きのある上質さ", "明朝体と細い線、余白を活かした印象。"],
 ];
 export function adjust(hex, percent) {
   return (
@@ -214,9 +214,9 @@ export function validate(data, schema) {
 
 // Keep the existing JSON preset slots compatible; design selects the SVG family.
 export const mvNames = {
-  pattern1: ['弧の組版','同心円','折り返す帯'],
-  pattern2: ['木漏れ日の枝','丘と陽だまり','アーチの窓'],
-  pattern3: ['稜線の風景','細線のロゼット','紙の折り目'],
+  pattern1: ['光とドット','やわらかな円','水平のグラデーション'],
+  pattern2: ['やわらかな波','まるい重なり','大きなアーチ'],
+  pattern3: ['静かな流れ','細い曲線','余白と光'],
 };
 export function mvAsset(design, preset) {
   const family = Object.hasOwn(mvNames, design) ? design : 'pattern1';
