@@ -1,0 +1,36 @@
+:root { color-scheme:light; font-family:"Yu Gothic UI","Hiragino Sans",Meiryo,sans-serif; background:#f4f4ee; color:#1c322d; }
+* { box-sizing:border-box; }
+body { margin:0; }
+header { display:flex; align-items:center; gap:16px; background:#16382f; color:#fff; padding:16px clamp(16px,3vw,48px); }
+.wordmark { font:600 29px/1 Georgia,serif; letter-spacing:-.065em; }
+.divider { height:20px; border-left:1px solid #75958a; }
+h1 { font-size:17px; font-weight:600; margin:0; }
+main { padding:0 clamp(12px,2vw,32px) 12px; }
+.toolbar { display:flex; flex-wrap:wrap; gap:12px 16px; margin:18px 0; align-items:end; }
+label { display:grid; gap:4px; font-size:12px; font-weight:600; color:#374d44; }
+select,button { font:inherit; color:inherit; }
+select { min-height:40px; border:1px solid #aab5aa; background:#fff; border-radius:4px; padding:5px 8px; font-size:14px; }
+.device { margin-left:auto; }
+:focus-visible { outline:3px solid #236d9c; outline-offset:2px; }
+.panels { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:clamp(8px,1.4vw,24px); }
+.pane { border:1px solid #b9c3b8; min-width:0; background:#e3e7df; }
+.caption { display:flex; align-items:center; justify-content:space-between; padding:8px 14px; border-bottom:1px solid #b9c3b8; background:#fafaf6; }
+.caption h2 { margin:0; font-size:16px; font-weight:650; }
+.pane[data-side=after] .caption { background:#e1eee6; }
+.caption a { color:#1d5145; font-size:13px; padding:5px; text-underline-offset:3px; }
+.stage { height:clamp(440px, 69vh, 920px); overflow:hidden; position:relative; }
+iframe { position:absolute; border:0; background:#fff; transform-origin:0 0; }
+.mobile-switch { display:none; }
+.note { font-size:12px; line-height:1.65; color:#495e54; }
+[hidden] { display:none!important; }
+@media(max-width:720px) {
+  .toolbar { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; }
+  .device { margin-left:0; }
+  select { width:100%; }
+  .panels { display:block; }
+  .mobile-switch { display:flex; gap:4px; padding:0 0 10px; }
+  .mobile-switch button { padding:8px 22px; border:1px solid #aab5aa; border-radius:4px; background:#fff; }
+  .mobile-switch button[aria-pressed=true] { background:#16382f; color:#fff; border-color:#16382f; }
+  .panels[data-visible=before] .pane[data-side=after], .panels[data-visible=after] .pane[data-side=before] { display:none; }
+  .stage { height:70svh; min-height:400px; }
+}

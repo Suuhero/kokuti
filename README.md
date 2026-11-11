@@ -50,3 +50,20 @@ PHP検証: `php tests/head.test.php`。
 - デザイン・カラー: デザイン3種類・18色・MVプリセット/アップロード画像。
 - faviconは任意のsite.faviconUploadにmedia/相対パスを保存。詳細設定からsite.jsonと画像を個別にダウンロードし、FTP側のdata/とmedia/へ配置します。管理画面で設定した画像を優先し、未設定/未配置なら従来のfavicon/favicon.icoによる5リンク出力に戻ります。解除は管理画面設定の解除であり、FTPの既存faviconフォルダは削除しません。
 - Pagesの保存は従来どおりブラウザ内です。サーバーへの直接保存はまだ実装していません。
+
+## 調整前と調整後を比較する
+
+`npm run build` のあとに `npm run preview` を実行して、[ローカル比較ページ](http://127.0.0.1:8794/compare/)を開きます。GitHub Pagesのデモでは [デザイン比較](https://suuhero.github.io/kokuti/compare/) を開きます。
+
+公開サイトは、同一の架空の医院情報・配色・標準の文字サイズで、デザイン3種類と背景A〜Cを比較できます。「表示箇所」で両側を同じセクションへ移動します。「原寸で開く」は片側を別タブで開きます。画面幅が狭い端末では「調整前」「調整後」を切り替えられます。画面・デザイン・背景・表示箇所・画面幅の選択は比較ページのURLに残ります。
+
+管理画面と制作ツールは各版専用のブラウザ保存領域で操作できます。公開サイトの比較は常に固定サンプルを表示します。ビルドではGit履歴内の調整前コミット `6ba9fc6063f417326072ea00e12c8cd67952f225` から静的デモを復元します。比較はGitHub Pages用の配布物に含まれます。
+
+### デザインの判断基準
+
+- [Hallmark](https://github.com/Nutlope/hallmark) の改善前後の比較方法を採用。既存の入力・医院情報を維持し、レイアウトの違いを同じ内容で評価する。
+- [Impeccable](https://github.com/pbakaus/impeccable) の書体・情報の整理・異なる画面幅での見直しを適用。開院日、内覧会、診療時間を見分けられることを優先する。
+- [Frontend Design](https://github.com/anthropics/skills/tree/main/skills/frontend-design) の考え方に沿い、医院の案内板、日差しの入る窓、和の冊子という別々の造形から3案を設計。医院ごとに事実と異なる写真や実績は加えない。
+- [UI UX Pro Max](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill) を管理・制作画面の点検に使用。現在位置、フォーカス、押せる範囲、戻る操作と入力の保持を確認する。
+
+これらは設計資料であり、配布サイトを動かすための依存パッケージではありません。

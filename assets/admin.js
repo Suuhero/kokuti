@@ -1,4 +1,4 @@
-import {designSample as renderDesignSample} from './design-controls.js';
+import {designSample as renderDesignSample} from './design-controls.js?v=20261111-studio';
 import { BrowserStore } from "./store.js";
 import { ServerStore } from "./server-store.js";
 import {
@@ -17,7 +17,7 @@ import {
   download,
   mediaRefs,
   validate,
-} from "./shared.js?v=20261021-image";
+} from "./shared.js?v=20261111-studio";
 const isRuntime = !!document.getElementById('kokuti-runtime');
 const isCustomer = isRuntime && JSON.parse(document.getElementById('kokuti-runtime').textContent).role === 'customer';
 const store = isRuntime ? new ServerStore() : new BrowserStore();
@@ -48,7 +48,7 @@ const nav = [
     "design",
     "デザイン・カラー",
     "admin-appearance",
-    "元の3つのデザインと18色のパレットから選べます。",
+    "書体・配色・背景をまとめて設定します。",
   ],
   [
     "clinic",
@@ -187,18 +187,19 @@ function view() {
   if (screen === "home")
     return (
       panel(
-        "告知サイトを編集する",
-        `<div class="home-intro"><h2>${e(data.site.clinicName)}</h2><p>左のメニューから項目を編集し、「変更を保存」で反映します。</p></div><div class="home-links">${nav
+        data.site.clinicName || "医院名未入力",
+        `<div class="home-intro"><p>編集する項目を選んでください。</p></div><div class="home-links">${nav
           .slice(1, 11)
           .filter(([key])=>!isCustomer || key!=='design')
           .map(
-            ([key, label, , desc]) =>
-              `<a href="#${key}">${label}<span>${desc}</span></a>`,
+            ([key, label, icon, desc]) =>
+              `<a href="#${key}"><i class="dashicons dashicons-${icon}" aria-hidden="true"></i><span class="directory-item"><strong>${label}</strong><span>${desc}</span></span><i class="directory-arrow" aria-hidden="true">→</i></a>`,
           )
           .join("")}</div>`,
       ) +
       panel(
         isRuntime ? "編集と保存" : "デモの使い方",
+        isRuntime ? '<div class="tools"><p>変更を保存すると公開サイトに反映されます。編集前のJSONと画像は詳細設定から控えてください。</p><a href="../" target="_blank" rel="noopener">サイトを表示 ↗</a></div>' :
         '<div class="tools"><p>保存した内容は、このブラウザの告知サイトに反映されます。他の人のデモや本番サイトには影響しません。</p><p>ブラウザのデータを削除すると編集内容も消えます。残したい内容は詳細設定からJSONと画像をダウンロードしてください。</p><div class="tool-row"><a href="../" target="_blank" rel="noopener">サイトを表示</a><a href="#tools">ダウンロード・初期化</a></div></div>',
       )
     );
@@ -496,10 +497,6 @@ function render() {
     const analytics=document.querySelector('[data-path="site.analyticsCode"]');
     if(analytics && role!=='company'){analytics.closest('.field')?.remove();if(analytics.isConnected)analytics.hidden=true;}
     if(isCustomer) {const input=document.getElementById('import-json');if(input)input.closest('.tools').hidden=true;}
-    if(screen==='home') {
-      const tools=document.querySelector('#editor .tools');
-      if(tools) tools.innerHTML='<p>変更を保存すると公開サイトに反映されます。編集前のJSONと画像は詳細設定から控えてください。</p><a href="../" target="_blank" rel="noopener">サイトを表示 ↗</a>';
-    }
   }
   state();
 }
@@ -545,7 +542,8 @@ async function save() {
     notice(
       dirty
         ? "保存しました。保存中に入力した変更は、もう一度保存してください。"
-        : "変更をこのブラウザに保存しました。「サイトを表示」で確認できます。",
+        : isRuntime ? "変更を保存しました。公開サイトに反映されています。"
+                    : "変更をこのブラウザに保存しました。「サイトを表示」で確認できます。",
     );
   } catch (err) {
     notice(err.message, true);
@@ -727,10 +725,12 @@ addEventListener("hashchange", () => {
   document.querySelector("#menu-toggle").setAttribute("aria-expanded", "false");
   document.querySelector("#notice").hidden = true;
   render();
+  document.querySelector("#page-title").focus({preventScroll:true});
   window.scrollTo(0, 0);
 });
 addEventListener("keydown", (ev) => {
-  if (ev.key === "Escape") {
+  if (ev.key === "Escape" && document.body.classList.contains("menu-open")) {
+    document.querySelector("#menu-toggle").focus();
     document.body.classList.remove("menu-open");
     document
       .querySelector("#menu-toggle")

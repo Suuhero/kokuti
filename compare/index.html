@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow"><title>デザイン比較｜Kokuch</title>
+  <link rel="stylesheet" href="comparison.css"><script type="module" src="comparison.js"></script>
+</head>
+<body>
+  <header><span class="wordmark">Kokuch</span><span class="divider"></span><h1>デザイン比較</h1></header>
+  <main>
+    <div class="toolbar">
+      <label>確認画面<select id="surface"><option value="site">公開サイト</option><option value="admin">管理画面</option><option value="builder">制作ツール</option></select></label>
+      <label class="site-only">デザイン<select id="pattern"><option value="pattern1">1 · まちの案内板</option><option value="pattern2">2 · まちのひだまり</option><option value="pattern3">3 · 和のジャーナル</option></select></label>
+      <label class="site-only">MV背景<select id="mv"><option value="1">背景 A</option><option value="2">背景 B</option><option value="3">背景 C</option></select></label>
+      <label class="site-only">表示箇所<select id="section"><option value="">開院のご案内</option><option value="clinicinfo">医院案内</option><option value="doctor">医師紹介</option><option value="medical">診療内容</option><option value="feature">当院の特徴</option></select></label>
+      <label class="device">画面幅<select id="device"><option value="desktop">PC · 1200 px</option><option value="mobile">スマホ · 390 px</option></select></label>
+    </div>
+    <div class="mobile-switch" role="group" aria-label="比較する版"><button data-side="before" aria-pressed="false">調整前</button><button data-side="after" aria-pressed="true">調整後</button></div>
+    <div class="panels" data-visible="after">
+      <section class="pane" data-side="before"><div class="caption"><h2>調整前</h2><a target="_blank" rel="noopener">原寸で開く ↗</a></div><div class="stage"><iframe title="調整前のプレビュー"></iframe></div></section>
+      <section class="pane" data-side="after"><div class="caption"><h2>調整後</h2><a target="_blank" rel="noopener">原寸で開く ↗</a></div><div class="stage"><iframe title="調整後のプレビュー"></iframe></div></section>
+    </div>
+    <p class="note">公開サイトは両側とも同じ架空の医院データを表示します。管理画面・制作ツールの編集は、各版の比較用デモに保存されます。</p>
+  </main>
+</body>
+</html>

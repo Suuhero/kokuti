@@ -36,4 +36,22 @@ if(isset($_SESSION['user']) && time()-($_SESSION['last'] ?? 0)<=3600) {
   $logout='<form method="post" style="margin-left:16px"><input type="hidden" name="csrf" value="'.$_SESSION['csrf'].'"><button name="logout" value="1">ログアウト</button></form>';
   echo str_replace('</header>',$logout.'</header>',$html);exit;
 }
-?><!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><title>告知サイト｜ログイン</title><link rel="stylesheet" href="../assets/admin.css"><body><main style="max-width:440px;margin:10vh auto;padding:30px;background:white;border:1px solid #dcdcde"><h1>告知サイト管理</h1><p>医院の編集担当者・制作担当者用</p><form method="post"><input type="hidden" name="csrf" value="<?= $_SESSION['csrf'] ?>"><p><label>ログインID<br><input name="id" autocomplete="username" required maxlength="40"></label></p><p><label>パスワード<br><input name="password" type="password" autocomplete="current-password" required maxlength="128"></label></p><p role="alert"><?= htmlspecialchars($error,ENT_QUOTES,'UTF-8') ?></p><button class="primary">ログイン</button></form><p><a href="../">サイトへ戻る</a></p></main></body></html>
+?><!doctype html>
+<html lang="ja"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex">
+<title>Kokuch｜管理画面にログイン</title>
+<link rel="stylesheet" href="../assets/signin.css">
+</head><body>
+<header><strong>Kokuch</strong><span>告知サイト管理</span></header>
+<main>
+  <h1>管理画面にログイン</h1>
+  <p>医院または制作担当者のアカウントでログインしてください。</p>
+  <form method="post">
+    <input type="hidden" name="csrf" value="<?= $_SESSION['csrf'] ?>">
+    <label>ログインID<input name="id" autocomplete="username" autocapitalize="none" required maxlength="40" value="<?= htmlspecialchars($id ?? '', ENT_QUOTES, 'UTF-8') ?>"></label>
+    <label>パスワード<input name="password" type="password" autocomplete="current-password" required maxlength="128"></label>
+    <?php if ($error !== ''): ?><p class="error" role="alert"><?= htmlspecialchars($error,ENT_QUOTES,'UTF-8') ?></p><?php endif; ?>
+    <button>ログイン</button>
+  </form>
+  <a href="../">公開サイトに戻る</a>
+</main></body></html>

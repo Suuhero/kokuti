@@ -1,1 +1,13 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900"><defs><radialGradient id="base" cx="48%" cy="38%" r="78%"><stop stop-color="#fff"/><stop offset=".4" stop-color="{{SUB}}"/><stop offset="1" stop-color="{{MAIN}}" stop-opacity=".75"/></radialGradient><linearGradient id="wash" x2="0" y2="1"><stop stop-color="{{SUB_LIGHT}}"/><stop offset="1" stop-color="{{SUB}}"/></linearGradient><linearGradient id="tint" x2="1" y2="1"><stop stop-color="{{MAIN}}" stop-opacity=".03"/><stop offset="1" stop-color="{{MAIN}}" stop-opacity=".32"/></linearGradient><radialGradient id="light"><stop stop-color="#fff" stop-opacity=".9"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient><pattern id="dots" width="60" height="60" patternUnits="userSpaceOnUse"><circle cx="16" cy="16" r="2.8" fill="#fff" opacity=".5"/></pattern></defs><path fill="url(#base)" d="M0 0H1600V900H0Z"/><g fill="{{MAIN}}"><path opacity=".08" d="M0 450Q400 400 800 610T1600 450V900H0Z"/><path opacity=".12" d="M0 610Q800 820 1600 580V900H0Z"/><path opacity=".1" d="M0 770Q800 880 1600 710V900H0Z"/></g><ellipse cx="800" cy="350" rx="670" ry="600" fill="url(#light)"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900">
+  <rect width="1600" height="900" fill="{{SUB_LIGHT}}"/>
+  <g fill="{{MAIN}}">
+    <path d="M320 175H665l200 -105H1280v38H875l-200 105H320Z"/>
+    <path d="M320 251H695l200 -105H1280v38H905l-200 105H320Z"/>
+    <path d="M320 327H725l200 -105H1280v38H935l-200 105H320Z"/>
+    <path d="M320 403H755l200 -105H1280v38H965l-200 105H320Z"/>
+    <path d="M320 479H785l200 -105H1280v38H995l-200 105H320Z"/>
+    <path d="M320 555H815l200 -105H1280v38H1025l-200 105H320Z"/>
+    <path d="M320 631H845l200 -105H1280v38H1055l-200 105H320Z"/>
+    <path d="M320 707H875l200 -105H1280v38H1085l-200 105H320Z"/>
+  </g><path d="M320 130H610v34H320zM994 753h286v34H994z" fill="{{MAIN_DARK}}"/><path d="M320 60h467v6H320z" fill="{{SUB}}"/>
+</svg>

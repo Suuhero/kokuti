@@ -1,1 +1,13 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900"><defs><radialGradient id="base" cx="48%" cy="38%" r="78%"><stop stop-color="#fff"/><stop offset=".4" stop-color="{{SUB}}"/><stop offset="1" stop-color="{{MAIN}}" stop-opacity=".75"/></radialGradient><linearGradient id="wash" x2="0" y2="1"><stop stop-color="{{SUB_LIGHT}}"/><stop offset="1" stop-color="{{SUB}}"/></linearGradient><linearGradient id="tint" x2="1" y2="1"><stop stop-color="{{MAIN}}" stop-opacity=".03"/><stop offset="1" stop-color="{{MAIN}}" stop-opacity=".32"/></linearGradient><radialGradient id="light"><stop stop-color="#fff" stop-opacity=".9"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient><pattern id="dots" width="60" height="60" patternUnits="userSpaceOnUse"><circle cx="16" cy="16" r="2.8" fill="#fff" opacity=".5"/></pattern></defs><path fill="url(#base)" d="M0 0H1600V900H0Z"/><path fill="url(#dots)" d="M0 0H1600V900H0Z"/><ellipse cx="800" cy="350" rx="670" ry="600" fill="url(#light)"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900">
+  <rect width="1600" height="900" fill="{{SUB}}"/>
+  <defs><pattern id="ruling" width="12" height="12" patternUnits="userSpaceOnUse"><path d="M0 12 12 0" fill="none" stroke="{{MAIN_DARK}}" stroke-width="2"/></pattern></defs>
+  <g transform="translate(440 90)">
+    <rect width="720" height="720" fill="{{SUB_LIGHT}}"/>
+    <path d="M0 360A360 360 0 0 1 360 0V360Z" fill="{{MAIN}}"/>
+    <path d="M360 0H720V360A360 360 0 0 1 360 0Z" fill="{{MAIN_DARK}}"/>
+    <path d="M360 360A360 360 0 0 1 720 720H360Z" fill="{{MAIN}}"/>
+    <path d="M0 360H360V720A360 360 0 0 1 0 360Z" fill="url(#ruling)"/>
+    <path d="M173 360A187 187 0 0 1 360 173V360Z" fill="{{SUB_LIGHT}}"/>
+    <path d="M360 0H537A183 183 0 0 0 720 183V360A360 360 0 0 1 360 0Z" fill="{{MAIN}}"/>
+  </g>
+</svg>

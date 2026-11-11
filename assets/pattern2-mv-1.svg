@@ -1,1 +1,14 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900"><defs><radialGradient id="base" cx="48%" cy="38%" r="78%"><stop stop-color="#fff"/><stop offset=".4" stop-color="{{SUB}}"/><stop offset="1" stop-color="{{MAIN}}" stop-opacity=".75"/></radialGradient><linearGradient id="wash" x2="0" y2="1"><stop stop-color="{{SUB_LIGHT}}"/><stop offset="1" stop-color="{{SUB}}"/></linearGradient><linearGradient id="tint" x2="1" y2="1"><stop stop-color="{{MAIN}}" stop-opacity=".03"/><stop offset="1" stop-color="{{MAIN}}" stop-opacity=".32"/></linearGradient><radialGradient id="light"><stop stop-color="#fff" stop-opacity=".9"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient><pattern id="dots" width="60" height="60" patternUnits="userSpaceOnUse"><circle cx="16" cy="16" r="2.8" fill="#fff" opacity=".5"/></pattern></defs><path fill="url(#wash)" d="M0 0H1600V900H0Z"/><g fill="url(#tint)"><path d="M0 80Q650 430 1600 0V230Q800 550 0 260Z"/><path d="M0 900V670Q670 440 1600 700V900Q700 610 0 900Z"/><path d="M0 900Q900 780 1600 360V530Q1050 930 0 900Z"/></g><ellipse cx="800" cy="350" rx="670" ry="600" fill="url(#light)"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900">
+  <rect width="1600" height="900" fill="{{SUB}}"/>
+  <circle cx="905" cy="310" r="232" fill="{{SUB_LIGHT}}"/>
+  <path d="M630 944Q680 672 766 440Q809 328 905 190" fill="none" stroke="{{MAIN_DARK}}" stroke-width="9" stroke-linecap="round"/>
+  <g>
+    <path transform="translate(657 824) rotate(-55)" d="M0 0C-66 -101.85 -52.800000000000004 -203.7 0 -291C47.519999999999996 -192.06 66 -78.57000000000001 0 0Z" fill="{{MAIN}}"/>
+    <path transform="translate(681 729) rotate(53)" d="M0 0C-73 -93.8 -58.400000000000006 -187.6 0 -268C52.559999999999995 -176.88 73 -72.36 0 0Z" fill="{{MAIN_DARK}}"/>
+    <path transform="translate(713 621) rotate(-54)" d="M0 0C-62 -82.6 -49.6 -165.2 0 -236C44.64 -155.76000000000002 62 -63.720000000000006 0 0Z" fill="{{MAIN_DARK}}"/>
+    <path transform="translate(750 500) rotate(64)" d="M0 0C-56 -81.55 -44.800000000000004 -163.1 0 -233C40.32 -153.78 56 -62.910000000000004 0 0Z" fill="{{MAIN}}"/>
+    <path transform="translate(790 390) rotate(-41)" d="M0 0C-54 -71.75 -43.2 -143.5 0 -205C38.879999999999995 -135.3 54 -55.35 0 0Z" fill="{{MAIN}}"/>
+    <path transform="translate(832 303) rotate(50)" d="M0 0C-49 -69.64999999999999 -39.2 -139.29999999999998 0 -199C35.28 -131.34 49 -53.730000000000004 0 0Z" fill="{{MAIN_DARK}}"/>
+    <path transform="translate(886 217) rotate(14)" d="M0 0C-42 -53.9 -33.6 -107.8 0 -154C30.24 -101.64 42 -41.580000000000005 0 0Z" fill="{{MAIN}}"/>
+  </g>
+</svg>

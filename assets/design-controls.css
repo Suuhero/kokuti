@@ -111,3 +111,39 @@
 .font-sizes { display:flex; flex-wrap:wrap; gap:12px; }
 .font-sizes label { display:flex; align-items:center; gap:10px; padding:12px 22px; border:1px solid #cbd0d6; border-radius:6px; cursor:pointer; background:#fff; }
 .font-sizes label:has(input:checked) { border-color:#2271b1; box-shadow:0 0 0 1px #2271b1; background:#f0f7fc; }
+.design-choice, .preset-choice, .palette {
+  background: white;
+  border-width: 1px;
+  border-radius: 4px;
+}
+.design-choice:hover, .preset-choice:hover, .palette:hover { border-color: var(--blue); }
+.design-choice:has(input:checked), .preset-choice:has(input:checked), .palette:has(input:checked) {
+  border-color: var(--blue);
+  box-shadow: inset 0 0 0 1px var(--blue);
+}
+.design-sample { --sample-ink: color-mix(in srgb,var(--sample-main) 48%,#10231a); padding: 40px 15px 18px; }
+.sample-en, .sample-card-title { color: var(--sample-ink); }
+.sample-title { font-size: clamp(18px,1.7vw,24px); margin: 0 0 14px; }
+.sample-copy { font-size: 14px; line-height: 1.65; }
+.sample-en { font-size: 11px; }
+.sample-card { padding: 14px 10px; }
+.sample-card-title { margin-bottom: 6px; font-size: 16px; }
+.sample-pattern1 { text-align: left; }
+.sample-pattern1 .sample-en { border-bottom: 2px solid var(--sample-main); padding-bottom: 5px; }
+.sample-pattern1 .sample-card { border-width: 0 0 0 3px; }
+.sample-pattern2 { background: color-mix(in srgb,var(--sample-sub) 65%,white); }
+.sample-pattern2 .sample-card { background: var(--sample-sub); border: 0; border-radius: 30px 6px 30px 6px; }
+.sample-pattern3 { background: #fbfaf6; text-align: left; }
+.sample-pattern3 .sample-en { display: flex; align-items: center; gap: 10px; }
+.sample-pattern3 .sample-en::after { content: ""; flex: 1; height: 1px; background: var(--sample-main); }
+.sample-pattern3 .sample-title { letter-spacing: .04em; }
+.sample-pattern3 .sample-card { padding-left: 0; background: transparent; border: 0; }
+.font-sizes { gap: 7px; }
+.font-sizes label { min-height: 44px; margin: 0; padding: 8px 14px; border-radius: 4px; font-weight: 500; }
+.font-sizes label:has(input:checked) { border-color: var(--blue); box-shadow: inset 0 0 0 1px var(--blue); background: #eaf2eb; }
+.font-sizes input { accent-color: var(--blue); }
+@media (max-width: 640px) {
+  .designs .design-choice { display: block; }
+  .design-choice strong { font-size: 15px; }
+  .design-choice small { font-size: 12px; }
+}
