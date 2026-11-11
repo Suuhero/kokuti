@@ -6,3 +6,8 @@
 @media(max-width:700px){.steps{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.steps li{min-width:0}}
 
 .import-actions{align-items:flex-start}.import-actions .outline{background:transparent}.import-actions .outline:hover{background:#e8f1f8}.ai-action{display:flex;flex-direction:column;align-items:flex-end;gap:6px}.ai-action .primary{min-width:160px}@media(max-width:420px){.import-actions{gap:8px}.import-actions button{font-size:11px;padding:10px 8px}.ai-action .primary{min-width:120px}}
+
+.field-error{display:block;margin:6px 0 0;color:#a4262c;font-size:13px;font-weight:400;line-height:1.65;overflow-wrap:anywhere}
+input[aria-invalid=true]:not([type=checkbox]){border-color:#a4262c;box-shadow:0 0 0 1px #a4262c}
+input[type=checkbox][aria-invalid=true]{outline:2px solid #a4262c;outline-offset:2px}
+.validation-status{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}

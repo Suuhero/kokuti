@@ -7,13 +7,76 @@ import {zipSync,unzipSync,strToU8} from './vendor/fflate.js';
 const $=s=>document.querySelector(s), store=new BrowserStore();
 let data, sample, schema, images=new Map(), revision=0, step=1, endpoint=false, csrf='', aiConfigured=false, designVersion=0, designURLs=[], modelIndex=0, busy=false, svgURL='', mediaURLs=[];
 const models=['gemini-3.8-flash','gemini-3.6-flash'];
+const accountFields=['customer-id','customer-password','company-id','company-password','credentials-saved'];
+let urlChecked=false, accountsChecked=false, publishChecked=false;
+function fieldErrors(ids,errors,focus=false) {
+ for(const id of ids) {
+  const input=$('#'+id), errorId=id+'-error';
+  let message=$('#'+errorId);
+  if(!message) {
+   message=document.createElement('span');message.id=errorId;message.className='field-error';message.hidden=true;
+   const anchor=input.type==='checkbox' ? input.closest('label') : input.closest('.password-row') || input;
+   anchor.insertAdjacentElement('afterend',message);
+  }
+  message.textContent=errors[id] || '';message.hidden=!errors[id];
+  const descriptions=new Set((input.getAttribute('aria-describedby') || '').split(/\s+/).filter(Boolean));
+  if(errors[id]) {input.setAttribute('aria-invalid','true');descriptions.add(errorId);}
+  else {input.removeAttribute('aria-invalid');descriptions.delete(errorId);}
+  if(descriptions.size)input.setAttribute('aria-describedby',[...descriptions].join(' '));else input.removeAttribute('aria-describedby');
+ }
+ const invalid=ids.filter(id=>errors[id]);
+ if(focus && invalid.length) {
+  const input=$('#'+invalid[0]);
+  input.focus({preventScroll:true});
+  input.scrollIntoView({block:'center',behavior:'auto'});
+  $('#validation-status').textContent=invalid.length+'か所の入力を確認してください。最初の入力欄へ移動しました。';
+ } else if(!invalid.length) $('#validation-status').textContent='';
+ return invalid.length===0;
+}
+function checkURL(focus=true) {
+ urlChecked=true;
+ let url='', errors={};
+ if(!$('#url').value.trim())errors.url='公開URLを入力してください。';
+ else try {url=siteURL($('#url').value);}catch{errors.url='https:// から始まる公開URLを入力してください。認証情報・「?」以降の検索条件・「#」以降のページ内リンクは含められません。';}
+ if(focus && errors.url && step!==2)go(2);
+ fieldErrors(['url'],errors,focus);
+ return url;
+}
+function checkCredentials(focus=true) {
+ accountsChecked=true;
+ const errors={},ids=['customer','company'].map(k=>$('#'+k+'-id').value.trim());
+ for(const [n,k] of ['customer','company'].entries()) {
+  const password=$('#'+k+'-password').value;
+  if(!ids[n])errors[k+'-id']='ログインIDを入力してください。';
+  else if(!/^[a-zA-Z0-9_-]{3,40}$/.test(ids[n]))errors[k+'-id']='半角英数字・ハイフン・アンダースコアの3〜40文字で入力してください。';
+  if(!password)errors[k+'-password']='パスワードを入力してください。';
+  else if(password.length<12 || password.length>128)errors[k+'-password']='パスワードは12〜128文字で入力してください。';
+ }
+ if(!errors['customer-id'] && !errors['company-id'] && ids[0]===ids[1]) {
+  errors['customer-id']=errors['company-id']='お客様用と自社用のIDは別にしてください。';
+ }
+ if(!errors['customer-password'] && !errors['company-password'] && $('#customer-password').value===$('#company-password').value) {
+  errors['customer-password']=errors['company-password']='お客様用と自社用のパスワードは別にしてください。';
+ }
+ if(!$('#credentials-saved').checked)errors['credentials-saved']='両方のログイン情報を安全な場所に控えてから、チェックしてください。';
+ if(focus && Object.keys(errors).length && step!==3)go(3);
+ return fieldErrors(accountFields,errors,focus);
+}
+function checkPublish() {
+ publishChecked=true;
+ return fieldErrors(['publish-reviewed'],$('#publish-reviewed').checked ? {} : {'publish-reviewed':'掲載内容・画像・診療時間・公開URLを確認して、チェックしてください。'},true);
+}
+function resetFieldErrors() {
+ urlChecked=false;accountsChecked=false;publishChecked=false;
+ fieldErrors(['url',...accountFields,'publish-reviewed'],{});
+}
 function aiNotice(text,error=false){const el=$('#ai-status');el.hidden=false;el.textContent=text;el.classList.toggle('error',error);}
 function status(text,error=false){$('#status').hidden=false;$('#status').textContent=text;$('#status').classList.toggle('error',error);}
 function task(fn){return async ev=>{if(busy)return;busy=true;const b=ev?.currentTarget;if(b?.tagName==='BUTTON')b.disabled=true;try{await fn(ev);}catch(e){if(['ai','retry','downgrade','connect','disconnect'].includes(b?.id))aiNotice(e.message || '処理に失敗しました。',true);else status(e.message || '処理に失敗しました。',true);}finally{busy=false;if(b?.tagName==='BUTTON')b.disabled=b.id==='downgrade' && modelIndex>=models.length-1;}};}
 function sync(){const oldName=data.site.clinicName;document.querySelectorAll('[data-path]').forEach(el=>set(data,el.dataset.path,el.value));data.site.logoText=data.site.clinicName;if(oldName && data.site.pageTitle.startsWith(oldName))data.site.pageTitle=data.site.clinicName+data.site.pageTitle.slice(oldName.length);if(!data.site.pageTitle)data.site.pageTitle=data.site.clinicName+'｜開院のお知らせ';}
 async function persist(){sync();const r=await store.save(data,images,revision);revision=r.revision;}
-function go(n){step=n;for(let i=1;i<=4;i++)$('#step'+i).hidden=i!==n;document.querySelectorAll('.steps li').forEach((li,i)=>{li.removeAttribute('aria-current');if(i===n-1)li.setAttribute('aria-current','step');});window.scrollTo({top:0,behavior:'smooth'});$('#status').hidden=true;}
-function fill(){document.querySelectorAll('[data-path]').forEach(el=>el.value=get(data,el.dataset.path)||'');renderDesign();renderMedia();renderFields($('#extra-fields'),data,schema,images);$('#content-summary').textContent=`診療時間 ${data.clinicInfo.schedules.length}件 · 医師紹介 ${data.greeting.doctors.length}名 · 診療内容 ${data.services.items.length}件 · 特徴 ${data.background.items.length}件`;}
+function go(n){step=n;$("#validation-status").textContent="";for(let i=1;i<=4;i++)$('#step'+i).hidden=i!==n;document.querySelectorAll('.steps li').forEach((li,i)=>{li.removeAttribute('aria-current');if(i===n-1)li.setAttribute('aria-current','step');});window.scrollTo({top:0,behavior:'smooth'});$('#status').hidden=true;}
+function fill(){resetFieldErrors();document.querySelectorAll('[data-path]').forEach(el=>el.value=get(data,el.dataset.path)||'');renderDesign();renderMedia();renderFields($('#extra-fields'),data,schema,images);$('#content-summary').textContent=`診療時間 ${data.clinicInfo.schedules.length}件 · 医師紹介 ${data.greeting.doctors.length}名 · 診療内容 ${data.services.items.length}件 · 特徴 ${data.background.items.length}件`;}
 function renderMedia(){mediaURLs.forEach(URL.revokeObjectURL);mediaURLs=[];for(const [id,key]of[['logo','logoUpload'],['favicon','faviconUpload']]){const path=data.site[key];const container=$('#'+id+'-preview');container.replaceChildren();if(images.has(path)){const url=URL.createObjectURL(images.get(path));mediaURLs.push(url);const img=document.createElement('img');img.src=url;img.alt=id==='logo'?'選択したロゴ':'選択したfavicon';container.append(img);const btn=document.createElement('button');btn.type='button';btn.textContent='取り消す';btn.onclick=()=>{data.site[key]='';renderMedia();};container.append(btn);}}}
 async function renderDesign(){
  const version=++designVersion;
@@ -35,14 +98,16 @@ $('#sample').onclick=task(async()=>{if(data.site.clinicName && !confirm('入力�
 $('#clear').onclick=task(async()=>{if(!confirm('入力内容をクリアしますか？'))return;data=emptySite(sample);images=new Map();$('#source').value='';$('#url').value='';$('#reviewed').checked=false;fill();});
 for(const [id,key]of[['logo','logoUpload'],['favicon','faviconUpload']])$('#'+id).onchange=task(async()=>{const f=$('#'+id).files[0];if(!f)return;const ext=f.name.split('.').at(-1).toLowerCase();if(!(id==='favicon'?['png','ico']:['png','jpg','jpeg','webp']).includes(ext))throw Error('対応する画像形式を選んでください。');if(f.size>(id==='favicon'?1:5)*1024*1024)throw Error('画像サイズの上限を超えています。');const b=new Uint8Array(await f.arrayBuffer());if(ext==='ico'){if(b[0]!==0||b[1]!==0||b[2]!==1||b[3]!==0)throw Error('ICO画像を確認してください。');}else {const bitmap=await createImageBitmap(f);bitmap.close();if(ext==='png' && !(b[0]===137&&b[1]===80&&b[2]===78&&b[3]===71))throw Error('PNG画像を確認してください。');}const path='image/'+crypto.randomUUID()+'.'+ext;images.set(path,f);data.site[key]=path;renderMedia();});
 $('#next1').onclick=task(async()=>{go(2);});
-$('#next2').onclick=task(async()=>{sync();const url=siteURL($('#url').value);const errors=validate(data,schema);if(errors.length)throw Error(errors.slice(0,5).join('\n'));$('#url').value=url;if(!$('#customer-id').value)$('#customer-id').value=domainId(url);await persist();go(3);});
-document.querySelectorAll('[data-generate]').forEach(b=>b.onclick=()=>{$('#'+b.dataset.generate+'-password').value=randomPassword();$('#credentials-saved').checked=false;});
+$('#next2').onclick=task(async()=>{sync();const url=checkURL();if(!url)return;const errors=validate(data,schema);if(errors.length)throw Error(errors.slice(0,5).join('\n'));$('#url').value=url;if(!$('#customer-id').value)$('#customer-id').value=domainId(url);await persist();go(3);});
+document.querySelectorAll('[data-generate]').forEach(b=>b.onclick=()=>{$('#'+b.dataset.generate+'-password').value=randomPassword();$('#credentials-saved').checked=false;if(accountsChecked)checkCredentials(false);});
 document.querySelectorAll('[data-reveal]').forEach(b=>b.onclick=()=>{const el=$('#'+b.dataset.reveal+'-password');el.type=el.type==='password'?'text':'password';b.textContent=el.type==='text'?'隠す':'表示';b.setAttribute('aria-pressed',String(el.type==='text'));});
-document.querySelectorAll('#step3 input:not([type=checkbox])').forEach(el=>el.oninput=()=>$('#credentials-saved').checked=false);
-function checkCredentials(){const ids=['customer','company'].map(k=>$('#'+k+'-id').value.trim());if(ids[0]===ids[1])throw Error('お客様用と自社用のIDは別にしてください。');for(const k of ['customer','company']){if(!/^[a-zA-Z0-9_-]{3,40}$/.test($('#'+k+'-id').value.trim()))throw Error('IDは半角英数字・ハイフン・アンダースコアの3〜40文字にしてください。');if($('#'+k+'-password').value.length<12)throw Error('パスワードは12文字以上で設定してください。');}if($('#customer-password').value===$('#company-password').value)throw Error('パスワードもアカウントごとに別にしてください。');if(!$('#credentials-saved').checked)throw Error('ログイン情報を控えてチェックしてください。');}
-$('#next3').onclick=task(async()=>{checkCredentials();$('#review').innerHTML=[['医院名',data.site.clinicName],['公開URL',$('#url').value],['デザイン',designs.find(d=>d[0]===data.design)[1]],['お客様ID',$('#customer-id').value],['自社ID',$('#company-id').value],['管理画面URL',$('#url').value+'admin/']].map(([k,v])=>`<dt>${esc(k)}</dt><dd>${esc(v)}</dd>`).join('');$('#publish-reviewed').checked=false;go(4);});
+document.querySelectorAll('#step3 input:not([type=checkbox])').forEach(el=>el.oninput=()=>{$('#credentials-saved').checked=false;if(accountsChecked)checkCredentials(false);});
+$('#url').addEventListener('input',()=>{if(urlChecked)checkURL(false);});
+$('#credentials-saved').addEventListener('change',()=>{if(accountsChecked)checkCredentials(false);});
+$('#publish-reviewed').addEventListener('change',()=>{if(publishChecked)fieldErrors(['publish-reviewed'],$('#publish-reviewed').checked ? {} : {'publish-reviewed':'掲載内容・画像・診療時間・公開URLを確認して、チェックしてください。'});});
+$('#next3').onclick=task(async()=>{if(!checkCredentials())return;$('#review').innerHTML=[['医院名',data.site.clinicName],['公開URL',$('#url').value],['デザイン',designs.find(d=>d[0]===data.design)[1]],['お客様ID',$('#customer-id').value],['自社ID',$('#company-id').value],['管理画面URL',$('#url').value+'admin/']].map(([k,v])=>`<dt>${esc(k)}</dt><dd>${esc(v)}</dd>`).join('');$('#publish-reviewed').checked=false;go(4);});
 document.querySelectorAll('[data-back]').forEach(b=>b.onclick=()=>go(Number(b.dataset.back)));
-$('#download').onclick=task(async()=>{if(!$('#publish-reviewed').checked)throw Error('掲載内容を確認してチェックしてください。');checkCredentials();const errors=validate(data,schema);if(errors.length)throw Error(errors.slice(0,5).join('\n'));for(const path of mediaRefs(data))if(!images.has(path))throw Error('画像がありません：'+path+'。この画面の該当項目から画像を設定してください。');$('#download-state').textContent='パスワードを保護してZIPを生成しています…';const users=await Promise.all(['customer','company'].map(role=>credential($('#'+role+'-id').value.trim(),$('#'+role+'-password').value,role)));const response=await fetch('./template.zip',{cache:'no-cache'});if(!response.ok)throw Error('テンプレートを読み込めませんでした。ページを再読み込みしてください。');const files=unzipSync(new Uint8Array(await response.arrayBuffer()));const config={url:siteURL($('#url').value),users};const encoded=btoa(JSON.stringify(config));files['private/config.php']=strToU8("<?php\nreturn json_decode(base64_decode('"+encoded+"'), true, 512, JSON_THROW_ON_ERROR);\n");files['data/site.json']=strToU8(JSON.stringify(data,null,2));files['robots.txt']=strToU8('User-agent: *\nAllow: /\nDisallow: '+new URL(config.url).pathname+'admin/\nSitemap: '+config.url+'sitemap.xml\n');for(const path of mediaRefs(data))files[path]=new Uint8Array(await images.get(path).arrayBuffer());download('kokuti-'+domainId(config.url)+'.zip',new Blob([zipSync(files,{level:6})],{type:'application/zip'}));$('#download-state').textContent='ダウンロードを開始しました。解凍した中身をFTPで配置してください。';});
+$('#download').onclick=task(async()=>{if(!checkPublish() || !checkCredentials())return;const errors=validate(data,schema);if(errors.length)throw Error(errors.slice(0,5).join('\n'));for(const path of mediaRefs(data))if(!images.has(path))throw Error('画像がありません：'+path+'。この画面の該当項目から画像を設定してください。');$('#download-state').textContent='パスワードを保護してZIPを生成しています…';const users=await Promise.all(['customer','company'].map(role=>credential($('#'+role+'-id').value.trim(),$('#'+role+'-password').value,role)));const response=await fetch('./template.zip',{cache:'no-cache'});if(!response.ok)throw Error('テンプレートを読み込めませんでした。ページを再読み込みしてください。');const files=unzipSync(new Uint8Array(await response.arrayBuffer()));const config={url:siteURL($('#url').value),users};const encoded=btoa(JSON.stringify(config));files['private/config.php']=strToU8("<?php\nreturn json_decode(base64_decode('"+encoded+"'), true, 512, JSON_THROW_ON_ERROR);\n");files['data/site.json']=strToU8(JSON.stringify(data,null,2));files['robots.txt']=strToU8('User-agent: *\nAllow: /\nDisallow: '+new URL(config.url).pathname+'admin/\nSitemap: '+config.url+'sitemap.xml\n');for(const path of mediaRefs(data))files[path]=new Uint8Array(await images.get(path).arrayBuffer());download('kokuti-'+domainId(config.url)+'.zip',new Blob([zipSync(files,{level:6})],{type:'application/zip'}));$('#download-state').textContent='ダウンロードを開始しました。解凍した中身をFTPで配置してください。';});
 async function init(){try{[sample,schema]=await Promise.all([jsonFile('data/sample.json'),jsonFile('data/schema.json')]);const saved=await store.load();revision=saved.revision;data=revision? saved.data:emptySite(sample);images=await store.images();fill();try{const x=await api('status');csrf=x.csrf;endpoint=true;aiConfigured=x.configured;$('#connection').textContent=x.configured?'Gemini APIキーを設定済みです。':'Gemini APIキーを設定するとAI整理を試せます。';}catch{$('#connection').textContent=location.hostname.endsWith('github.io')?'GitHub PagesではAI接続は動作しません。PHP版を開いてください。Word抽出・手入力・ZIP作成はここで利用できます。':'AIの接続確認に失敗しました。PHPサーバーの起動を確認して再読み込みしてください。';$('#api-key').disabled=true;$('#connect').disabled=true;$('#disconnect').disabled=true;}}catch(e){status(e.message,true);}}
 $("#font-sizes").onchange=ev=>{if(ev.target.dataset.fontSize)data.fontSize=ev.target.dataset.fontSize;};
 $('#patterns').onchange=ev=>{if(ev.target.dataset.design){data.design=ev.target.dataset.design;renderDesign();}};
