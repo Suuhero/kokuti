@@ -281,3 +281,19 @@ body.site--pattern3 #app header nav .sns-button-label {font-family:"Libre Basker
 /* Text-only contrast correction; palette fills, artwork and rules keep their original colors. */
 #app .text a { color:var(--accent-text); }
 #app .sp_link_box .top_free_link a { color:var(--on-main-text); }
+
+/* Keep label fills only in the design patterns that use them. */
+body.site--pattern1:not(.site--pattern2):not(.site--pattern3) #app .clinic-facts dt,
+body.site--pattern2 #app .clinic-facts dt { background:none; }
+body.site--pattern1:not(.site--pattern2):not(.site--pattern3) #app .profile_box th,
+body.site--pattern3 #app .profile_box th { background:none; }
+body.site--pattern1:not(.site--pattern2):not(.site--pattern3) #app .feature_item_num {
+  font-family:Arial,Helvetica,sans-serif;
+  font-size:calc(38px * var(--site-font-scale,1));
+  font-weight:400;
+  font-variant-numeric:tabular-nums;
+  letter-spacing:0;
+}
+@media(max-width:640px){
+  body.site--pattern1:not(.site--pattern2):not(.site--pattern3) #app .feature_item_num { font-size:calc(32px * var(--site-font-scale,1)); }
+}
