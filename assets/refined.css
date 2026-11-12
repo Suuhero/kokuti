@@ -96,6 +96,7 @@ body.site--pattern3[data-background="3"] #app main > :is(#clinicinfo,#medical) {
 #app .tb02 th,#app .tb02 td { padding:14px 8px; border:1px solid var(--line); color:var(--ink); background:#fff; font-size:calc(15px * var(--site-font-scale,1)); line-height:1.5; text-align:center; font-weight:500; width:auto; }
 #app .tb02 tr:first-child th,#app .tb02 tr:first-child td { background:var(--sub); }
 #app .tb02 th { width:31%; white-space:nowrap; }
+#app .tb02 th,#app .tb02 tr:first-child td { font-weight:600; }
 #app .schedule_note { font-size:calc(14px * var(--site-font-scale,1)); line-height:1.8; margin:14px 0 0; }
 #app .schedule_note .text { font-size:calc(14px * var(--site-font-scale,1)); }
 #app .schedule_note .kyushinbi { margin:0 0 8px; color:var(--text); }
@@ -163,7 +164,7 @@ body.site--pattern2 #app .clinic-overview { gap:24px; }
 body.site--pattern2 #app .profile_box { padding:24px; border-radius:20px; background:var(--sub); }
 body.site--pattern2 #app .top_profile { padding:0; border:0; }
 body.site--pattern2 #app .top_medical_item { border:0; border-radius:20px; }
-body.site--pattern2 #app .medical_inner { background:var(--sub); padding:12px; border-radius:14px; margin-bottom:16px; }
+body.site--pattern2 #app .medical_inner { background:none; padding:12px; border-radius:14px; margin-bottom:16px; }
 body.site--pattern2 #app .medical_item_title { margin:0; color:var(--ink); }
 body.site--pattern2 #app .top_feature_list { gap:18px; }
 body.site--pattern2 #app .top_feature_item { border:1px solid var(--line); background:#fff; border-radius:20px; padding:24px; }
@@ -172,8 +173,9 @@ body.site--pattern2 #app .top_feature_text { margin-left:84px; }
 body.site--pattern3 #app .top_title h2 { font-weight:500; font-size:calc(36px * var(--site-font-scale,1)); }
 body.site--pattern3 #app .text,body.site--pattern3 #app .tb02,body.site--pattern3 #app .clinic-facts,body.site--pattern3 #app .profile_box table { font-family:Meiryo,sans-serif; letter-spacing:.025em; }
 body.site--pattern3 #app .clinic-facts dt { background:none; }
-body.site--pattern3 #app .top_medical_item { border:0; border-right:1px solid var(--line); border-radius:0; background:none; }
+body.site--pattern3 #app .top_medical_item { position:relative; border:0; border-right:1px solid transparent; border-radius:0; background:none; }
 body.site--pattern3 #app .top_medical_item:last-child { border-right:0; }
+body.site--pattern3 #app .top_medical_item:not(:last-child)::after { content:""; position:absolute; right:-1px; top:30px; bottom:30px; width:1px; background:var(--line); pointer-events:none; }
 body.site--pattern3 #app .medical_item_title { color:var(--ink); font-weight:500; }
 body.site--pattern3 #app .top_feature_list { grid-template-columns:repeat(2,minmax(0,1fr)); gap:36px; }
 body.site--pattern3 #app .top_feature_item { border:0; }
@@ -182,6 +184,7 @@ body.site--pattern3 #app .featutr_item_title { align-items:start; }
 body.site--pattern3 #app .feature_item_num { font-style:italic; border:0; padding:0; }
 @media(max-width:1000px) {
  body.site--pattern3 #app .top_medical_item:nth-child(even) { border-right:0; }
+ body.site--pattern3 #app .top_medical_item:nth-child(even)::after { display:none; }
  #app .clinic-overview { grid-template-columns:1fr; gap:28px; }
  #app .top_medical_list { grid-template-columns:repeat(2,minmax(0,1fr)); }
  #app header.fixed .header_btn_box a { min-width:100px; padding:10px 14px; }
@@ -269,9 +272,7 @@ body.site--pattern3 #app .top_title p,body.site--pattern3 #app .feature_item_num
 body.site--pattern3 #app .top_title p {letter-spacing:.16em;font-size:calc(13px * var(--site-font-scale,1));}
 body.site--pattern3 #app .feature_item_num {font-size:calc(38px * var(--site-font-scale,1));letter-spacing:0;}
 body.site--pattern3 #app header nav {font-family:"Libre Baskerville","Noto Serif JP",serif;border-left:1px solid var(--main);background:#fff;}
-body.site--pattern3 #app header nav .navi {counter-reset:menu;}
 body.site--pattern3 #app header nav .navi a {display:flex;align-items:baseline;gap:16px;padding:16px 4px;font-size:calc(15px * var(--site-font-scale,1));font-weight:400;letter-spacing:.06em;}
-body.site--pattern3 #app header nav .navi a::before {counter-increment:menu;content:counter(menu,decimal-leading-zero);font:400 11px/1.5 "Libre Baskerville",serif;color:var(--accent-text);letter-spacing:.02em;}
 body.site--pattern3 #app header nav .navi a:hover {background:var(--sub);}
 body.site--pattern3 #app header nav .nav_btn_area a {border-radius:0;background:#fff;border-color:var(--main-dark);font-weight:400;}
 body.site--pattern3 #app header nav a.sns {border-radius:0;background:#fff;}
