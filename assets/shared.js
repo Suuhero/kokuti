@@ -93,6 +93,43 @@ export function adjust(hex, percent) {
       .join("")
   );
 }
+function luminance(hex) {
+  const rgb = Array.isArray(hex) ? hex : hex.slice(1).match(/../g).map(x => parseInt(x, 16));
+  const channels = rgb.map(v => v / 255)
+    .map(v => v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4);
+  return channels[0] * 0.2126 + channels[1] * 0.7152 + channels[2] * 0.0722;
+}
+function colorContrast(a, b) {
+  const x = luminance(a), y = luminance(b);
+  return (Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05);
+}
+function colorMix(a, b, weight) {
+  const channels = h => h.slice(1).match(/../g).map(x => parseInt(x, 16));
+  const left = channels(a), right = channels(b);
+  return left.map((v, i) => v * weight + right[i] * (1 - weight));
+}
+function darkenTextForSurfaces(color, backgrounds) {
+  const readable = candidate => backgrounds.every(bg => colorContrast(candidate, bg) >= 4.5);
+  if (readable(color)) return color;
+  // Change only the text color, retaining the original hue and the smallest necessary darkening.
+  let low = 0, high = 1;
+  for (let i = 0; i < 16; i++) {
+    const middle = (low + high) / 2;
+    if (readable(adjust(color, -middle))) high = middle;
+    else low = middle;
+  }
+  return adjust(color, -high);
+}
+export function accentTextColor(main, sub) {
+  // All existing surfaces are light: white, palette tint, quiet section tint and SNS arrow fill.
+  return darkenTextForSurfaces(adjust(main, -0.18), [
+    "#ffffff", sub, colorMix(main, sub, 0.09), colorMix(main, "#ffffff", 0.2),
+  ]);
+}
+export function onMainTextColor(main) {
+  return colorContrast("#ffffff", main) >= 4.5
+    ? "#ffffff" : darkenTextForSurfaces(adjust(main, -0.18), [main]);
+}
 export async function jsonFile(path) {
   const r = await fetch(asset(path), {cache:"no-cache"});
   if (!r.ok)

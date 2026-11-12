@@ -39,3 +39,34 @@ export function emptySite(sample) {
   d.freeAreas=d.freeAreas.map(()=>({title:'',en:'',body:''}));
   return d;
 }
+
+export function buildZipReview(data, {url, designLabel, customerId, companyId, mvLabels = []}, images = new Map()) {
+  const text = value => typeof value === 'string' && value.trim() ? value : '未入力';
+  const site = data.site, clinic = data.clinicInfo;
+  const details = [
+    ['医院名', text(site.clinicName)], ['公開URL', url],
+    ['開院日', text(site.openDate)], ['開院のお知らせ', text(site.kokuchiTitle)],
+    ['内覧会などの見出し', text(site.kokuchiSubtitle)], ['内覧会などの日時', text(site.kokuchiSubDate)],
+    ['電話番号', text(clinic.tel)], ['住所', text(clinic.address)],
+    ['デザイン', designLabel], ['お客様ID', customerId], ['自社ID', companyId], ['管理画面URL', url + 'admin/'],
+  ].map(([label, value]) => ({label, value}));
+  const imageRow = (label, path) => !path
+    ? {label, value:'未設定（任意）', state:'empty'}
+    : images.has(path)
+      ? {label, value:'選択済み・ZIPに同梱', state:'selected'}
+      : {label, value:'画像ファイルがありません。選び直してください。', state:'missing'};
+  const imageRows = [imageRow('ロゴ画像', site.logoUpload), imageRow('favicon画像', site.faviconUpload)];
+  for (const [i, mv] of data.mv.images.entries()) {
+    if (mv.upload) imageRows.push(imageRow('メインビジュアル ' + (i + 1), mv.upload));
+    else {
+      // Match the public renderer: an unknown legacy preset falls back to A.
+      const n = Number(/^preset-mv-([123])\.svg$/.exec(mv.preset)?.[1] || 1) - 1;
+      imageRows.push({label:'メインビジュアル ' + (i + 1), value:'テンプレート背景 ' + String.fromCharCode(65 + n) + (mvLabels[n] ? '：' + mvLabels[n] : ''), state:'preset'});
+    }
+  }
+  if (!data.greeting.doctors.length) imageRows.push({label:'医師写真', value:'医師紹介の登録なし', state:'empty'});
+  for (const [i, doctor] of data.greeting.doctors.entries()) imageRows.push(imageRow('医師写真 ' + (i + 1) + (doctor.name ? '：' + doctor.name : ''), doctor.imageUpload));
+  if (!data.background.items.length) imageRows.push({label:'特徴の画像', value:'特徴の登録なし', state:'empty'});
+  for (const [i, item] of data.background.items.entries()) imageRows.push(imageRow('特徴の画像 ' + (i + 1) + (item.title ? '：' + item.title : ''), item.imageUpload));
+  return {details, images:imageRows, missing:imageRows.filter(row => row.state === 'missing').length};
+}

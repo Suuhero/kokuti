@@ -7,6 +7,7 @@ import {
   mediaRefs,
   safeLink,
   adjust,
+  accentTextColor, onMainTextColor,
   mvAsset, mvSVG, mvNames,
 } from "../assets/shared.js";
 const sample = JSON.parse(
@@ -101,4 +102,30 @@ test('font sizes accept three levels and older JSON', () => {
  for (const size of ['small','medium','large']) assert.deepEqual(validate({...sample,fontSize:size},schema),[]);
  const old=structuredClone(sample);delete old.fontSize;assert.deepEqual(validate(old,schema),[]);
  assert.ok(validate({...sample,fontSize:'huge'},schema).length);
+});
+
+test('18配色と任意の淡色で文字のみ十分な明暗差を確保する', () => {
+  const luminance = color => {
+    const rgb = Array.isArray(color) ? color : color.slice(1).match(/../g).map(x => parseInt(x, 16));
+    const values = rgb.map(v => v / 255).map(v => v <= .04045 ? v / 12.92 : ((v + .055) / 1.055) ** 2.4);
+    return .2126 * values[0] + .7152 * values[1] + .0722 * values[2];
+  };
+  const contrast = (a, b) => {
+    const values = [luminance(a), luminance(b)].sort((x, y) => y - x);
+    return (values[0] + .05) / (values[1] + .05);
+  };
+  const mix = (a, b, weight) => a.slice(1).match(/../g).map((v, i) =>
+    parseInt(v, 16) * weight + parseInt(b.slice(1).match(/../g)[i], 16) * (1 - weight));
+  const original = structuredClone(palettes);
+  for (const [main, sub] of [...palettes.map(p => [p[2], p[3]]),
+    ['#fff27b', '#fffde8'], ['#ffffff', '#ffffff'], ['#fac9ea', '#fdf5fb']]) {
+    const backgrounds = ['#ffffff', sub, mix(main, sub, .09), mix(main, '#ffffff', .2)];
+    const text = accentTextColor(main, sub), oldText = adjust(main, -.18);
+    for (const background of backgrounds) assert.ok(contrast(text, background) >= 4.5, main + ' / ' + sub);
+    if (backgrounds.every(bg => contrast(oldText, bg) >= 4.5)) assert.equal(text, oldText);
+    const onMain = onMainTextColor(main);
+    assert.ok(contrast(onMain, main) >= 4.5);
+    if (contrast('#ffffff', main) >= 4.5) assert.equal(onMain, '#ffffff');
+  }
+  assert.deepEqual(palettes, original);
 });

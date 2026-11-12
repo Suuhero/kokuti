@@ -74,7 +74,7 @@ body.site--pattern3[data-background="2"] #app main > :is(#clinicinfo,#medical) {
 body.site--pattern3[data-background="3"] #app main > :is(#clinicinfo,#medical) {background-image:radial-gradient(ellipse at var(--opposite-x) 0%,var(--section-tint),transparent 55%),linear-gradient(var(--section-angle),#fff,var(--sub));}
 #app .top_title { display:block; width:100%; margin:0 0 36px!important; text-align:left; padding:0!important; }
 #app .top_title::after { display:none; }
-#app .top_title p { display:flex; align-items:center; gap:16px; margin:0 0 10px; color:var(--main-dark); font-size:calc(13px * var(--site-font-scale,1)); font-weight:600; letter-spacing:.18em; line-height:1.5; }
+#app .top_title p { display:flex; align-items:center; gap:16px; margin:0 0 10px; color:var(--accent-text); font-size:calc(13px * var(--site-font-scale,1)); font-weight:600; letter-spacing:.18em; line-height:1.5; }
 #app .top_title p::after { content:""; display:block; height:1px; width:70px; background:var(--main); }
 #app .top_title h2 { color:var(--ink); font-size:calc(32px * var(--site-font-scale,1)); font-weight:700; letter-spacing:.05em; line-height:1.5; margin:0; }
 #app .text { font-size:calc(16px * var(--site-font-scale,1)); line-height:1.95; letter-spacing:.025em; }
@@ -131,14 +131,14 @@ body.site--pattern3[data-background="3"] #app main > :is(#clinicinfo,#medical) {
 #app .top_medical_item { display:flex; flex-direction:column; }
 #app .medical_inner { display:flex; align-items:center; justify-content:center; min-height:74px; }
 #app .featutr_item_title h3 { min-width:0; overflow-wrap:anywhere; }
-#app .medical_item_title { font-size:calc(23px * var(--site-font-scale,1)); color:var(--main-dark); line-height:1.5; padding:0; margin:0 0 18px; }
+#app .medical_item_title { font-size:calc(23px * var(--site-font-scale,1)); color:var(--accent-text); line-height:1.5; padding:0; margin:0 0 18px; }
 #app .top_medical_text { padding:0; margin:0; font-size:calc(16px * var(--site-font-scale,1)); line-height:1.9; text-align:center; }
 #app .top_feature_list { display:grid; gap:0; margin:0; }
 #app .top_feature_item { width:100%; padding:28px 0; margin:0; border:0; border-bottom:1px solid var(--line); background:none; border-radius:0; box-shadow:none; }
 #app .featutr_item_title { display:flex; flex-direction:row; align-items:center; gap:24px; padding:0; margin:0 0 12px; }
 #app .feature_item_num { width:auto; margin:0; }
 #app .featutr_item_title h3 { flex:1; }
-#app .feature_item_num { display:block; padding:0 24px 0 0; border-right:1px solid var(--main); background:none; border-radius:0; color:var(--main-dark); font:44px/1.2 Georgia,serif; flex:none; }
+#app .feature_item_num { display:block; padding:0 24px 0 0; border-right:1px solid var(--main); background:none; border-radius:0; color:var(--accent-text); font:44px/1.2 Georgia,serif; flex:none; }
 #app .featutr_item_title h3 { color:var(--ink); font-size:calc(24px * var(--site-font-scale,1)); line-height:1.6; margin:0; }
 #app .top_feature_text { margin-left:92px; }
 #app .top_feature_img { width:36%; margin:10px 24px 10px 0; padding:0; border:0; }
@@ -233,10 +233,10 @@ body.site--pattern3 #app .featutr_item_title {align-items:baseline;}
 body.site--pattern3 #app .feature_item_num {position:static;transform:none;line-height:1.2;}
 #app .top_sns_link, #app .sns_list {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;width:100%;}
 #app .top_sns_link li, #app .sns_list li {width:auto;min-width:0;margin:0;padding:0;}
-#app a.sns {display:flex;box-sizing:border-box;width:100%;min-width:0;align-items:center;justify-content:flex-start;gap:5px;min-height:48px;padding:10px 8px;border:1px solid var(--main);border-radius:8px;background:var(--sub);color:var(--main-dark);text-decoration:none;line-height:1.4;}
+#app a.sns {display:flex;box-sizing:border-box;width:100%;min-width:0;align-items:center;justify-content:flex-start;gap:5px;min-height:48px;padding:10px 8px;border:1px solid var(--main);border-radius:8px;background:var(--sub);color:var(--accent-text);text-decoration:none;line-height:1.4;}
 #app a.sns i {font-size:calc(18px * var(--site-font-scale,1));flex:0 0 18px;text-align:center;}
 #app a.sns .sns-button-label {font:600 14px/1.4 sans-serif;letter-spacing:0;}
-#app a.sns .sns-arrow {flex:0 0 20px;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:color-mix(in srgb,var(--main) 20%,white);color:var(--main-dark);}
+#app a.sns .sns-arrow {flex:0 0 20px;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:color-mix(in srgb,var(--main) 20%,white);color:var(--accent-text);}
 #app a.sns .sns-arrow::before {content:"";width:5px;height:5px;border-top:1.5px solid currentColor;border-right:1.5px solid currentColor;transform:rotate(45deg);margin-right:2px;}
 #app a.sns:hover {background:var(--sub);color:var(--ink);opacity:1;box-shadow:0 0 0 1px var(--main);text-decoration:none;}
 #app a.sns:focus-visible {outline:3px solid var(--main-dark);outline-offset:3px;}
@@ -265,9 +265,13 @@ body.site--pattern3 #app .feature_item_num {font-size:calc(38px * var(--site-fon
 body.site--pattern3 #app header nav {font-family:"Libre Baskerville","Noto Serif JP",serif;border-left:1px solid var(--main);background:#fff;}
 body.site--pattern3 #app header nav .navi {counter-reset:menu;}
 body.site--pattern3 #app header nav .navi a {display:flex;align-items:baseline;gap:16px;padding:16px 4px;font-size:calc(15px * var(--site-font-scale,1));font-weight:400;letter-spacing:.06em;}
-body.site--pattern3 #app header nav .navi a::before {counter-increment:menu;content:counter(menu,decimal-leading-zero);font:400 11px/1.5 "Libre Baskerville",serif;color:var(--main-dark);letter-spacing:.02em;}
+body.site--pattern3 #app header nav .navi a::before {counter-increment:menu;content:counter(menu,decimal-leading-zero);font:400 11px/1.5 "Libre Baskerville",serif;color:var(--accent-text);letter-spacing:.02em;}
 body.site--pattern3 #app header nav .navi a:hover {background:var(--sub);}
 body.site--pattern3 #app header nav .nav_btn_area a {border-radius:0;background:#fff;border-color:var(--main-dark);font-weight:400;}
 body.site--pattern3 #app header nav a.sns {border-radius:0;background:#fff;}
 body.site--pattern3 #app header nav .sns-button-label {font-family:"Libre Baskerville",serif;font-size:calc(12px * var(--site-font-scale,1));font-weight:400;}
 @media(max-width:640px){body.site--pattern3 #app .feature_item_num{font-size:calc(32px * var(--site-font-scale,1));}}
+
+/* Text-only contrast correction; palette fills, artwork and rules keep their original colors. */
+#app .text a { color:var(--accent-text); }
+#app .sp_link_box .top_free_link a { color:var(--on-main-text); }

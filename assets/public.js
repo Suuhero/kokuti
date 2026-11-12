@@ -6,10 +6,12 @@ import {
   safeLink,
   mapURL,
   adjust,
+  accentTextColor,
+  onMainTextColor,
   mvAsset,
   mvSVG,
   jsonFile,
-} from "./shared.js?v=20261021-image";
+} from "./shared.js?v=20261112-text-contrast";
 const store = new BrowserStore(),
   urls = [];
 const e = esc;
@@ -111,6 +113,8 @@ async function run() {
   const vars = {
     main: c.main,
     "main-dark": adjust(c.main, -0.18),
+    "accent-text": accentTextColor(c.main, c.sub),
+    "on-main-text": onMainTextColor(c.main),
     sub: c.sub,
     "sub-light": adjust(c.sub, 0.05),
     text: c.text,

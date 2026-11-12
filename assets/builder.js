@@ -2,7 +2,7 @@ import {designSample} from './design-controls.js';
 import {renderFields,bindFields} from './builder-fields.js?v=20261111-image-errors';
 import {BrowserStore} from './store.js';
 import {esc, get, set, palettes, designs, mvNames, mvSVG, mvAsset, validate, jsonFile, download, mediaRefs, setImageError} from './shared.js?v=20261111-image-errors';
-import {domainId,siteURL,randomPassword,credential,docxXML,emptySite} from './builder-core.js?v=20261021-50mb';
+import {domainId,siteURL,randomPassword,credential,docxXML,emptySite,buildZipReview} from './builder-core.js?v=20261112-review';
 import {zipSync,unzipSync,strToU8} from './vendor/fflate.js';
 const $=s=>document.querySelector(s), store=new BrowserStore();
 let data, sample, schema, images=new Map(), revision=0, step=1, endpoint=false, csrf='', aiConfigured=false, designVersion=0, designURLs=[], modelIndex=0, busy=false, svgURL='', mediaURLs=[];
@@ -128,7 +128,15 @@ document.querySelectorAll('#step3 input:not([type=checkbox])').forEach(el=>el.on
 $('#url').addEventListener('input',()=>{if(urlChecked)checkURL(false);});
 $('#credentials-saved').addEventListener('change',()=>{if(accountsChecked)checkCredentials(false);});
 $('#publish-reviewed').addEventListener('change',()=>{if(publishChecked)fieldErrors(['publish-reviewed'],$('#publish-reviewed').checked ? {} : {'publish-reviewed':'掲載内容・画像・診療時間・公開URLを確認して、チェックしてください。'});});
-$('#next3').onclick=task(async()=>{if(!checkCredentials())return;$('#review').innerHTML=[['医院名',data.site.clinicName],['公開URL',$('#url').value],['デザイン',designs.find(d=>d[0]===data.design)[1]],['お客様ID',$('#customer-id').value],['自社ID',$('#company-id').value],['管理画面URL',$('#url').value+'admin/']].map(([k,v])=>`<dt>${esc(k)}</dt><dd>${esc(v)}</dd>`).join('');$('#publish-reviewed').checked=false;go(4);});
+function renderReview(){
+ const summary=buildZipReview(data,{url:$('#url').value,designLabel:designs.find(d=>d[0]===data.design)[1],customerId:$('#customer-id').value.trim(),companyId:$('#company-id').value.trim(),mvLabels:mvNames[data.design]},images);
+ const rows=list=>list.map(row=>`<dt>${esc(row.label)}</dt><dd${row.state ? ' class="review-'+row.state+'"' : ''}>${esc(row.value)}</dd>`).join('');
+ $('#review').innerHTML=rows(summary.details);$('#review-images').innerHTML=rows(summary.images);
+ $('#review-image-warning').hidden=!summary.missing;
+ $('#review-image-warning').textContent=summary.missing ? '画像ファイルがない項目が'+summary.missing+'件あります。「掲載内容・画像を修正する」から選び直してください。' : '';
+}
+$('#next3').onclick=task(async()=>{if(!checkCredentials())return;sync();renderReview();$('#publish-reviewed').checked=false;go(4);});
+
 document.querySelectorAll('[data-back]').forEach(b=>b.onclick=()=>go(Number(b.dataset.back)));
 $('#download').onclick=task(async()=>{if(!checkPublish() || !checkCredentials())return;const errors=validate(data,schema);if(errors.length)throw Error(errors.slice(0,5).join('\n'));for(const path of mediaRefs(data))if(!images.has(path))throw Error('画像がありません：'+path+'。この画面の該当項目から画像を設定してください。');$('#download-state').textContent='パスワードを保護してZIPを生成しています…';const users=await Promise.all(['customer','company'].map(role=>credential($('#'+role+'-id').value.trim(),$('#'+role+'-password').value,role)));const response=await fetch('./template.zip',{cache:'no-cache'});if(!response.ok)throw Error('テンプレートを読み込めませんでした。ページを再読み込みしてください。');const files=unzipSync(new Uint8Array(await response.arrayBuffer()));const config={url:siteURL($('#url').value),users};const encoded=btoa(JSON.stringify(config));files['private/config.php']=strToU8("<?php\nreturn json_decode(base64_decode('"+encoded+"'), true, 512, JSON_THROW_ON_ERROR);\n");files['data/site.json']=strToU8(JSON.stringify(data,null,2));files['robots.txt']=strToU8('User-agent: *\nAllow: /\nDisallow: '+new URL(config.url).pathname+'admin/\nSitemap: '+config.url+'sitemap.xml\n');for(const path of mediaRefs(data))files[path]=new Uint8Array(await images.get(path).arrayBuffer());download('kokuti-'+domainId(config.url)+'.zip',new Blob([zipSync(files,{level:6})],{type:'application/zip'}));$('#download-state').textContent='ダウンロードを開始しました。解凍した中身をFTPで配置してください。';});
 async function init(){try{[sample,schema]=await Promise.all([jsonFile('data/sample.json'),jsonFile('data/schema.json')]);const saved=await store.load();revision=saved.revision;data=revision? saved.data:emptySite(sample);images=await store.images();fill();try{const x=await api('status');csrf=x.csrf;endpoint=true;aiConfigured=x.configured;$('#connection').textContent=x.configured?'Gemini APIキーを設定済みです。':'Gemini APIキーを設定するとAI整理を試せます。';}catch{$('#connection').textContent=location.hostname.endsWith('github.io')?'GitHub PagesではAI接続は動作しません。PHP版を開いてください。Word抽出・手入力・ZIP作成はここで利用できます。':'AIの接続確認に失敗しました。PHPサーバーの起動を確認して再読み込みしてください。';$('#api-key').disabled=true;$('#connect').disabled=true;$('#disconnect').disabled=true;}}catch(e){status(e.message,true);}}
