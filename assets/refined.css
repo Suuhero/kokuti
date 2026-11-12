@@ -37,7 +37,8 @@ body.site--pattern2 #app .nav_toggle span:nth-child(1) { top:17px; }
 body.site--pattern2 #app .nav_toggle span:nth-child(2) { top:25px; }
 body.site--pattern2 #app .nav_toggle span:nth-child(3) { top:33px; }
 body.site--pattern2 #app .nav_toggle.active span:nth-child(1),body.site--pattern2 #app .nav_toggle.active span:nth-child(3) { top:25px; }
-body.site--pattern2 #app header.fixed .header_btn_box a { border-radius:999px; background:var(--main); color:var(--ink); border:0; }
+body.site--pattern2 #app header.fixed .header_btn_box a { border-radius:999px; background:var(--main); color:var(--on-main-text); border:0; }
+body.site--pattern2 #app .nav_toggle span { background:var(--on-main-text); }
 body.site--pattern3 #app header.fixed .header_btn_box a,body.site--pattern3 #app .nav_toggle { background:#fff; border:1px solid var(--main-dark); color:var(--ink); border-radius:0; }
 #app #mainvisual { position:relative; margin:var(--header-height) 0 0; height:auto; min-height:640px; overflow:hidden; color:var(--ink); }
 #app #mainvisual > .inner { position:relative; inset:auto; display:flex; justify-content:center; align-items:center; width:100%; height:auto; min-height:640px; padding:100px 32px; transform:none; z-index:2; }
