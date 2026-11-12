@@ -236,6 +236,9 @@ button.primary:hover {
   font-size: 13px;
   border-bottom: 1px solid #eee;
 }
+.panel > .font-sizes {
+  padding: 20px 22px;
+}
 .field {
   display: grid;
   grid-template-columns: 180px minmax(0, 1fr);
