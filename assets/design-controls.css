@@ -82,13 +82,13 @@
   width: 50%;
 }
 /* Readable, full-size specimens replace scaled whole-page screenshots. */
-.design-sample { display:block; padding:40px 18px 24px; background:var(--sample-sub); color:#333; text-align:center; font-family:"Noto Sans JP",Meiryo,sans-serif; }
+.design-sample { display:block; padding:40px 18px 24px; background:var(--sample-sub); color:#333; text-align:center; font-family:Meiryo,sans-serif; }
 .sample-en { display:block; color:var(--sample-main); font-size:13px; letter-spacing:.12em; margin-bottom:8px; }
 .sample-title { display:block; font-size:24px; font-weight:700; line-height:1.5; margin-bottom:22px; }
 .sample-card { display:block; background:white; border:1px solid var(--sample-main); padding:20px 12px; }
 .sample-card-title { display:block; color:var(--sample-main); font-size:19px; font-weight:700; margin-bottom:12px; }
 .sample-copy { display:block; font-size:16px; line-height:1.9; }
-.sample-pattern2 { font-family:"M PLUS Rounded 1c","Hiragino Maru Gothic ProN",sans-serif; }
+.sample-pattern2 { font-family:"Noto Sans JP","Hiragino Kaku Gothic ProN",Meiryo,sans-serif; }
 .sample-pattern2 .sample-card { border-radius:24px; }
 .sample-pattern3 { font-family:"Noto Serif JP","Yu Mincho",serif; }
 .sample-pattern3 .sample-title { font-weight:500; letter-spacing:.08em; }

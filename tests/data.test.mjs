@@ -7,7 +7,7 @@ import {
   mediaRefs,
   safeLink,
   adjust,
-  accentTextColor, onMainTextColor,
+  accentTextColor, onMainTextColor, onMainControlColor,
   mvAsset, mvSVG, mvNames,
 } from "../assets/shared.js";
 const sample = JSON.parse(
@@ -102,6 +102,23 @@ test('font sizes accept three levels and older JSON', () => {
  for (const size of ['small','medium','large']) assert.deepEqual(validate({...sample,fontSize:size},schema),[]);
  const old=structuredClone(sample);delete old.fontSize;assert.deepEqual(validate(old,schema),[]);
  assert.ok(validate({...sample,fontSize:'huge'},schema).length);
+});
+
+test('操作ボタンは18配色で白を優先し、淡色では濃色を維持する', () => {
+  const whitePresets = new Set(['brown','light-brown','green','blue','navy','light-navy','pink','purple','red']);
+  const original = structuredClone(palettes);
+  for (const [preset,,main] of palettes) {
+    const control = onMainControlColor(main);
+    if (whitePresets.has(preset)) assert.equal(control, '#ffffff', preset);
+    else {
+      assert.notEqual(control, '#ffffff', preset);
+      assert.equal(control, onMainTextColor(main), preset);
+    }
+  }
+  assert.equal(onMainControlColor('#000000'), '#ffffff');
+  assert.equal(onMainControlColor('#ffffff'), onMainTextColor('#ffffff'));
+  assert.equal(onMainControlColor('#fac9ea'), onMainTextColor('#fac9ea'));
+  assert.deepEqual(palettes, original);
 });
 
 test('18配色と任意の淡色で文字のみ十分な明暗差を確保する', () => {

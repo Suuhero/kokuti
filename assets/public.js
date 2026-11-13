@@ -9,10 +9,11 @@ import {
   adjust,
   accentTextColor,
   onMainTextColor,
+  onMainControlColor,
   mvAsset,
   mvSVG,
   jsonFile,
-} from "./shared.js?v=20261112-text-contrast";
+} from "./shared.js?v=20261113-type-controls";
 const store = new BrowserStore(),
   urls = [];
 const e = esc;
@@ -117,8 +118,7 @@ async function run() {
     "main-dark": adjust(c.main, -0.18),
     "accent-text": accentTextColor(c.main, c.sub),
     "on-main-text": onMainTextColor(c.main),
-    // Keep the approved pink header white without changing its background.
-    "header-control-text": c.main.toLowerCase() === "#de688f" ? "#ffffff" : onMainTextColor(c.main),
+    "on-main-control": onMainControlColor(c.main),
     sub: c.sub,
     "sub-light": adjust(c.sub, 0.05),
     text: c.text,

@@ -1,7 +1,7 @@
 import {designSample} from './design-controls.js';
 import {renderFields,bindFields} from './builder-fields.js?v=20261111-image-errors';
 import {BrowserStore} from './store.js';
-import {esc, get, set, palettes, designs, mvNames, mvSVG, mvAsset, validate, jsonFile, download, mediaRefs, setImageError} from './shared.js?v=20261111-image-errors';
+import {esc, get, set, palettes, designs, mvNames, mvSVG, mvAsset, validate, jsonFile, download, mediaRefs, setImageError} from './shared.js?v=20261113-type-controls';
 import {domainId,siteURL,randomPassword,credential,docxXML,emptySite,buildZipReview} from './builder-core.js?v=20261112-review';
 import {zipSync,unzipSync,strToU8} from './vendor/fflate.js';
 const $=s=>document.querySelector(s), store=new BrowserStore();

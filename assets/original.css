@@ -20,7 +20,7 @@
  * パターン2・3：パターン1と同一レイアウトのテーマ差分
  * ============================================================ */
 .site--pattern1.site--pattern2 {
-    font-family: "M PLUS Rounded 1c", "Hiragino Maru Gothic ProN", sans-serif;
+    font-family: "Noto Sans JP", "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
     background: #fffdf9;
     letter-spacing: .045em;
     --p2-radius: 24px;
@@ -845,9 +845,9 @@ body.nav-open { overflow: hidden; }
 .site--pattern1 .footer__nav a { color: var(--text); font-weight: 700; }
 .site--pattern1 .footer__copyright { padding: 18px; background: var(--main); color: #fff; opacity: 1; }
 
-/* パターン2：丸ゴシックと大きな角丸の柔らかなデザイン */
+/* パターン2：読みやすいゴシックと大きな角丸の柔らかなデザイン */
 .site--pattern2 {
-    font-family: "M PLUS Rounded 1c", "Hiragino Maru Gothic ProN", sans-serif;
+    font-family: "Noto Sans JP", "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
     background: #fffdf9;
     letter-spacing: .045em;
 }

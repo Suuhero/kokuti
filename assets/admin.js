@@ -18,7 +18,7 @@ import {
   mediaRefs,
   validate,
   setImageError,
-} from "./shared.js?v=20261111-image-errors";
+} from "./shared.js?v=20261113-type-controls";
 const isRuntime = !!document.getElementById('kokuti-runtime');
 const isCustomer = isRuntime && JSON.parse(document.getElementById('kokuti-runtime').textContent).role === 'customer';
 const store = isRuntime ? new ServerStore() : new BrowserStore();

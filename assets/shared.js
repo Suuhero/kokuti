@@ -72,7 +72,7 @@ export const designs = [
   [
     "pattern2",
     "やわらかく親しみやすい",
-    "丸ゴシックと角丸による、やさしい印象。",
+    "読みやすい書体と角丸による、やさしい印象。",
   ],
   ["pattern3", "落ち着きのある上質さ", "明朝体と細い線、余白を活かした印象。"],
 ];
@@ -129,6 +129,12 @@ export function accentTextColor(main, sub) {
 export function onMainTextColor(main) {
   return colorContrast("#ffffff", main) >= 4.5
     ? "#ffffff" : darkenTextForSurfaces(adjust(main, -0.18), [main]);
+}
+export function onMainControlColor(main) {
+  // Prefer white for filled controls, retaining dark controls on pale colors.
+  // Text-only surfaces keep the stricter onMainTextColor rule above.
+  return colorContrast("#ffffff", main) >= 3
+    ? "#ffffff" : onMainTextColor(main);
 }
 export async function jsonFile(path) {
   const r = await fetch(asset(path), {cache:"no-cache"});

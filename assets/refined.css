@@ -4,6 +4,7 @@ body.site[data-font-size="large"] { --site-font-scale:1.06; }
 /* Approved 2026-10-20 design. Original stylesheet retained as compatibility base. */
 body.site { --header-height:80px; --line:color-mix(in srgb,var(--main) 25%,#fff); color:var(--text); background:#fff; letter-spacing:.035em; font-size:calc(16px * var(--site-font-scale,1)); line-height:1.85; }
 body.site--pattern2 { --header-height:88px; background:#fff; }
+body.site--pattern2 #app .head_logo,body.site--pattern2 #app .footer_logo { font-family:inherit; }
 body.site--pattern3 { letter-spacing:.055em; background:#fff; }
 #app *,#app *::before,#app *::after { box-sizing:border-box; }
 #app .contents { width:calc(100% - 80px); max-width:1200px; margin-inline:auto; padding:0; }
@@ -16,7 +17,7 @@ body.site--pattern3 { letter-spacing:.055em; background:#fff; }
 #app header.fixed .head_logo img { max-width:100%; max-height:48px; width:auto; object-fit:contain; }
 #app header.fixed .header_btn_box { display:flex; gap:14px; flex:none; margin:0; }
 #app header.fixed .header_btn_box a { display:flex; justify-content:center; align-items:center; min-width:140px; min-height:44px; margin:0; padding:10px 24px; border:1px solid var(--line); border-radius:4px; background:color-mix(in srgb,var(--main) 24%,#fff); color:var(--ink); font-size:calc(15px * var(--site-font-scale,1)); font-weight:600; line-height:1.3; text-decoration:none; }
-#app .nav_toggle { position:absolute; z-index:4; top:calc((var(--header-height) - 48px)/2); right:24px; width:48px; height:48px; margin:0; background:var(--main); color:var(--on-main-text); border:0; border-radius:4px; transition:background .2s; }
+#app .nav_toggle { position:absolute; z-index:4; top:calc((var(--header-height) - 48px)/2); right:24px; width:48px; height:48px; margin:0; background:var(--main); color:var(--on-main-control); border:0; border-radius:4px; transition:background .2s; }
 /* Equal 8px spacing keeps all bars on the same pixel phase at common display scales. */
 #app .nav_toggle span { width:24px; height:2px; left:50%; background:currentColor; }
 #app .nav_toggle span:nth-child(1) { top:15px; }
@@ -33,12 +34,12 @@ body.site--pattern3 { letter-spacing:.055em; background:#fff; }
 #app .nav_bg { position:fixed; z-index:2; inset:var(--header-height) 0 0; width:100%; height:auto; background:#14273755; }
 body.nav_open { overflow:hidden; }
 body.nav_open #app header.fixed { z-index:2147483647; }
-body.site--pattern2 #app .nav_toggle { color:var(--header-control-text,var(--on-main-text)); border-radius:50%; width:52px; height:52px; top:18px; }
+body.site--pattern2 #app .nav_toggle { border-radius:50%; width:52px; height:52px; top:18px; }
 body.site--pattern2 #app .nav_toggle span:nth-child(1) { top:17px; }
 body.site--pattern2 #app .nav_toggle span:nth-child(2) { top:25px; }
 body.site--pattern2 #app .nav_toggle span:nth-child(3) { top:33px; }
 body.site--pattern2 #app .nav_toggle.active span:nth-child(1),body.site--pattern2 #app .nav_toggle.active span:nth-child(3) { top:25px; }
-body.site--pattern2 #app header.fixed .header_btn_box a { border-radius:999px; background:var(--main); color:var(--header-control-text,var(--on-main-text)); border:0; }
+body.site--pattern2 #app header.fixed .header_btn_box a { border-radius:999px; background:var(--main); color:var(--on-main-control); border:0; }
 body.site--pattern3 #app header.fixed .header_btn_box a,body.site--pattern3 #app .nav_toggle { background:#fff; border:1px solid var(--main-dark); color:var(--ink); border-radius:0; }
 #app #mainvisual { position:relative; margin:var(--header-height) 0 0; height:auto; min-height:640px; overflow:hidden; color:var(--ink); }
 #app #mainvisual > .inner { position:relative; inset:auto; display:flex; justify-content:center; align-items:center; width:100%; height:auto; min-height:640px; padding:100px 32px; transform:none; z-index:2; }
@@ -159,7 +160,7 @@ body.site--pattern3[data-background="3"] #app main > :is(#clinicinfo,#medical) {
 #app footer .footer_navi ul { display:flex; flex-wrap:wrap; gap:12px 24px; justify-content:center; }
 #app footer .footer_navi a { color:var(--ink); font-size:calc(14px * var(--site-font-scale,1)); }
 #app footer .copy { background:#fff; color:var(--text); padding:20px 16px 60px; }
-#app .pagetop { width:44px; height:44px; right:18px; bottom:18px; background:var(--main); color:var(--on-main-text); border:0; border-radius:4px; }
+#app .pagetop { width:44px; height:44px; right:18px; bottom:18px; background:var(--main); color:var(--on-main-control); border:0; border-radius:4px; }
 #app .pagetop::before { border-color:currentColor; }
 #app .pagetop:focus-visible { outline:2px solid var(--accent-text); outline-offset:4px; }
 body.site--pattern2 #app .pagetop { border-radius:50%; }
@@ -273,14 +274,14 @@ body.site--pattern1:not(.site--pattern2):not(.site--pattern3) #app header nav {f
 body.site--pattern1:not(.site--pattern2):not(.site--pattern3) #app header nav .navi a {border-left:3px solid transparent;padding-left:12px;font-weight:600;}
 body.site--pattern1:not(.site--pattern2):not(.site--pattern3) #app header nav .navi a:hover {border-left-color:var(--main);background:var(--sub);}
 body.site--pattern1:not(.site--pattern2):not(.site--pattern3) #app header nav a.sns {border-radius:4px;}
-body.site--pattern2 #app header nav {background:color-mix(in srgb,var(--sub) 55%,white);border:0;border-top-left-radius:28px;font-family:"M PLUS Rounded 1c",sans-serif;}
+body.site--pattern2 #app header nav {background:color-mix(in srgb,var(--sub) 55%,white);border:0;border-top-left-radius:28px;font-family:"Noto Sans JP","Hiragino Kaku Gothic ProN",Meiryo,sans-serif;}
 body.site--pattern2 #app header nav .navi {display:grid;gap:8px;}
 body.site--pattern2 #app header nav .navi li {border:0;}
 body.site--pattern2 #app header nav .navi a {background:white;border-radius:16px;padding:12px 16px;font-weight:500;}
 body.site--pattern2 #app header nav .navi a:hover {background:var(--sub);}
 body.site--pattern2 #app header nav .nav_btn_area a {border-radius:999px;background:var(--sub);}
 body.site--pattern2 #app header nav a.sns {border-radius:14px;}
-body.site--pattern2 #app header nav .sns-button-label {font-family:"M PLUS Rounded 1c",sans-serif;font-size:calc(13px * var(--site-font-scale,1));}
+body.site--pattern2 #app header nav .sns-button-label {font-family:"Noto Sans JP","Hiragino Kaku Gothic ProN",Meiryo,sans-serif;font-size:calc(13px * var(--site-font-scale,1));}
 body.site--pattern3 {font-family:"Libre Baskerville","Noto Serif JP","Yu Mincho",serif;}
 body.site--pattern3 #app .top_title p,body.site--pattern3 #app .feature_item_num,body.site--pattern3 #app .kokuchi_date,body.site--pattern3 #app .top_news_date {font-family:"Libre Baskerville","Noto Serif JP",serif;font-weight:400;font-style:normal;font-variant-numeric:lining-nums;}
 body.site--pattern3 #app .top_title p {letter-spacing:.16em;font-size:calc(13px * var(--site-font-scale,1));}
