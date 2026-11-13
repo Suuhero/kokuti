@@ -117,6 +117,8 @@ async function run() {
     "main-dark": adjust(c.main, -0.18),
     "accent-text": accentTextColor(c.main, c.sub),
     "on-main-text": onMainTextColor(c.main),
+    // Keep the approved pink header white without changing its background.
+    "header-control-text": c.main.toLowerCase() === "#de688f" ? "#ffffff" : onMainTextColor(c.main),
     sub: c.sub,
     "sub-light": adjust(c.sub, 0.05),
     text: c.text,
