@@ -283,7 +283,8 @@ body.site--pattern2 #app header nav .nav_btn_area a {border-radius:999px;backgro
 body.site--pattern2 #app header nav a.sns {border-radius:14px;}
 body.site--pattern2 #app header nav .sns-button-label {font-family:"Noto Sans JP","Hiragino Kaku Gothic ProN",Meiryo,sans-serif;font-size:calc(13px * var(--site-font-scale,1));}
 body.site--pattern3 {font-family:"Libre Baskerville","Noto Serif JP","Yu Mincho",serif;}
-body.site--pattern3 #app .top_title p,body.site--pattern3 #app .feature_item_num,body.site--pattern3 #app .kokuchi_date,body.site--pattern3 #app .top_news_date {font-family:"Libre Baskerville","Noto Serif JP",serif;font-weight:400;font-style:normal;font-variant-numeric:lining-nums;}
+body.site--pattern3 #app .top_title p,body.site--pattern3 #app .feature_item_num,body.site--pattern3 #app .top_news_date {font-family:"Libre Baskerville","Noto Serif JP",serif;font-weight:400;font-style:normal;font-variant-numeric:lining-nums;}
+body.site--pattern3 #app #mainvisual .kokuchi_date,body.site--pattern3 #app #mainvisual .opening-details {font-family:"Noto Sans JP","Hiragino Kaku Gothic ProN",Meiryo,sans-serif;font-weight:400;font-style:normal;font-variant-numeric:lining-nums;}
 body.site--pattern3 #app .top_title p {letter-spacing:.16em;font-size:calc(13px * var(--site-font-scale,1));}
 body.site--pattern3 #app .feature_item_num {font-size:calc(38px * var(--site-font-scale,1));letter-spacing:0;}
 body.site--pattern3 #app header nav {font-family:"Libre Baskerville","Noto Serif JP",serif;border-left:1px solid var(--main);background:#fff;}
