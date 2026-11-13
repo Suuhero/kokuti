@@ -105,6 +105,7 @@ async function run() {
   const nav = links
     .map(([label, href]) => `<li><a href="${href}">${e(label)}</a></li>`)
     .join("");
+  const navigationTargets = new Set(links.map(([, href]) => href));
   const footerNav = links.filter(([,href])=>href!=="#"&&href!=="#access")
     .map(([label,href])=>`<li><a href="${href}">${e(label)}</a></li>`).join("");
   document.body.dataset.fontSize = ["small", "medium", "large"].includes(d.fontSize) ? d.fontSize : "medium";
@@ -170,7 +171,7 @@ async function run() {
     .join("");
   const map = mapURL(i.mapEmbed);
   document.querySelector("#app").innerHTML = `
- <header class="fixed"><div class="inner"><div class="head_logo"><a href="#">${logo}</a></div>${btns ? `<div class="header_btn_box">${btns}</div>` : ""}</div><nav><ul class="navi">${nav}</ul><ul class="nav_btn_area">${buttons.map((b) => `<li><a href="${e(safeLink(b.url))}"${external(b)}>${e(b.label)}</a></li>`).join("")}</ul><ul class="sns_list">${sns}</ul></nav><div class="nav_toggle" role="button" tabindex="0" aria-label="メニューを開く" aria-expanded="false"><span></span><span></span><span></span></div><div class="nav_bg"></div></header>
+ <header class="fixed"><div class="inner"><div class="head_logo"><a href="#">${logo}</a></div>${btns ? `<div class="header_btn_box">${btns}</div>` : ""}</div><nav><ul class="navi">${nav}</ul><ul class="nav_btn_area">${buttons.map((b) => `<li${navigationTargets.has(safeLink(b.url)) ? ' class="is-duplicate"' : ""}><a href="${e(safeLink(b.url))}"${external(b)}>${e(b.label)}</a></li>`).join("")}</ul><ul class="sns_list">${sns}</ul></nav><div class="nav_toggle" role="button" tabindex="0" aria-label="メニューを開く" aria-expanded="false"><span></span><span></span><span></span></div><div class="nav_bg"></div></header>
  <div id="mainvisual" class="${d.mv.images.some(m => m.upload) ? "has-upload" : ""}"><div class="inner"><div class="kokuchi_box"><p class="kokuchi_title">${e(s.clinicName)}</p>${s.openDate ? `<p class="kokuchi_date">${e(s.openDate)}</p>` : ""}${s.kokuchiTitle ? `<p class="kokuchi_open">${e(s.kokuchiTitle)}</p>` : ""}${s.kokuchiSubtitle || s.kokuchiSubDate ? `<div class="kokuchi_note">${s.kokuchiSubtitle ? `<p>${e(s.kokuchiSubtitle)}</p>` : ""}${s.kokuchiSubDate ? `<p class="opening-details">${openingTextHTML(s.kokuchiSubDate)}</p>` : ""}</div>` : ""}</div></div><div id="mv_slider" class="splide mv_slider" data-mv-fade><div class="splide__track"><ul class="splide__list">${mv.join("")}</ul></div></div><h1 class="visually-hidden">${e(s.pageTitle)}</h1></div>
  <main class="front">${sns ? `<div class="sp_link_box contents sp">${d.sns.headingEn || d.sns.heading ? `<div class="top_title">${d.sns.headingEn ? `<p>${e(d.sns.headingEn)}</p>` : ""}${d.sns.heading ? `<h2>${e(d.sns.heading)}</h2>` : ""}</div>` : ""}<ul class="top_sns_link">${sns}</ul></div>` : ""}${free[0]}${free[1]}
  <section id="news" class="sec_top_news"><div class="contents">${title(d.newsSettings, false)}<div class="sec_top_news_list_wrap"><p>開院準備を進めています。こちらはデモ用のお知らせです。</p></div></div></section>

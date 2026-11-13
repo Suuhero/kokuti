@@ -204,7 +204,8 @@ body.site--pattern3 #app .feature_item_num { font-style:italic; border:0; paddin
  #app header.fixed .head_logo a { font-size:calc(17px * var(--site-font-scale,1)); letter-spacing:.035em; }
  #app header.fixed .head_logo img { max-height:42px; }
  #app header.fixed .header_btn_box { display:none; }
- #app header nav .nav_btn_area { display:none; }
+ #app header nav .nav_btn_area .is-duplicate { display:none; }
+ #app header nav .nav_btn_area:not(:has(li:not(.is-duplicate))) { display:none; }
  #app .nav_toggle,body.site--pattern2 #app .nav_toggle { width:44px; height:44px; top:16px; right:16px; }
  #app .nav_toggle.active { right:16px; }
  #app .nav_toggle span,body.site--pattern2 #app .nav_toggle span { width:22px; }
