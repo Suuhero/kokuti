@@ -49,6 +49,7 @@ body.site--pattern3 #app header.fixed .header_btn_box a,body.site--pattern3 #app
 #app #mainvisual .kokuchi_note { display:table; max-width:100%; margin:30px auto 0; padding:22px 32px 0; border-top:1px solid var(--main); color:inherit; background:none; }
 #app #mainvisual .kokuchi_note p { margin:0; font-size:calc(20px * var(--site-font-scale,1)); line-height:1.8; font-weight:500; }
 #app #mainvisual .kokuchi_note p:first-child { font-size:calc(24px * var(--site-font-scale,1)); font-weight:600; margin-bottom:10px; }
+#app .opening-date,#app .opening-time { display:inline-block; white-space:nowrap; }
 #app #mv_slider,#app #mv_slider .splide__track,#app #mv_slider .splide__list { position:absolute; inset:0; width:100%; height:100%; margin:0; padding:0; z-index:0; }
 #app #mv_slider .splide__slide { position:absolute; inset:0; width:100%; height:100%; }
 #app #mv_slider img { width:100%; height:100%; object-fit:cover; object-position:center; }
@@ -132,6 +133,11 @@ body.site--pattern3[data-background="3"] #app main > :is(#clinicinfo,#medical) {
 #app .top_greeting_text,#app .top_profile,#app .top_medical_item { min-width:0; overflow-wrap:anywhere; }
 #app .top_medical_item { display:flex; flex-direction:column; }
 #app .medical_inner { display:flex; align-items:center; justify-content:center; min-height:74px; }
+/* Share the heading height within each card row, including wrapped titles. */
+@supports (grid-template-rows:subgrid) {
+ #app .top_medical_item { display:grid; grid-template-rows:subgrid; grid-row:span 2; row-gap:0; }
+ #app .top_medical_text { align-self:start; }
+}
 #app .featutr_item_title h3 { min-width:0; overflow-wrap:anywhere; }
 #app .medical_item_title { font-size:calc(23px * var(--site-font-scale,1)); color:var(--accent-text); line-height:1.5; padding:0; margin:0 0 18px; }
 #app .top_medical_text { padding:0; margin:0; font-size:calc(16px * var(--site-font-scale,1)); line-height:1.9; text-align:center; }
@@ -171,7 +177,9 @@ body.site--pattern2 #app .top_feature_item { border:1px solid var(--line); backg
 body.site--pattern2 #app .feature_item_num { background:var(--sub); border:0; border-radius:50%; font-family:inherit; font-weight:600; font-size:calc(22px * var(--site-font-scale,1)); width:60px; height:60px; line-height:60px; text-align:center; padding:0; }
 body.site--pattern2 #app .top_feature_text { margin-left:84px; }
 body.site--pattern3 #app .top_title h2 { font-weight:500; font-size:calc(36px * var(--site-font-scale,1)); }
-body.site--pattern3 #app .text,body.site--pattern3 #app .tb02,body.site--pattern3 #app .clinic-facts,body.site--pattern3 #app .profile_box table { font-family:Meiryo,sans-serif; letter-spacing:.025em; }
+body.site--pattern3 #app .text,body.site--pattern3 #app .clinic-facts,body.site--pattern3 #app .profile_box table { font-family:Meiryo,sans-serif; letter-spacing:.025em; }
+body.site--pattern3 #app .tb02 { font-family:"Libre Baskerville","Noto Serif JP","Yu Mincho",serif; letter-spacing:.025em; }
+body.site--pattern3 #app .tb02 th,body.site--pattern3 #app .tb02 td { font-weight:400; }
 body.site--pattern3 #app .clinic-facts dt { background:none; }
 body.site--pattern3 #app .top_medical_item { position:relative; border:0; border-right:1px solid transparent; border-radius:0; background:none; }
 body.site--pattern3 #app .top_medical_item:last-child { border-right:0; }
@@ -196,6 +204,7 @@ body.site--pattern3 #app .feature_item_num { font-style:italic; border:0; paddin
  #app header.fixed .head_logo a { font-size:calc(17px * var(--site-font-scale,1)); letter-spacing:.035em; }
  #app header.fixed .head_logo img { max-height:42px; }
  #app header.fixed .header_btn_box { display:none; }
+ #app header nav .nav_btn_area { display:none; }
  #app .nav_toggle,body.site--pattern2 #app .nav_toggle { width:44px; height:44px; top:16px; right:16px; }
  #app .nav_toggle.active { right:16px; }
  #app .nav_toggle span,body.site--pattern2 #app .nav_toggle span { width:22px; }
@@ -235,6 +244,8 @@ body.site--pattern3 #app .feature_item_num { font-style:italic; border:0; paddin
  #app .top_feature_img { float:none; width:100%; margin:20px 0; }
  body.site--pattern3 #app .top_feature_list { grid-template-columns:1fr; gap:0; }
  #app .sp_link_box { padding:28px 0; }
+ #app .sp_link_box .top_title { margin:0 0 24px!important; }
+ #app .sp_link_box .top_sns_link { margin:0; padding:0; }
 }
 
 /* Align the feature number with the first heading baseline, including wrapped titles. */

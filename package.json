@@ -6,7 +6,7 @@
   "scripts": {
     "build": "node scripts/build-template.mjs && node scripts/build.mjs",
     "build:ftp": "node scripts/build-ftp.mjs",
-    "test": "node scripts/build-template.mjs && node --test tests/data.test.mjs tests/builder.test.mjs"
+    "test": "node scripts/build-template.mjs && node --test tests/data.test.mjs tests/builder.test.mjs tests/open-house-text.test.mjs"
   },
   "engines": {
     "node": ">=22"
