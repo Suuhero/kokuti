@@ -1,4 +1,4 @@
-# kokuti
+# Kokuchi（コクチ）
 
 医院告知サイトのテンプレートと、WordPress風管理画面の操作デモです。
 
